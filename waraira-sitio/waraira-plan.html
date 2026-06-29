@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Waraira — Plan de Módulos Core y Campo de Despliegue</title>
+<script>(function(){try{if(localStorage.getItem('waraira-theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
+<style>
+  :root{ /* MODO OSCURO por defecto */
+    --verde:#46b58a; --verde-osc:#7fe0b8; --verde-claro:#16352b;
+    --ambar:#e7b25a; --ambar-bg:#2a2012;
+    --rojo:#ef8d85; --rojo-bg:#2e1614;
+    --azul:#76b8e6; --azul-bg:#10242f;
+    --tinta:#e7f0ea; --gris:#9fb3a9; --linea:#26332c; --fondo:#0f1714; --blanco:#172420;
+    --navbg:rgba(15,23,20,.92); --hover:rgba(255,255,255,.05);
+    --hero1:#0c2c22; --hero2:#1b6b4f;
+    --sombra:0 1px 3px rgba(0,0,0,.45),0 6px 24px rgba(0,0,0,.4);
+  }
+  html[data-theme="light"]{
+    --verde:#1b6b4f; --verde-osc:#0f3d2e; --verde-claro:#e8f3ee;
+    --ambar:#b9770e; --ambar-bg:#fdf4e3;
+    --rojo:#a8322d; --rojo-bg:#fbecea;
+    --azul:#1f5f8b; --azul-bg:#e9f2f8;
+    --tinta:#16201c; --gris:#5c6b64; --linea:#d9e2dd; --fondo:#f6f8f7; --blanco:#fff;
+    --navbg:rgba(246,248,247,.92); --hover:#fbfdfc;
+    --hero1:#0f3d2e; --hero2:#1b6b4f;
+    --sombra:0 1px 3px rgba(16,40,30,.08),0 6px 24px rgba(16,40,30,.06);
+  }
+  .theme-tog{position:fixed;right:14px;bottom:14px;z-index:50;background:var(--blanco);color:var(--tinta);
+    border:1px solid var(--linea);border-radius:999px;padding:9px 15px;font-size:13px;font-weight:700;
+    cursor:pointer;box-shadow:var(--sombra)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--tinta);background:var(--fondo);line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:var(--verde)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+  /* Header */
+  header.hero{background:linear-gradient(160deg,var(--hero1),var(--hero2));color:#eafaf2;
+    padding:56px 0 40px;position:relative;overflow:hidden}
+  header.hero::after{content:"";position:absolute;right:-80px;bottom:-120px;width:380px;height:380px;
+    background:radial-gradient(circle,rgba(255,255,255,.10),transparent 70%);border-radius:50%}
+  .eyebrow{letter-spacing:.18em;text-transform:uppercase;font-size:12px;opacity:.85;font-weight:600}
+  h1{font-size:clamp(34px,6vw,54px);margin:.15em 0 .1em;line-height:1.02;font-weight:800}
+  .lede{font-size:clamp(16px,2.4vw,20px);max-width:720px;opacity:.95;margin:.4em 0 0}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .chip{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);
+    padding:6px 12px;border-radius:999px;font-size:13px;backdrop-filter:blur(2px)}
+  .alerta-vivo{margin-top:22px;background:rgba(168,50,45,.22);border:1px solid rgba(255,200,195,.5);
+    border-radius:12px;padding:12px 16px;font-size:14px;max-width:760px}
+
+  /* Nav */
+  nav.tabs{position:sticky;top:0;z-index:20;background:var(--navbg);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--linea)}
+  nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;padding:8px 20px}
+  nav.tabs a{white-space:nowrap;font-size:13.5px;font-weight:600;color:var(--gris);text-decoration:none;
+    padding:8px 12px;border-radius:8px}
+  nav.tabs a:hover{background:var(--verde-claro);color:var(--verde-osc)}
+
+  section{padding:46px 0;border-bottom:1px solid var(--linea)}
+  h2{font-size:clamp(22px,3.4vw,30px);margin:0 0 6px;font-weight:800;display:flex;align-items:center;gap:10px}
+  h2 .num{font-size:14px;font-weight:700;color:#fff;background:var(--verde);
+    width:30px;height:30px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center}
+  .sub{color:var(--gris);margin:0 0 22px;max-width:780px}
+
+  /* Tesis cards */
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+  .card{background:var(--blanco);border:1px solid var(--linea);border-radius:14px;padding:18px 20px;box-shadow:var(--sombra)}
+  .card h3{margin:0 0 6px;font-size:17px}
+  .card p{margin:0;color:var(--gris);font-size:14.5px}
+  .big-quote{font-size:clamp(18px,3vw,26px);font-weight:700;color:var(--verde-osc);line-height:1.3;margin:0}
+
+  /* Diagram */
+  .diagram{background:var(--blanco);border:1px solid var(--linea);border-radius:16px;padding:24px;box-shadow:var(--sombra)}
+  .tier{margin:0 0 14px}
+  .tier-label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris);font-weight:700;margin-bottom:8px}
+  .row{display:flex;flex-wrap:wrap;gap:10px}
+  .node{flex:1 1 130px;min-width:130px;border-radius:12px;padding:12px 14px;font-weight:700;font-size:14px;
+    border:1.5px solid;text-align:center}
+  .n-base{background:var(--verde);color:#fff;border-color:var(--verde)}
+  .n-cap{background:var(--verde-claro);color:var(--verde-osc);border-color:var(--verde)}
+  .node small{display:block;font-weight:500;font-size:11.5px;opacity:.8;margin-top:3px}
+  .arrow{text-align:center;color:var(--verde);font-size:20px;line-height:1;margin:2px 0}
+  .band{background:var(--azul-bg);border:1.5px dashed var(--azul);color:var(--azul);border-radius:12px;
+    padding:12px 14px;font-weight:700;font-size:14px;text-align:center}
+
+  /* Modules */
+  .mod{background:var(--blanco);border:1px solid var(--linea);border-radius:14px;margin-bottom:12px;
+    box-shadow:var(--sombra);overflow:hidden}
+  .mod-head{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;user-select:none}
+  .mod-head:hover{background:var(--hover)}
+  .mod-letter{width:38px;height:38px;border-radius:10px;background:var(--verde);color:#fff;font-weight:800;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px}
+  .mod-title{font-weight:800;font-size:16.5px;margin:0}
+  .mod-purpose{color:var(--gris);font-size:13.5px;margin:2px 0 0}
+  .mod-tags{margin-left:auto;display:flex;gap:6px;align-items:center;flex-shrink:0}
+  .tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+  .tag.v0{background:var(--verde-claro);color:var(--verde-osc)}
+  .tag.redis{background:var(--rojo-bg);color:var(--rojo)}
+  .tag.transv{background:var(--azul-bg);color:var(--azul)}
+  .caret{color:var(--gris);transition:transform .2s;flex-shrink:0;font-size:13px}
+  .mod.open .caret{transform:rotate(90deg)}
+  .mod-body{display:none;padding:0 18px 18px;border-top:1px solid var(--linea)}
+  .mod.open .mod-body{display:block}
+  .mod-body h4{margin:16px 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--gris)}
+  .mod-body ul{margin:0;padding-left:18px}
+  .mod-body li{font-size:14px;margin:3px 0}
+  .estado{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13px;font-weight:600}
+  .estado .st{background:var(--verde-claro);color:var(--verde-osc);padding:4px 9px;border-radius:8px}
+  .estado .sep{color:var(--verde)}
+  .ve-box{background:var(--ambar-bg);border:1px solid #f0d9a8;border-left:4px solid var(--ambar);
+    border-radius:8px;padding:12px 14px;margin-top:14px;font-size:14px}
+  .ve-box strong{color:var(--ambar)}
+
+  /* Findings */
+  .filtros{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+  .filtro{border:1.5px solid var(--linea);background:var(--blanco);color:var(--gris);font-weight:700;font-size:13px;
+    padding:7px 14px;border-radius:999px;cursor:pointer}
+  .filtro.activo{background:var(--verde);color:#fff;border-color:var(--verde)}
+  .finding{background:var(--blanco);border:1px solid var(--linea);border-radius:12px;padding:16px 18px;
+    margin-bottom:10px;box-shadow:var(--sombra);display:grid;grid-template-columns:54px 1fr;gap:14px}
+  .h-id{font-weight:800;color:var(--verde);font-size:15px}
+  .h-cat{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    padding:2px 8px;border-radius:6px;margin-top:6px}
+  .cat-legal{background:var(--rojo-bg);color:var(--rojo)}
+  .cat-infra{background:var(--azul-bg);color:var(--azul)}
+  .cat-historia{background:#efe9f7;color:#6b4ba8}
+  .cat-actores{background:var(--verde-claro);color:var(--verde-osc)}
+  .cat-operacion{background:var(--ambar-bg);color:var(--ambar)}
+  .finding h4{margin:0 0 4px;font-size:15px}
+  .finding p{margin:0;font-size:14px;color:var(--gris)}
+  .finding .cambio{margin-top:8px;font-size:13.5px;color:var(--tinta)}
+  .finding .cambio b{color:var(--verde-osc)}
+
+  /* Trust levels */
+  .niveles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .nivel{border-radius:14px;padding:18px;border:1.5px solid;box-shadow:var(--sombra)}
+  .nivel.n1{background:var(--verde-claro);border-color:var(--verde)}
+  .nivel.n2{background:var(--ambar-bg);border-color:var(--ambar)}
+  .nivel.n3{background:var(--rojo-bg);border-color:var(--rojo)}
+  .nivel .lvl{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+  .nivel h3{margin:6px 0 6px;font-size:17px}
+  .nivel p{margin:0;font-size:13.5px}
+
+  /* Two-col lists */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:640px){.cols{grid-template-columns:1fr}.finding{grid-template-columns:1fr}}
+  .lista-card h3{margin:0 0 8px;font-size:16px;display:flex;align-items:center;gap:8px}
+  .lista-card ul{margin:0;padding-left:18px}
+  .lista-card li{font-size:14px;margin:4px 0}
+  .badge{font-size:11px;font-weight:800;padding:3px 8px;border-radius:6px}
+  .badge.build{background:var(--verde-claro);color:var(--verde-osc)}
+  .badge.fed{background:var(--azul-bg);color:var(--azul)}
+
+  /* Accordion decisiones */
+  .acc{background:var(--blanco);border:1px solid var(--linea);border-radius:12px;margin-bottom:8px;box-shadow:var(--sombra)}
+  .acc-h{padding:14px 16px;cursor:pointer;font-weight:700;font-size:15px;display:flex;gap:10px;align-items:center}
+  .acc-h:hover{background:var(--hover)}
+  .acc-h .reco{margin-left:auto;font-size:11px;font-weight:800;color:var(--verde);background:var(--verde-claro);
+    padding:3px 9px;border-radius:999px}
+  .acc-b{display:none;padding:0 16px 14px;font-size:14px;color:var(--gris)}
+  .acc.open .acc-b{display:block}
+
+  .pasos{counter-reset:p;list-style:none;padding:0;margin:0}
+  .pasos li{counter-increment:p;background:var(--blanco);border:1px solid var(--linea);border-radius:12px;
+    padding:14px 16px 14px 54px;margin-bottom:10px;position:relative;box-shadow:var(--sombra);font-size:14.5px}
+  .pasos li::before{content:counter(p);position:absolute;left:14px;top:14px;width:28px;height:28px;
+    background:var(--verde);color:#fff;border-radius:8px;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+  footer{padding:40px 0 60px;color:var(--gris);font-size:13px}
+  .pill-r{display:inline-block;background:var(--verde-claro);color:var(--verde-osc);font-weight:700;
+    font-size:11.5px;padding:2px 8px;border-radius:6px;margin:0 2px}
+  .note{font-size:13px;color:var(--gris);background:var(--blanco);border:1px dashed var(--linea);border-radius:10px;padding:12px 14px;margin-top:14px}
+</style>
+</head>
+<body>
+<button class="theme-tog" id="themeTog">☀️ Modo claro</button>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Plataforma de coordinación civil · Venezuela 2026</div>
+    <h1>Waraira</h1>
+    <p class="lede">La capa que <strong>conecta, despacha, custodia y protege</strong> encima del ecosistema de ayuda existente. No un directorio más: el motor que empareja lo que falta con lo que hay y cierra el lazo.</p>
+    <div class="chips">
+      <span class="chip">🏔️ "Waraira Repano" — la montaña que protege</span>
+      <span class="chip">📍 La Guaira · Catia La Mar · Caracas</span>
+      <span class="chip">🌐 Next.js + Convex</span>
+      <span class="chip">🗣️ Bilingüe ES / EN</span>
+    </div>
+    <div class="alerta-vivo">⚠️ <strong>Documento vivo (jun 2026).</strong> Tras los terremotos gemelos (M7,2 + M7,5 del 24–25 jun), La Guaira es zona de desastre. Diseñado sobre el campo real venezolano: legal, socioeconómico, político, organizacional e histórico.</div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="wrap">
+    <a href="#tesis">La tesis</a>
+    <a href="#arquitectura">Arquitectura</a>
+    <a href="#modulos">7 módulos core</a>
+    <a href="#estados">Máquinas de estado</a>
+    <a href="#hallazgos">11 hallazgos de campo</a>
+    <a href="#confianza">Modelo de confianza</a>
+    <a href="#federar">Federar vs. construir</a>
+    <a href="#resiliencia">Resiliencia</a>
+    <a href="#decisiones">Decisiones abiertas</a>
+    <a href="#proximos">Prioridad y hoja de ruta</a>
+  </div>
+</nav>
+
+<!-- TESIS -->
+<section id="tesis">
+  <div class="wrap">
+    <h2><span class="num">◆</span> El problema y la tesis</h2>
+    <p class="sub">La ayuda existe y la necesidad existe, pero no se encuentran a tiempo. En 48 h surgieron ~154 herramientas sin coordinación. Los desaparecidos no bajan porque el lazo nunca se cierra.</p>
+    <p class="big-quote">"Barrera baja, traza alta."<br>La confianza la da la corroboración, no las barreras.</p>
+    <div class="ve-box" style="margin-top:20px;background:var(--verde-claro);border-color:var(--verde);border-left-color:var(--verde)">
+      <strong style="color:var(--verde-osc)">Unir, no dividir.</strong> No es momento de dividir, es momento de unificar. Waraira no se politiza y no le teme a nadie: es política inteligente al estilo Gandhi — <strong>no atacar, accionar</strong>. La fuerza está en la acción y la trazabilidad, no en la confrontación. Está <strong>abierta a todos</strong> —autoridades, sociedad civil, Iglesia, diáspora y cooperación internacional— alrededor de una sola cosa: salvar vidas.
+    </div>
+    <div class="grid2" style="margin-top:24px">
+      <div class="card"><h3>Reportar es libre</h3><p>Sin barrera de identidad para reportar o consultar. La identidad solo se exige para actuar sobre personas.</p></div>
+      <div class="card"><h3>Todo es trazable</h3><p>Cada acción genera un evento con nombre, fecha e inmutable. La traza es un escudo, no una fricción.</p></div>
+      <div class="card"><h3>Los hechos mueven el estado</h3><p>Nada caduca por reloj. Un dato muestra quién lo reportó y hace cuánto. Más reportes = más certeza, no más ruido.</p></div>
+      <div class="card"><h3>Trabajamos con las autoridades</h3><p>Pueden subir su base de datos y conciliarla con la nuestra: sugerir y aplicar descartes y actualizaciones. Son socios de datos, no rivales.</p></div>
+      <div class="card"><h3>Corroboración por ubicación</h3><p>Lo marcado como actual notifica a quien está en ese lugar: confirma "sí pasó" o "no ocurrió", explica por qué y actualiza con foto.</p></div>
+      <div class="card"><h3>Interopera, no reemplaza</h3><p>Se monta sobre lo que ya existe y complementa a 911 / Protección Civil. Federa registros, fact-checkers y canales de donación.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ARQUITECTURA -->
+<section id="arquitectura">
+  <div class="wrap">
+    <h2><span class="num">▦</span> Arquitectura por capas</h2>
+    <p class="sub">Siete primitivas del dominio sobre una base de confianza, con una capacidad transversal de despacho y acceso. Las flechas indican dependencia: todo se apoya en la bitácora.</p>
+    <div class="diagram">
+      <div class="band">🤝 Capacidad transversal · Colaboración con autoridades + corroboración por ubicación</div>
+      <div class="band" style="margin-top:10px">↔ Capacidad transversal · Despacho consciente del acceso + gestión de convergencia</div>
+      <div class="arrow">▲</div>
+      <div class="tier">
+        <div class="tier-label">Entidades del dominio</div>
+        <div class="row">
+          <div class="node n-cap">Persona <small>buscada / localizada</small></div>
+          <div class="node n-cap">Insumo <small>balance "dónde falta"</small></div>
+          <div class="node n-cap">Traslado <small>cadena de custodia</small></div>
+          <div class="node n-cap">Hospital <small>capacidad viva</small></div>
+          <div class="node n-cap">Menor <small>resguardo anti-usurpación</small></div>
+        </div>
+      </div>
+      <div class="arrow">▲</div>
+      <div class="tier">
+        <div class="tier-label">Captura unificada</div>
+        <div class="row"><div class="node n-cap" style="flex-basis:100%">Reporte <small>ubicable: incidente · necesidad · recurso · insumo · hospital · estado de ruta</small></div></div>
+      </div>
+      <div class="arrow">▲</div>
+      <div class="tier">
+        <div class="tier-label">Fundamento</div>
+        <div class="row">
+          <div class="node n-base" style="flex-basis:60%">Evento <small>bitácora append-only · integridad por hash + PII suprimible</small></div>
+          <div class="node n-base">Base de confianza <small>verificación escalonada</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULOS -->
+<section id="modulos">
+  <div class="wrap">
+    <h2><span class="num">7</span> Módulos core</h2>
+    <p class="sub">Toca cada módulo para ver funcionalidades, máquina de estado y el ajuste por el contexto venezolano. Tres fueron rediseñados a partir de la investigación de campo.</p>
+    <div id="mods"></div>
+  </div>
+</section>
+
+<!-- ESTADOS -->
+<section id="estados">
+  <div class="wrap">
+    <h2><span class="num">→</span> Máquinas de estado</h2>
+    <p class="sub">El estado lo mueven los hechos, nunca el reloj. Quién cierra cada flujo es una regla dura.</p>
+    <div id="estados-list"></div>
+  </div>
+</section>
+
+<!-- HALLAZGOS -->
+<section id="hallazgos">
+  <div class="wrap">
+    <h2><span class="num">!</span> 11 hallazgos de campo que reescriben el diseño</h2>
+    <p class="sub">Cada hallazgo proviene de investigación de fuentes abiertas (legal, infraestructura, historia de catástrofes, actores). Filtra por categoría.</p>
+    <div class="filtros" id="filtros"></div>
+    <div id="findings"></div>
+  </div>
+</section>
+
+<!-- CONFIANZA -->
+<section id="confianza">
+  <div class="wrap">
+    <h2><span class="num">🛡</span> Modelo de confianza</h2>
+    <p class="sub">Fricción proporcional al daño potencial. Los actos sensibles se validan por <strong>corroboración multi-actor, incluidas las autoridades</strong>, con método público — nunca por una sola parte.</p>
+    <div class="niveles">
+      <div class="nivel n1"><div class="lvl">Nivel 1 · sin fricción</div><h3>Buscar · leer · reportar</h3><p>Sin requisitos de identidad. Reportar siempre es libre.</p></div>
+      <div class="nivel n2"><div class="lvl">Nivel 2 · ligera</div><h3>Actuar (transporte, aportar)</h3><p>Teléfono + selfie de vivacidad efímera (no se almacena).</p></div>
+      <div class="nivel n3"><div class="lvl">Nivel 3 · máxima</div><h3>Actos sensibles</h3><p>Resguardo de menor, registro de fallecido. Validación por <strong>corroboración multi-actor</strong>.</p></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3>Validación multi-actor (suma, no resta)</h3>
+      <p>La credibilidad se construye <strong>sumando actores con presencia territorial</strong>: <strong>autoridades competentes</strong> + <strong>red parroquial Cáritas / Iglesia</strong> + <strong>Médicos por la Salud</strong> (defunciones clínicas) + metodología pública estilo <strong>Foro Penal</strong> (caso por caso, criterios abiertos). El acto sensible se confirma por corroboración de varias partes acreditadas, con método transparente. Neutralidad estricta: se reconoce a todos por igual, sin sesgo ni patrocinio partidista de ningún lado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEDERAR -->
+<section id="federar">
+  <div class="wrap">
+    <h2><span class="num">⇄</span> Federar vs. construir</h2>
+    <p class="sub">Waraira solo construye su carril defendible; lo demás lo federa para no crear "el registro 155".</p>
+    <div class="cols">
+      <div class="card lista-card">
+        <h3><span class="badge build">CONSTRUIR</span> Carril propio de Waraira</h3>
+        <ul>
+          <li>Emparejar necesidades con aportes + vista de brechas (Insumo)</li>
+          <li>Cadena de custodia de traslados (confirma el receptor)</li>
+          <li>Resguardo de menores anti-usurpación, trazado y derivado</li>
+          <li>Enrutamiento hospitalario por capacidad real</li>
+          <li>Despacho y gestión de convergencia/acceso</li>
+          <li>Conciliación de datos con autoridades + corroboración por ubicación</li>
+          <li>Corroboración entre fuentes (N reportes = certeza)</li>
+          <li>Bitácora auditable inmutable</li>
+        </ul>
+      </div>
+      <div class="card lista-card">
+        <h3><span class="badge fed">FEDERAR</span> Lo que ya existe</h3>
+        <ul>
+          <li>Registros de desaparecidos existentes (con deduplicación)</li>
+          <li>Canales de donación de la diáspora (ayudasismove.org, R4V, WCK, GlobalGiving) con sello antifraude</li>
+          <li>Fact-checkers (Venezuela Verifica: Cotejo, Es Paja, Cazadores, Cocuyo, Probox)</li>
+          <li>Datos sísmicos de FUNVISIS (solo sismología, no víctimas)</li>
+          <li>Estándares humanitarios OCHA / INSARAG / 3W-4W</li>
+          <li>Directorio "Hazlo Hoy / Venezuela Ayuda" (ya agrega 6 plataformas)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESILIENCIA -->
+<section id="resiliencia">
+  <div class="wrap">
+    <h2><span class="num">⚡</span> Arquitectura de resiliencia</h2>
+    <p class="sub">No se puede asumir luz ni señal. El backend en la nube es ventaja; toda la robustez extra va al cliente (el último kilómetro es frágil).</p>
+    <div class="grid2">
+      <div class="card"><h3>📴 PWA offline-first</h3><p>Reportes que se crean sin señal y se sincronizan después (cola diferida). Indicador de "pendiente de sincronizar".</p></div>
+      <div class="card"><h3>🪶 Ultraligera</h3><p>Server-first, JS mínimo, gama baja. El zero-rating cubre apps sociales, no tu PWA: cada KB cuenta.</p></div>
+      <div class="card"><h3>💬 WhatsApp + SMS</h3><p>Fallback de primera clase, no opcional. Mensajes preformateados y deep links.</p></div>
+      <div class="card"><h3>🌍 Infra resiliente</h3><p>En la nube fuera de Venezuela (resiliencia ante apagones), con mirrors y nodo-espejo en la diáspora ante cortes y picos de carga. Minimización de datos por defecto.</p></div>
+      <div class="card"><h3>🧭 Navegación didáctica</h3><p>Listados interactivos, filtrables y buscables. Íconos + texto, pocos pasos, baja carga cognitiva — para gente en estrés y baja alfabetización digital.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DECISIONES -->
+<section id="decisiones">
+  <div class="wrap">
+    <h2><span class="num">?</span> Decisiones abiertas</h2>
+    <p class="sub">Las de mayor peso son del equipo. Aquí van con recomendación documentada. Toca para expandir.</p>
+    <div id="decisiones-list"></div>
+  </div>
+</section>
+
+<!-- PROXIMOS -->
+<section id="proximos">
+  <div class="wrap">
+    <h2><span class="num">▶</span> Prioridad y hoja de ruta</h2>
+    <p class="sub">Decisión: <strong>construir primero y soltar el sitio</strong>, cubriéndonos las espaldas por diseño. La asesoría legal y los acuerdos formales vienen después del lanzamiento.</p>
+    <ol class="pasos">
+      <li><strong>Fase 1 — Construir los módulos (v0)</strong> con auto-protección por diseño: cero dinero (R9), PII mínima y suprimible, identidad de menores nunca pública, neutralidad estricta (R8). <em>Este es el primer paso.</em></li>
+      <li><strong>Fase 2 — Soltar y abrir a todos</strong> (autoridades, Cáritas/Iglesia, ONG, diáspora, cooperación internacional). Invitar a las autoridades a conciliar sus datos y activar la corroboración por ubicación. Bilingüe ES/EN.</li>
+      <li><strong>Fase 3 — Blindaje legal y alianzas</strong> (después del lanzamiento): asesoría legal venezolana formal; acuerdos de validación (Cáritas, Médicos por la Salud, metodología Foro Penal) y de federación de datos (OCHA/R4V, registros de desaparecidos); protocolo forense para fallecidos (v2); pruebas de campo en gama baja.</li>
+    </ol>
+    <div class="note"><strong>Mínimo de lanzamiento (v0):</strong> landing + mapa/listados vivos (reporte libre + agrupación, filtrables y buscables) + tablero de balance de ayuda (necesidades ↔ aportes, foto opcional) + alertas verificadas + tablero de traslados + búsqueda de personas + bitácora con nombre + panel de conciliación para autoridades + corroboración por ubicación.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Reglas operativas (invariantes):</strong>
+    <span class="pill-r">R1 muerte solo por autoridad</span><span class="pill-r">R2 agrupar no bloquear</span><span class="pill-r">R3 confirma el receptor</span><span class="pill-r">R4 cerrar libera</span><span class="pill-r">R5 procedencia visible</span><span class="pill-r">R6 cumplimiento parcial</span><span class="pill-r">R7 protección de menores</span><span class="pill-r">R8 neutralidad</span><span class="pill-r">R9 cero dinero</span><span class="pill-r">R10 auditabilidad</span><span class="pill-r">R11 complemento de 911</span></p>
+    <p style="margin-top:18px">Fuentes: investigación de fuentes abiertas (26–27 jun 2026) en cuatro ejes — legal (CRBV art. 28, TSJ 759/2025, LOPNNA, Delitos Informáticos, Ley anti-ONG, Ley contra el Odio), infraestructura (DataReportal 2026, crisis eléctrica), historia (Vargas 1999 — SciELO/COFAVIC/Corte IDH; Mocotíes; Las Tejerías) y actores/confianza (Encuesta Nacional de Hospitales, Cáritas SAMAN, Foro Penal, Latinobarómetro 2024). <br>Documento de planificación · Waraira · junio 2026.</p>
+  </div>
+</footer>
+
+<script>
+const modulos = [
+  {l:"A", n:"Reporte", tag:"v0", purpose:"Captura unificada de cualquier hecho ubicable, con estado.",
+   func:["Reportar sin barrera de identidad","Geolocalización y prioridad","Estado movido por hechos","Corroboración (N respaldos)","Metadata: quién reportó, antigüedad","Agrupación automática de duplicados cercanos","Nuevo tipo: estado de ruta/acceso (vía colapsada, congestión, punto de control)"],
+   estado:["Reportado","Verificado","Actuando","Resuelto","Cerrado"],
+   reglas:"R2 · R5 · R9",
+   ve:"Payloads pequeños creables <b>offline</b>; imágenes opcionales y comprimidas. Es la <b>fuente de verdad de las primeras horas</b> que llena el vacío informativo oficial. Geolocalización no persistente por defecto (anti-CLAP/carnet)."},
+  {l:"B", n:"Persona", tag:"v0", purpose:"Individuos buscados con seguimiento de paradero.",
+   func:["Nombre y datos demográficos","Estados de localización","Búsqueda por foto — reconocimiento facial interno (a evaluar y respaldar legalmente): subes la foto de tu desaparecido y el sistema dice si coincide con alguna registrada y dónde está ubicada, o que no hay match y cuántas personas quedan registradas sin foto con nombre similar","Vínculo con múltiples reportes (deduplicación)","No marcable como fallecida por usuario"],
+   estado:["Sin contacto","Desaparecida","Localizada a salvo · | · Fallecida (solo autoridad)"],
+   reglas:"R1 · R7 · R2",
+   ve:"<b>Conteo público = deduplicación de registros individuales</b>, nunca cifra suelta; muestra confirmado vs. reportado vs. en verificación y, cuando hay distintas cifras, las <b>muestra en paralelo sin arbitrar</b>. Trazabilidad de evacuaciones y traslados con testigos para que <b>nadie se pierda del rastro</b> (lección de Vargas, en tono protector y neutral). El reconocimiento facial sería con <b>matching efímero, sin biometría almacenada</b>. PII seudonimizada en capa pública."},
+  {l:"C", n:"Menor no acompañado", tag:"redis", purpose:"Resguardo y trazabilidad anti-usurpación. NO custodia legal.",
+   func:["Identificación como caso protegido (datos en capa restringida, nunca pública)","Registro de quién lo resguarda de hecho ahora","Verificación anti-suplantación de todo el que reclame llevárselo (Nivel 3) con traza inmutable","Detección de patrones de usurpación (mismo 'padre' reclamando varios niños)","Bitácora visible a red de protección vetada + autoridad"],
+   estado:["Identificado","Bajo resguardo","Reclamo verificado/rechazado","Derivado a autoridad","Reunificado (lo decide la autoridad)"],
+   reglas:"R7 · R3 · R10",
+   ve:"<b>Propósito real:</b> frenar el robo y la usurpación que están ocurriendo (impostores que se hacen pasar por padres → riesgo de trata). Waraira <b>no adjudica custodia legal ni autoriza colocación</b> (eso es del Consejo de Protección / Tribunal); <b>deriva</b> el caso y mantiene la vigilancia trazada. Identidad, imagen y ubicación del menor <b>jamás públicas</b> (LOPNNA art. 65). El 'funcionario vetado' → enlace/verificador sin poder vinculante."},
+  {l:"D", n:"Traslado", tag:"v0", purpose:"Cadena de custodia de personas e insumos, A→B.",
+   func:["Origen, destino, qué se mueve","Transportista nombrado","Confirmación bilateral por el receptor","Obligación abierta si no se confirma (sin caducidad por reloj)","Visibilidad de 'en tránsito' (el momento más peligroso)"],
+   estado:["Solicitado","Tomado","En camino","Llegada confirmada (receptor)"],
+   reglas:"R3 · R4 · R10",
+   ve:"Módulo de <b>mayor exposición física/legal</b>: rediseñado como <b>conector P2P</b> — Waraira no custodia ni dirige; la ejecución queda en quien tenga aval (Cáritas, bomberos, ciudadano). Lenguaje 'facilitamos', no 'coordinamos'. Registra <b>vínculo familiar</b> para evitar dispersión. Considera <b>factibilidad real de llegada</b>, no proximidad teórica."},
+  {l:"E", n:"Insumo", tag:"v0", purpose:'Balance de ayuda — el tablero "dónde falta vs. dónde hay".',
+   func:["Reportar un punto donde HAY ayuda disponible (qué, cuánto, dónde) — con foto opcional","Reportar lo que HACE FALTA en un punto — sin foto obligatoria","Tipo y cantidad; necesidades ↔ aportes (sin lenguaje mercantil)","Cumplimiento parcial (varios aportes cubren una necesidad)","Caducidad física (alimentos); brecha: necesidad sin aporte compatible","Listados interactivos, filtrables y buscables (zona, categoría, urgencia), muy didácticos e intuitivos"],
+   estado:["Ofrecido","Tomado","En camino","Entregado (admite parcial)"],
+   reglas:"R4 · R6",
+   ve:"<b>Asignación por necesidad verificada, no por padrón de lealtad</b> (ruptura con CLAP/carnet). Modela los <b>centros de acopio de la sociedad civil/Iglesia como nodos de primera clase</b>. Registro abierto aportado-vs-entregado con destino (anti-desvío). Nunca cuentas de cobro de usuarios anónimos."},
+  {l:"F", n:"Hospital", tag:"v0", purpose:"Vista viva de capacidad y especialidad. No es un directorio.",
+   func:["Capacidad por especialidad (gravedad × especialidad × cupo)","Estado recibe / saturado / desvía","Actualización por el personal, por hechos (no por reloj)","Enrutamiento por gravedad + factibilidad"],
+   estado:["Recibe","Saturado","Desvía","Recuperado"],
+   reglas:"R5 · R4",
+   ve:"Sistema de salud en <b>colapso pre-existente</b> (déficit quirúrgico ~60%, 91% pide insumos al paciente, 13 hospitales dañados). El enrutamiento de heridos a centros con cupo es vital tras un sismo. Datos del hospital como fuente etiquetada y contrastable, no autoridad."},
+  {l:"G", n:"Evento", tag:"redis", purpose:"Bitácora append-only. El pilar de la trazabilidad.",
+   func:["Registro append-only","Actor nombrado (obligatorio)","Acción + objeto + timestamp","Inmutable (anulación deja traza)","Feed público de transparencia + bitácora por objeto"],
+   estado:["Creado","Público","(nunca eliminado)"],
+   reglas:"R10 · R5 · R9",
+   ve:"La inmutabilidad <b>no puede chocar con el habeas data</b> (derecho al olvido, TSJ 2025). El log guarda <b>solo hashes/metadatos no personales</b>; la PII vive en capa mutable y suprimible (crypto-shredding: borrar la clave hace ilegible el dato <b>sin romper la cadena</b>). Canal de habeas data/takedown. Log replicado fuera del país."},
+  {l:"↔", n:"Despacho consciente del acceso + convergencia", tag:"transv", purpose:"Capacidad transversal: Reporte (rutas) + Traslado (ruteo) + Hospital (alcanzabilidad). El humano decide, la herramienta propone.",
+   func:["Estado de rutas en vivo: fluido / congestionado / bloqueado (la congestión suele ser transitoria y autorresolutiva)","Prioridad de activos críticos: maquinaria pesada y ambulancias sobre el tráfico voluntario","Gestión de convergencia: disuadir / escalonar / redirigir el tráfico redundante","Comunicar 'qué se necesita de verdad y por dónde' (p. ej. maquinaria, no más manos)","Priorización de rescate multi-señal (signos de vida, número estimado, alcanzabilidad, tiempo)","Accesos alternos (Carretera Vieja, mar/puerto, aire/Maiquetía) solo ante bloqueo real"],
+   estado:["Fluido","Congestionado","Bloqueado"],
+   reglas:"R2 · R5",
+   ve:"Nace del caso real: la convergencia de civiles saturó <b>temporalmente</b> la autopista a La Guaira y retrasó la maquinaria; <b>ya se disipó</b> al retirarse la gente. El valor es la <b>señal de flujo en tiempo real</b>, no asumir vías perdidas ni amplificar pánico."},
+  {l:"🤝", n:"Colaboración con autoridades + corroboración por ubicación", tag:"transv", purpose:"Unir, no dividir: el Estado y demás actores son socios de datos, no rivales.",
+   func:["Panel para autoridades: pueden subir su base de datos y conciliarla con la de Waraira","El sistema cruza registros y sugiere descartes y actualizaciones; la autoridad aplica descartes y actualizaciones (marcar localizados, fusionar duplicados)","Mismo mecanismo abierto a Cáritas, ONG y registros ciudadanos federados","Corroboración por ubicación: cada hecho marcado actual/en línea notifica por geolocalización a quien tenga la app en ese lugar","Quien confirma responde 'sí, pasó' (suma respaldo); quien lo niega responde 'no ocurrió', explica por qué, dice cómo es ahora y puede actualizar con foto"],
+   estado:["Reportado","Notificado en zona","Confirmado / corregido"],
+   reglas:"R2 · R5 · R8 · R10",
+   ve:"Toda conciliación queda en la bitácora (R10). La verdad emerge de la corroboración de quienes están en el sitio, <b>no de una sola voz</b>. PII y ubicación de quien corrobora, minimizadas."}
+];
+
+const findings = [
+  {id:"H1", cat:"legal", t:"No hay ley integral de datos, pero sí habeas data y derecho al olvido", h:"Art. 28 CRBV + jurisprudencia TSJ 2025 reconocen rectificación, supresión y derecho al olvido sobre registros públicos y privados.", c:"La bitácora inmutable con PII es insostenible. Separar integridad (hash) de PII (capa suprimible vía crypto-shredding) + canal de takedown."},
+  {id:"H2", cat:"legal", t:"El módulo es custodia-vigilancia, no custodia legal", h:"Su fin real es frenar el robo y la usurpación de niños (impostores como padres → trata). La custodia legal es del Consejo de Protección / Tribunal; publicar identidad de un NNA es ilegal (LOPNNA).", c:"El módulo no adjudica custodia: es resguardo trazable + verificación anti-suplantación, y deriva a la autoridad. Identidad/ubicación nunca públicas."},
+  {id:"H3", cat:"legal", t:"Scrapear el CNE o auto-hospedar cedula.com.ve = riesgo penal", h:"Ley Especial contra Delitos Informáticos: acceso y uso indebido de datos personales, con prisión. El CNE es de finalidad electoral.", c:"Verificación de identidad por adaptador enchufable, solo 1:1, sin base masiva. Selfie de vivacidad efímera, no almacenada."},
+  {id:"H4", cat:"actores", t:"Ninguna fuente única basta — mostrar la corroboración", h:"En crisis las cifras y relatos divergen entre fuentes oficiales, ciudadanas e internacionales, y circula información verídica e inventada de todos los lados (hoy hubo autoridades rescatando personas y a la vez relatos que lo negaban). Waraira no arbitra quién miente.", c:"Mostrar las fuentes en paralelo con su timestamp y respaldos; el estado lo mueve la corroboración (varios reportes del mismo hecho), no una sola voz. Neutralidad estricta (R8)."},
+  {id:"H5", cat:"actores", t:"Validación multi-actor, con las autoridades incluidas", h:"La credibilidad se construye sumando actores con presencia territorial: autoridades competentes, red parroquial Cáritas/Iglesia, Médicos por la Salud y metodología pública estilo Foro Penal.", c:"El acto sensible (resguardo de menor, registro de fallecido) se valida por corroboración de varios actores acreditados —incluidas las autoridades— con método público, nunca por una sola parte."},
+  {id:"H6", cat:"infra", t:"No hay luz ni señal garantizadas", h:"90% de hogares con cortes; las torres caen en apagón prolongado; La Guaira quedó 'sin señal'. Gama baja, prepago, zero-rating que no cubre tu PWA. WhatsApp ubicuo.", c:"PWA offline-first con cola de sincronización; ultraligera; WhatsApp + SMS como fallback de primera clase; degradación graciosa."},
+  {id:"H7", cat:"legal", t:"Resiliencia ante cortes, picos de carga y marco legal", h:"Conectividad y energía intermitentes y picos de tráfico en crisis; además marcos legales de datos y contenido que conviene respetar por diseño.", c:"Infra resiliente y replicable (mirrors + nodo-espejo en la diáspora); minimización de datos por defecto; retiro ágil de contenido ilícito con registro. Neutralidad y buenas prácticas, no confrontación."},
+  {id:"H8", cat:"infra", t:"Dinero = trampa", h:"Hiperinflación, multimoneda (Bs/USD/USDT/Zelle), ola activa de estafas disfrazadas de ayuda; la Ley anti-ONG castiga el financiamiento.", c:"R9 inviolable: Waraira nunca toca dinero. Solo enlaza a canales oficiales verificados con sello + advertencia antifraude."},
+  {id:"H9", cat:"historia", t:"Lecciones de Vargas, Mocotíes y Las Tejerías", h:"Cifras infladas nunca reconciliadas; desapariciones forzadas con negación de registros; fosas anónimas; familias dispersadas; ayuda politizada (CLAP/carnet).", c:"Conteos derivados de registros individuales deduplicados; cadena de custodia anti-desaparición forzada; anti-fosa anónima; vínculo familiar; asignación por necesidad verificada."},
+  {id:"H10", cat:"actores", t:"Federar, no construir", h:"Ya existen registros de desaparecidos, fact-checkers maduros (Venezuela Verifica), canales de diáspora (ayudasismove.org, R4V), OCHA/INSARAG con estándares.", c:"Interoperar con esquemas humanitarios estándar (3W/4W, INSARAG); integrar (con dedup) lo existente en vez de crear el 'registro 155'."},
+  {id:"H11", cat:"operacion", t:"Sobre-convergencia: congestión transitoria, no colapso", h:"Caracas bajó a ayudar y los civiles circulando saturaron temporalmente la autopista, retrasando la maquinaria; ya se disipa al retirarse la gente. Fue flujo, no infraestructura.", c:"Señalización de flujo/congestión en tiempo real; prioridad de activos críticos; gestión de convergencia (disuadir/escalonar/redirigir). Accesos alternos solo ante bloqueo real."}
+];
+
+const estadosData = [
+  {n:"Persona", flow:["Sin contacto","Desaparecida","Localizada a salvo | Fallecida (solo autoridad)"], cierra:"Usuario / Autoridad"},
+  {n:"Insumo", flow:["Ofrecido","Tomado","En camino","Entregado"], cierra:"Receptor / cobertura completa"},
+  {n:"Traslado", flow:["Solicitado","Tomado","En camino","Llegada confirmada"], cierra:"Receptor (nunca el transportista)"},
+  {n:"Menor", flow:["Identificado","Bajo resguardo","Reclamo verificado/rechazado","Derivado a autoridad","Reunificado"], cierra:"Autoridad de protección"},
+  {n:"Hospital", flow:["Recibe","Saturado","Desvía","Recuperado"], cierra:"El propio hospital (recupera cupo)"},
+  {n:"Reporte", flow:["Reportado","Verificado","Actuando","Resuelto","Cerrado"], cierra:"Resolución corroborada"}
+];
+
+const decisiones = [
+  {q:"Reconocimiento facial interno (sección B)", a:"¿Viable técnicamente y respaldado legalmente? Recomendación: prototiparlo como match 1:N solo entre fotos que los propios usuarios suben para buscar a su desaparecido, con matching efímero sin almacenar biometría y aviso de consentimiento. Activarlo en v0 si el respaldo es claro; si no, búsqueda por nombre/rasgos y sumarlo después."},
+  {q:"Verificación de cédula", a:"Recomendación: adaptador 1:1, sin base masiva; NO auto-hospedar cedula.com.ve ni scrapear el CNE."},
+  {q:"Visibilidad de menores", a:"Recomendación: red de protección + autoridad ven el proceso (incluida la vigilancia anti-usurpación); el público solo ve conteos agregados, jamás identidad/ubicación."},
+  {q:"Módulo de fallecidos", a:"Recomendación: v2 con partner forense + ethics review. En v1 solo 'proof of life' (auto-marcarse a salvo) + ficha de desaparecido para matching, sin imágenes públicas."},
+  {q:"Figura legal y asesoría", a:"Recomendación: se decide DESPUÉS de soltar el sitio (ver prioridad). Por ahora se opera con auto-protección por diseño: cero dinero, PII mínima/suprimible, identidad de menores nunca pública, neutralidad estricta."},
+  {q:"Código abierto vs. cerrado", a:"Recomendación: metodología y conteo abiertos/auditables (credibilidad); el código puede abrirse tras el sprint de crisis."},
+  {q:"Reutilizar el scaffold existente", a:"Ya hay un Next.js 16 + Convex scaffoldeado con un esquema inicial. Recomendación: reutilizar el schema como borrador, ajustándolo a los rediseños de Evento (H1) y Menor (H2)."}
+];
+
+const catNames = {legal:"Legal", infra:"Infraestructura", historia:"Historia", actores:"Actores", operacion:"Operación"};
+
+// Render módulos
+const mc = document.getElementById('mods');
+modulos.forEach(m=>{
+  const tagClass = m.tag==="redis"?"redis":m.tag==="transv"?"transv":"v0";
+  const tagText = m.tag==="redis"?"REDISEÑADO":m.tag==="transv"?"TRANSVERSAL":"v0";
+  const est = m.estado.map((s,i)=>`<span class="st">${s}</span>${i<m.estado.length-1?'<span class="sep">→</span>':''}`).join('');
+  const el = document.createElement('div');
+  el.className='mod';
+  el.innerHTML=`
+    <div class="mod-head">
+      <div class="mod-letter">${m.l}</div>
+      <div><p class="mod-title">${m.n}</p><p class="mod-purpose">${m.purpose}</p></div>
+      <div class="mod-tags"><span class="tag ${tagClass}">${tagText}</span><span class="caret">▶</span></div>
+    </div>
+    <div class="mod-body">
+      <h4>Funcionalidades core</h4>
+      <ul>${m.func.map(f=>`<li>${f}</li>`).join('')}</ul>
+      <h4>Máquina de estado</h4>
+      <div class="estado">${est}</div>
+      <h4>Reglas</h4><div style="font-weight:700;color:var(--verde)">${m.reglas}</div>
+      <div class="ve-box"><strong>Ajuste por contexto Venezuela.</strong> ${m.ve}</div>
+    </div>`;
+  el.querySelector('.mod-head').addEventListener('click',()=>el.classList.toggle('open'));
+  mc.appendChild(el);
+});
+
+// Render estados
+const ec = document.getElementById('estados-list');
+estadosData.forEach(e=>{
+  const flow = e.flow.map((s,i)=>`<span class="st">${s}</span>${i<e.flow.length-1?'<span class="sep">→</span>':''}`).join('');
+  const el=document.createElement('div'); el.className='card'; el.style.marginBottom='10px';
+  el.innerHTML=`<h3 style="margin:0 0 8px">${e.n}</h3><div class="estado">${flow}</div>
+    <p style="margin:10px 0 0;font-size:13px;color:var(--gris)"><b>Quién cierra:</b> ${e.cierra}</p>`;
+  ec.appendChild(el);
+});
+
+// Render findings + filtros
+const fc = document.getElementById('findings');
+function renderFindings(cat){
+  fc.innerHTML='';
+  findings.filter(f=>cat==='all'||f.cat===cat).forEach(f=>{
+    const el=document.createElement('div'); el.className='finding';
+    el.innerHTML=`<div><div class="h-id">${f.id}</div><span class="h-cat cat-${f.cat}">${catNames[f.cat]}</span></div>
+      <div><h4>${f.t}</h4><p>${f.h}</p><div class="cambio"><b>→ Cambio:</b> ${f.c}</div></div>`;
+    fc.appendChild(el);
+  });
+}
+const filtrosEl=document.getElementById('filtros');
+const cats=['all',...Object.keys(catNames)];
+cats.forEach((c,i)=>{
+  const b=document.createElement('button'); b.className='filtro'+(i===0?' activo':'');
+  b.textContent=c==='all'?'Todos':catNames[c];
+  b.addEventListener('click',()=>{document.querySelectorAll('.filtro').forEach(x=>x.classList.remove('activo'));
+    b.classList.add('activo'); renderFindings(c);});
+  filtrosEl.appendChild(b);
+});
+renderFindings('all');
+
+// Render decisiones
+const dc=document.getElementById('decisiones-list');
+decisiones.forEach(d=>{
+  const el=document.createElement('div'); el.className='acc';
+  el.innerHTML=`<div class="acc-h">${d.q}<span class="reco">Recomendación</span></div><div class="acc-b">${d.a}</div>`;
+  el.querySelector('.acc-h').addEventListener('click',()=>el.classList.toggle('open'));
+  dc.appendChild(el);
+});
+
+// Smooth scroll + active nav
+document.querySelectorAll('nav.tabs a').forEach(a=>{
+  a.addEventListener('click',e=>{e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'});});
+});
+
+// Toggle de tema (oscuro por defecto)
+(function(){
+  const root=document.documentElement, btn=document.getElementById('themeTog');
+  function upd(){const light=root.getAttribute('data-theme')==='light';btn.textContent=light?'🌙 Modo oscuro':'☀️ Modo claro';}
+  upd();
+  btn.addEventListener('click',()=>{
+    const light=root.getAttribute('data-theme')==='light';
+    if(light){root.removeAttribute('data-theme');try{localStorage.setItem('waraira-theme','dark')}catch(e){}}
+    else{root.setAttribute('data-theme','light');try{localStorage.setItem('waraira-theme','light')}catch(e){}}
+    upd();
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Waraira · Qué es y qué hace (resumen)</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#16201c;background:#f6f8f7;line-height:1.55}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}a{color:#1b6b4f}
+header.hero{background:linear-gradient(160deg,#0c2c22,#1b6b4f);color:#eafaf2;padding:46px 0 40px;position:relative;overflow:hidden}
+header.hero::after{content:"";position:absolute;right:-80px;bottom:-120px;width:360px;height:360px;background:radial-gradient(circle,rgba(255,255,255,.10),transparent 70%);border-radius:50%}
+.logo{display:flex;align-items:center;gap:12px}
+.logo .w{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:24px}
+.logo b{font-size:22px;font-weight:800;letter-spacing:.01em}
+h1{font-size:clamp(28px,5vw,46px);margin:18px 0 0;font-weight:800;line-height:1.05}
+.lead{opacity:.95;font-size:clamp(15px,2.4vw,19px);margin:10px 0 0;max-width:720px}
+.chips{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12.5px;font-weight:800;letter-spacing:.02em;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3)}
+section{padding:30px 0}
+h2{font-size:clamp(19px,3vw,24px);margin:0 0 14px;display:flex;align-items:center;gap:9px}h2::before{content:"";width:12px;height:12px;border-radius:3px;background:#1b6b4f}
+.problema{background:#fff;border:1px solid #d9e2dd;border-left:5px solid #a8322d;border-radius:14px;padding:18px 20px;font-size:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}@media(max-width:760px){.grid3{grid-template-columns:1fr}}
+.pilar{background:#fff;border:1px solid #d9e2dd;border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px rgba(16,40,30,.06)}
+.pilar .ic{font-size:26px}.pilar b{display:block;margin:8px 0 4px;font-size:16px}.pilar p{margin:0;font-size:14px;color:#43514a}
+/* mapa conceptual */
+.mapa{background:#0f3d2e;border-radius:18px;padding:26px 22px;color:#eafaf2}
+.flujo{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;justify-content:center}
+.nodo{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:14px 16px;flex:1;min-width:150px;max-width:200px;text-align:center}
+.nodo .n{font-size:24px}.nodo b{display:block;margin-top:6px;font-size:15px}.nodo span{font-size:12.5px;opacity:.85;display:block;margin-top:3px}
+.flecha{display:flex;align-items:center;font-size:24px;color:#7fe0b8;font-weight:800}
+@media(max-width:760px){.flecha{transform:rotate(90deg);justify-content:center;width:100%}.nodo{max-width:none}}
+.banda{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px}
+.lateral{flex:1;min-width:220px;background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.25);border-radius:12px;padding:12px 14px;font-size:13.5px}
+.lateral b{color:#7fe0b8}
+.mods{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(max-width:760px){.mods{grid-template-columns:1fr}}
+.mod{background:#fff;border:1px solid #d9e2dd;border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 1px 3px rgba(16,40,30,.06)}
+.mod .ic{font-size:24px;flex-shrink:0}.mod b{font-size:15px}.mod p{margin:3px 0 0;font-size:13.5px;color:#43514a}
+.legal{background:#fdf4e3;border:1px solid #f0d9a8;border-left:5px solid #b9770e;border-radius:14px;padding:16px 18px;font-size:14.5px}
+.legal b{color:#9a6309}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:15px;padding:14px 22px;border-radius:12px;text-decoration:none}
+.btn.p{background:#1b6b4f;color:#fff}.btn.s{background:#fff;color:#0f3d2e;border:1px solid #d9e2dd}
+.fuentes{font-size:12.5px;color:#5c6b64}
+footer{padding:26px 0 56px;color:#5c6b64;font-size:13px;text-align:center}
+.kpis{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.kpi{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:10px 16px}
+.kpi b{font-size:22px;display:block}.kpi span{font-size:12px;opacity:.9}
+</style></head><body>
+
+<header class="hero"><div class="wrap">
+  <div class="logo"><div class="w">W</div><b>Waraira</b></div>
+  <h1>Coordinación civil para proteger a los niños de Venezuela</h1>
+  <p class="lead">Una plataforma <b>en el teléfono</b> para censar y resguardar niños separados, organizar el cuido y el voluntariado, reunificar familias con seguridad y balancear los insumos. <b>Funciona sin señal.</b></p>
+  <div class="chips">
+    <span class="chip">📵 Funciona offline</span>
+    <span class="chip">🔒 Identidad del niño nunca pública</span>
+    <span class="chip">🤝 Deriva al Estado, no lo sustituye</span>
+    <span class="chip">📍 Zonas afectadas del país (centro y norte centro-occidental)</span>
+  </div>
+</div></header>
+
+<section><div class="wrap">
+  <h2>El problema</h2>
+  <div class="problema">Tras la tragedia del <b>24 de junio de 2026</b> —que afectó varias zonas del <b>centro y norte centro-occidental</b> de Venezuela (con La Guaira concentrando ~90%)— hay <b>niños separados y no acompañados durmiendo en plazas</b>. Sin un sistema, se pierden, se cuentan dos veces, y quedan expuestos a robo y trata. El voluntariado y los insumos llegan desordenados. <b>Waraira pone orden, traza y seguridad.</b></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Cómo funciona — mapa del flujo</h2>
+  <div class="mapa">
+    <div class="flujo">
+      <div class="nodo"><div class="n">📝</div><b>1. Censo</b><span>Foto, señas, lugar y hora</span></div>
+      <div class="flecha">→</div>
+      <div class="nodo"><div class="n">🏷</div><b>2. Brazalete</b><span>Un código = un niño</span></div>
+      <div class="flecha">→</div>
+      <div class="nodo"><div class="n">🛡</div><b>3. Cordón</b><span>Espacio seguro + voluntarios</span></div>
+      <div class="flecha">→</div>
+      <div class="nodo"><div class="n">🤝</div><b>4. Reunificación</b><span>Verificada, anti-trata</span></div>
+      <div class="flecha">→</div>
+      <div class="nodo"><div class="n">⚖️</div><b>5. Derivación</b><span>Consejo / Tribunal</span></div>
+    </div>
+    <div class="banda">
+      <div class="lateral"><b>👥 Voluntariado con aval comunitario:</b> quien se registra para cuidar niños queda pendiente hasta que <b>los vecinos de su zona lo avalan</b> ("¿lo conoces? ¿es de aquí?"). Les llega una alarma. Anti-suplantación.</div>
+      <div class="lateral"><b>📦 Insumos:</b> balance en vivo de "dónde falta" vs. "dónde hay". Por necesidad, sin dinero.</div>
+      <div class="lateral"><b>📍 Geografía:</b> todo cuelga de zona → punto → cordón. Mapa de cobertura: dónde faltan manos.</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><b>0</b><span>datos públicos del niño</span></div>
+      <div class="kpi"><b>2 adultos</b><span>mínimo por cordón</span></div>
+      <div class="kpi"><b>≥2</b><span>avales para validar</span></div>
+      <div class="kpi"><b>100%</b><span>trazado (bitácora)</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Tres pilares</h2>
+  <div class="grid3">
+    <div class="pilar"><div class="ic">📵</div><b>Offline-first</b><p>El teléfono es la fuente de verdad. En una plaza sin señal, el censo no se pierde: se guarda y sincroniza al reconectar.</p></div>
+    <div class="pilar"><div class="ic">🔒</div><b>Privacidad del menor</b><p>Identidad, foto y ubicación del niño <b>jamás públicas</b> (LOPNNA art. 65). El público solo ve conteos. El brazalete lleva un código, no un nombre.</p></div>
+    <div class="pilar"><div class="ic">🤝</div><b>Deriva a la autoridad</b><p>Waraira coordina y <b>deriva</b> al Consejo de Protección / Tribunal. No dicta custodia ni entrega niños. Neutral.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Qué incluye la plataforma</h2>
+  <div class="mods">
+    <div class="mod"><div class="ic">🧒</div><div><b>Censo de niños (IDTR)</b><p>Registro con foto confidencial, señas y ropa; genera el código de brazalete.</p></div></div>
+    <div class="mod"><div class="ic">🛡</div><div><b>Cordones de cuido</b><p>Espacios seguros con checklist de perímetro, ratios por edad y mínimo 2 adultos.</p></div></div>
+    <div class="mod"><div class="ic">🔔</div><div><b>Voluntariado + validación comunitaria</b><p>Vetting, Código de Conducta y aval de los vecinos antes de cuidar niños.</p></div></div>
+    <div class="mod"><div class="ic">🤝</div><div><b>Reunificación familiar</b><p>Imposible cerrar sin verificación, entrevista al niño y autorización de la autoridad.</p></div></div>
+    <div class="mod"><div class="ic">📦</div><div><b>Insumos</b><p>Balance de necesidades y aportes por punto. Cero dinero.</p></div></div>
+    <div class="mod"><div class="ic">📊</div><div><b>Tablero y cobertura</b><p>Conteos por zona y dónde faltan voluntarios (cálculo conmensurable).</p></div></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Respaldo</h2>
+  <div class="legal">
+    Diseñada sobre estándares internacionales de protección infantil en emergencias —
+    <b>ICRC</b> (Guiding Principles on UASC), <b>CPMS 2019</b>, <b>UNHCR</b> (Best Interests),
+    <b>IFRC</b> (Espacios Seguros) — y el marco legal venezolano: <b>LOPNNA</b> (arts. 65, 91, 127, 128, 177, 272).
+    <div class="cta">
+      <a class="btn p" href="/">Abrir la plataforma →</a>
+      <a class="btn s" href="/modulos/flujos/index.html">Ver los 8 flujos diagramados</a>
+      <a class="btn s" href="/modulos/voluntariado.html">Plan de voluntariado</a>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><p class="fuentes">Waraira · prueba para revisión · 2026. <b>Unir, no dividir.</b></p></div></footer>
+</body></html>

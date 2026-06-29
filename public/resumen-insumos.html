@@ -1,0 +1,166 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Waraira · Insumos — necesidad ↔ ofrecimiento</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#16201c;background:#f6f8f7;line-height:1.55}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}a{color:#1b6b4f}
+header.hero{background:linear-gradient(160deg,#0c2c22,#1b6b4f);color:#eafaf2;padding:46px 0 40px;position:relative;overflow:hidden}
+header.hero::after{content:"";position:absolute;right:-80px;bottom:-120px;width:360px;height:360px;background:radial-gradient(circle,rgba(255,255,255,.10),transparent 70%);border-radius:50%}
+.logo{display:flex;align-items:center;gap:12px}
+.logo .w{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:24px}
+.logo b{font-size:22px;font-weight:800;letter-spacing:.01em}
+h1{font-size:clamp(28px,5vw,46px);margin:18px 0 0;font-weight:800;line-height:1.05}
+.lead{opacity:.95;font-size:clamp(15px,2.4vw,19px);margin:10px 0 0;max-width:740px}
+.chips{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12.5px;font-weight:800;letter-spacing:.02em;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3)}
+section{padding:30px 0}
+h2{font-size:clamp(19px,3vw,24px);margin:0 0 14px;display:flex;align-items:center;gap:9px}h2::before{content:"";width:12px;height:12px;border-radius:3px;background:#1b6b4f}
+.problema{background:#fff;border:1px solid #d9e2dd;border-left:5px solid #a8322d;border-radius:14px;padding:18px 20px;font-size:16px}
+.problema .t{font-weight:800;color:#a8322d;display:block;margin-bottom:6px}
+.grid3{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}@media(max-width:760px){.grid3{grid-template-columns:1fr}}
+.pilar{background:#fff;border:1px solid #d9e2dd;border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px rgba(16,40,30,.06)}
+.pilar .ic{font-size:26px}.pilar b{display:block;margin:8px 0 4px;font-size:16px}.pilar p{margin:0;font-size:14px;color:#43514a}
+/* mapa conceptual */
+.mapa{background:#0f3d2e;border-radius:18px;padding:26px 22px;color:#eafaf2}
+.flujo{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;justify-content:center}
+.nodo{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:14px 16px;flex:1;min-width:140px;max-width:185px;text-align:center}
+.nodo .n{font-size:24px}.nodo b{display:block;margin-top:6px;font-size:14.5px}.nodo span{font-size:12px;opacity:.85;display:block;margin-top:3px}
+.flecha{display:flex;align-items:center;font-size:24px;color:#7fe0b8;font-weight:800}
+@media(max-width:760px){.flecha{transform:rotate(90deg);justify-content:center;width:100%}.nodo{max-width:none}}
+.ciclo{display:flex;align-items:center;font-size:22px;color:#7fe0b8;font-weight:800;justify-content:center;width:100%;margin-top:8px}
+.banda{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px}
+.lateral{flex:1;min-width:220px;background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.25);border-radius:12px;padding:12px 14px;font-size:13.5px}
+.lateral b{color:#7fe0b8}
+.estados{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.erow{background:#fff;border:1px solid #d9e2dd;border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(16,40,30,.06);margin-bottom:10px}
+.erow .tt{font-weight:800;display:block;margin-bottom:8px}
+.pchip{display:inline-block;background:#e8f3ee;color:#0f3d2e;font-weight:700;font-size:12.5px;padding:5px 11px;border-radius:8px}
+.pchip.full{background:#0f3d2e;color:#eafaf2}
+.sep{color:#1b6b4f;font-weight:800}
+.cats{display:flex;flex-wrap:wrap;gap:8px}
+.cat{background:#fff;border:1px solid #d9e2dd;border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:700;color:#0f3d2e}
+.cat .e{margin-right:5px}
+.legal{background:#fdf4e3;border:1px solid #f0d9a8;border-left:5px solid #b9770e;border-radius:14px;padding:16px 18px;font-size:14.5px}
+.legal b{color:#9a6309}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:15px;padding:14px 22px;border-radius:12px;text-decoration:none}
+.btn.p{background:#1b6b4f;color:#fff}.btn.s{background:#fff;color:#0f3d2e;border:1px solid #d9e2dd}
+.fuentes{font-size:12.5px;color:#5c6b64}
+footer{padding:26px 0 56px;color:#5c6b64;font-size:13px;text-align:center}
+.kpis{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.kpi{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:10px 16px}
+.kpi b{font-size:22px;display:block}.kpi span{font-size:12px;opacity:.9}
+</style></head><body>
+
+<header class="hero"><div class="wrap">
+  <div class="logo"><div class="w">W</div><b>Waraira</b></div>
+  <h1>Insumos · necesidad ↔ ofrecimiento</h1>
+  <p class="lead">Un tablero <b>en vivo</b> que conecta a quien <b>necesita</b> con quien <b>ofrece</b> ayuda. Cada reporte lleva contacto verificado y procedencia. <b>Mata el rumor, no a la gente.</b></p>
+  <div class="chips">
+    <span class="chip">📵 Funciona offline</span>
+    <span class="chip">📞 Teléfono verificado (SMS + WhatsApp)</span>
+    <span class="chip">🔄 Estado en vivo cada 6 h</span>
+    <span class="chip">🚫 Cero dinero</span>
+  </div>
+</div></header>
+
+<section><div class="wrap">
+  <h2>El problema</h2>
+  <div class="problema"><span class="t">El rumor de WhatsApp — caso "70 carpas"</span>
+    Por los grupos rueda un audio: <b>"hay 70 carpas disponibles"</b>. Pero nadie sabe si <b>ya se entregaron</b>, de <b>qué zona</b> salieron, ni hay un <b>contacto que se pueda corroborar</b>. La información se reenvía mil veces, la gente se moviliza para nada, y la ayuda real se pierde entre el ruido. El rumor mueve más rápido que el dato. <b>Waraira sustituye el rumor por un reporte con dueño, ubicación, contacto verificado y estado actualizado.</b>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Cómo funciona — mapa del flujo</h2>
+  <div class="mapa">
+    <div class="flujo">
+      <div class="nodo"><div class="n">📝</div><b>1. Publicar</b><span>Identificado: nombre, teléfono, cédula, GPS + zona</span></div>
+      <div class="flecha">→</div>
+      <div class="nodo"><div class="n">📞</div><b>2. Verificar teléfono</b><span>Un mismo código por SMS + WhatsApp</span></div>
+      <div class="flecha">→</div>
+      <div class="nodo"><div class="n">📲</div><b>3. Feed en vivo</b><span>Tipo estados: hora, GPS y lugar</span></div>
+      <div class="flecha">→</div>
+      <div class="nodo"><div class="n">🤝</div><b>4. Emparejar</b><span>Necesidad ↔ oferta cercana. Solo sugiere</span></div>
+      <div class="flecha">→</div>
+      <div class="nodo"><div class="n">📦</div><b>5. Abastecer / Entregar</b><span>Confirma el receptor (R3)</span></div>
+      <div class="flecha">→</div>
+      <div class="nodo"><div class="n">🔄</div><b>6. Reconfirmar 6 h</b><span>"¿Sigue vigente?" Anti-rumor</span></div>
+    </div>
+    <div class="ciclo">↺ La reconfirmación vuelve a publicar en el feed. Si una necesidad cubierta deja de estar vigente, reabre sola.</div>
+    <div class="banda">
+      <div class="lateral"><b>📞 Sin señal:</b> se publica igual, marcado <b>"sin verificar"</b> en un feed aparte. La verificación no frena a nadie, pero se distingue a simple vista.</div>
+      <div class="lateral"><b>🔍 Sin duplicados:</b> al publicar se buscan parecidos. Si "es la misma", se enlaza un aporte que suma contacto e info faltante, no crea otra entrada.</div>
+      <div class="lateral"><b>📍 Geografía:</b> cada reporte cuelga de zona → punto, con enlace a mapa por GPS. El emparejamiento es por categoría y misma zona.</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><b>6 h</b><span>ritmo de reconfirmación</span></div>
+      <div class="kpi"><b>2 vías</b><span>SMS + WhatsApp, mismo código</span></div>
+      <div class="kpi"><b>0 Bs</b><span>jamás se toca dinero</span></div>
+      <div class="kpi"><b>100%</b><span>con procedencia visible</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Dos ciclos separados</h2>
+  <div class="erow"><span class="tt" style="color:#a8322d">Necesidad (falta)</span>
+    <div class="estados">
+      <span class="pchip">Abierta</span><span class="sep">→</span>
+      <span class="pchip">Parcial</span><span class="sep">→</span>
+      <span class="pchip full">Abastecida</span><span class="sep">→</span>
+      <span class="pchip">Cerrada</span>
+    </div>
+    <p style="margin:10px 0 0;font-size:13.5px;color:#43514a">"Abastecida" = cubierta hasta una fecha o de forma indefinida. Si la cobertura es por fecha y deja de estar vigente, la necesidad <b>reabre sola</b> y vuelve al tablero.</p>
+  </div>
+  <div class="erow"><span class="tt" style="color:#1b6b4f">Oferta (hay)</span>
+    <div class="estados">
+      <span class="pchip">Disponible</span><span class="sep">→</span>
+      <span class="pchip">Reservada</span><span class="sep">→</span>
+      <span class="pchip full">Entregada</span>
+    </div>
+    <p style="margin:10px 0 0;font-size:13.5px;color:#43514a">Disponible hasta una fecha o indefinido. Una oferta cuya vigencia por fecha concluye sale del tablero activo y queda en el historial.</p>
+  </div>
+  <p style="font-size:13.5px;color:#43514a;margin:6px 2px 0"><b>Abastecida</b> y <b>entregada</b> significan <b>cubierto por completo</b>: comparten un mismo color, el verde oscuro de Waraira.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Pilares</h2>
+  <div class="grid3">
+    <div class="pilar"><div class="ic">🪪</div><b>Procedencia dura (R5)</b><p>Para publicar —pedir <b>u</b> ofrecer— siempre: nombre, teléfono, ubicación (GPS + zona + punto) y cédula. Sin cédula, la de quien entrega; sin teléfono, el de otra persona. Admite números del exterior.</p></div>
+    <div class="pilar"><div class="ic">🔄</div><b>Estado en vivo, anti-rumor</b><p>Cada 6 h se pide reconfirmar: "¿sigue vigente?". El feed siempre muestra el estado real. Nunca se etiqueta nada como caducado: lo cubierto se ve cubierto, lo abierto se ve abierto.</p></div>
+    <div class="pilar"><div class="ic">📵</div><b>Offline-first</b><p>El teléfono es la fuente de verdad (IndexedDB). En una plaza sin señal, el reporte no se pierde: se guarda y converge al reconectar.</p></div>
+    <div class="pilar"><div class="ic">🚫</div><b>Cero dinero (R9)</b><p>Waraira <b>jamás</b> cobra ni crea cuentas de pago. Solo enlaza necesidad con oferta. Se asigna por necesidad, nunca por afiliación.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Categorías</h2>
+  <div class="cats">
+    <span class="cat"><span class="e">🍲</span>Comida</span>
+    <span class="cat"><span class="e">💧</span>Agua</span>
+    <span class="cat"><span class="e">💊</span>Medicinas</span>
+    <span class="cat"><span class="e">⛺</span>Carpas</span>
+    <span class="cat"><span class="e">🛏</span>Colchonetas</span>
+    <span class="cat"><span class="e">🧼</span>Kits de higiene</span>
+    <span class="cat"><span class="e">🧶</span>Cobijas</span>
+    <span class="cat"><span class="e">👕</span>Ropa</span>
+    <span class="cat"><span class="e">🚐</span>Traslados</span>
+    <span class="cat"><span class="e">📦</span>Insumos</span>
+    <span class="cat"><span class="e">➕</span>Otro</span>
+  </div>
+  <p style="font-size:13.5px;color:#43514a;margin:12px 2px 0">Solo <b>ropa</b> pide detalle —edad, talla, género—, opcional y con opción "varios". Las <b>cobijas</b> no piden talla.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Privacidad y neutralidad</h2>
+  <div class="legal">
+    El contacto se usa para <b>conectar y corroborar</b>, no para exponer a nadie: los reportes sin teléfono verificado se muestran en un feed aparte para que cada quien decida con criterio. Waraira es <b>neutral</b>: no asigna por afiliación política ni por padrón de lealtad, no toca dinero y no sustituye a las autoridades ni a los centros de acopio de la sociedad civil. Solo pone orden, traza y contacto verificable donde antes había rumor.
+    <div class="cta">
+      <a class="btn p" href="https://insumos-three.vercel.app/insumos">Abrir el módulo de Insumos →</a>
+      <a class="btn s" href="https://insumos-three.vercel.app/resumen.html">Ver el resumen general de Waraira</a>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><p class="fuentes">Waraira · módulo de Insumos · prueba para revisión · 2026. <b>Unir, no dividir.</b></p></div></footer>
+</body></html>

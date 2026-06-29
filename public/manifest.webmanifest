@@ -1,0 +1,13 @@
+{
+  "name": "Waraira — Coordinación civil La Guaira",
+  "short_name": "Waraira",
+  "description": "Censo y protección de niños, cordones de cuido, voluntariado, reunificación e insumos. Offline-first.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f8f7",
+  "theme_color": "#1b6b4f",
+  "lang": "es",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

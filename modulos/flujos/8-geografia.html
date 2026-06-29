@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Waraira · Flujo 8 — Organización geográfica</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#16201c;background:#f6f8f7;line-height:1.5}
+.wrap{max-width:820px;margin:0 auto;padding:0 18px}a{color:#1b6b4f}
+header.hero{background:linear-gradient(160deg,#0f3d2e,#1b6b4f);color:#eafaf2;padding:30px 0 26px}
+.back{color:#cfeede;text-decoration:none;font-size:13px;font-weight:600}
+h1{font-size:clamp(23px,5vw,33px);margin:8px 0 0;font-weight:800}.sub{opacity:.92;font-size:14.5px;margin:5px 0 0}
+section{padding:20px 0}h2{font-size:17px;margin:24px 0 10px;display:flex;align-items:center;gap:8px}h2::before{content:"";width:10px;height:10px;border-radius:3px;background:#1b6b4f}
+.card{background:#fff;border:1px solid #d9e2dd;border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(16,40,30,.06)}
+.tree{font-family:ui-monospace,Menlo,monospace;font-size:14px;line-height:1.8;background:#0f3d2e;color:#eafaf2;border-radius:12px;padding:16px 18px}
+.pill{display:inline-block;background:#e8f3ee;color:#0f3d2e;font-weight:700;font-size:11px;padding:3px 9px;border-radius:999px;margin:2px}
+.parro{display:flex;flex-wrap:wrap;gap:6px}.p{background:#e9f2f8;color:#1f5f8b;font-weight:700;font-size:12.5px;padding:5px 11px;border-radius:999px}
+.legal{background:#fdf4e3;border:1px solid #f0d9a8;border-left:4px solid #b9770e;border-radius:10px;padding:12px 14px;font-size:14px}.legal .t{font-weight:800;color:#b9770e;display:block;margin-bottom:4px}
+nav.modnav{background:#fff;border-top:1px solid #d9e2dd;border-bottom:1px solid #d9e2dd}nav.modnav .wrap{display:flex;flex-wrap:wrap;gap:6px;padding:10px 18px}
+nav.modnav a{font-size:12px;font-weight:700;color:#5c6b64;text-decoration:none;padding:5px 9px;border-radius:7px;border:1px solid #d9e2dd}nav.modnav a.cur{background:#1b6b4f;color:#fff;border-color:#1b6b4f}
+footer{padding:24px 0 50px;color:#5c6b64;font-size:12.5px}ul{margin:6px 0;padding-left:20px}li{margin:3px 0}
+</style></head><body>
+<header class="hero"><div class="wrap"><a class="back" href="index.html">← Todos los flujos</a>
+  <h1>8 · Organización geográfica</h1>
+  <p class="sub">Cubrir las zonas afectadas del país sin huecos: una jerarquía clara y un mapa de cobertura.</p></div></header>
+<nav class="modnav"><div class="wrap"><a href="1-censo.html">1 Censo</a><a href="2-brazalete.html">2 Brazalete</a><a href="3-cordon.html">3 Cordón</a><a href="4-voluntario.html">4 Voluntario</a><a href="5-reunificacion.html">5 Reunificación</a><a href="6-derivacion.html">6 Derivación</a><a href="7-insumos.html">7 Insumos</a><a class="cur" href="8-geografia.html">8 Geografía</a></div></nav>
+
+<section><div class="wrap">
+  <h2>Jerarquía</h2>
+  <div class="tree">Venezuela (tragedia 24-jun-2026)<br/>└─ Zona afectada (estado/área)<br/>&nbsp;&nbsp;&nbsp;└─ Punto / Plaza / Parroquia<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Cordón (Espacio Seguro)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Niños (por código)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Voluntarios en turno<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Insumos del punto</div>
+  <p style="font-size:14px;color:#5c6b64;margin-top:8px">Todo registro (niño, cordón, voluntario, insumo) cuelga de una zona y un punto, con coordenadas opcionales. Así nada queda "sin lugar". La Guaira concentra ~90%, pero la afectación es de varias zonas del centro y norte centro-occidental.</p>
+
+  <h2>Zonas afectadas precargadas</h2>
+  <div class="card parro"><span class="p">La Guaira (principal)</span><span class="p">Caracas (Dtto. Capital)</span><span class="p">Miranda</span><span class="p">Aragua</span><span class="p">Carabobo</span><span class="p">Falcón (Tucacas)</span><span class="p">Yaracuy</span><span class="p">Lara</span><span class="p">Cojedes</span></div>
+
+  <h2>Mapa de cobertura</h2>
+  <div class="card">El tablero de Inicio muestra, por zona: <b>niños bajo cuido</b>, <b>cordones activos</b>, <b>voluntarios en turno vs. necesarios</b> y el <b>déficit</b>. Permite ver de un vistazo <b>dónde hay huecos</b> (zonas con niños y sin cordón/voluntarios) y dirigir recursos al punto correcto.</div>
+
+  <h2>Reglas</h2><div><span class="pill">R2 agrupar no bloquear</span><span class="pill">R10</span></div>
+  <div class="legal" style="margin-top:12px"><span class="t">Interoperar</span>Compatible con esquemas humanitarios estándar (3W/4W: quién hace qué, dónde). Integrar lo existente en vez de crear un registro paralelo.</div>
+</div></section>
+<footer><div class="wrap"><p>Waraira · flujo 8 de 8 · junio 2026.</p></div></footer>
+</body></html>
