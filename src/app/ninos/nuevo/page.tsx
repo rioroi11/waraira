@@ -15,6 +15,7 @@ import {
   brazaletePorCodigo,
   faltaPersona,
   etiquetaDestino,
+  generarCodigoProvisional,
   ESTATUS_MENOR,
 } from "@/lib/model";
 import { ubicacionTexto, mismaZona } from "@/lib/geografia";
@@ -29,6 +30,7 @@ const claveP = (p: { nombre: string; cedula?: string }) => `${p.nombre.trim().to
 export default function NuevoNino() {
   const router = useRouter();
   const { datos: brazaletes } = useColeccion<Brazalete>("brazaletes");
+  const { datos: menores } = useColeccion<Menor>("menores");
   const [guardando, setGuardando] = useState(false);
   const [foto, setFoto] = useState<File | null>(null);
   const [previo, setPrevio] = useState<string | null>(null);
@@ -52,7 +54,8 @@ export default function NuevoNino() {
   const [salud, setSalud] = useState("");
   const [riesgo, setRiesgo] = useState("");
 
-  // Brazalete (del inventario — nunca se genera aquí)
+  // Brazalete (del inventario). `sinBrazalete` = aún no hay manilla → código provisional.
+  const [sinBrazalete, setSinBrazalete] = useState(false);
   const [yaPuesto, setYaPuesto] = useState(false);
   const [codigoBraz, setCodigoBraz] = useState("");
   const [declaraBraz, setDeclaraBraz] = useState(false);
@@ -86,6 +89,18 @@ export default function NuevoNino() {
       : mismaZona({ entidad, municipio, parroquia }, { entidad: brazalete.entidad, municipio: brazalete.municipio, parroquia: brazalete.parroquia });
   const brazaleteUsable = brazalete?.estado === "entregado";
 
+  /** Código provisional único (no choca con menores existentes ni con brazaletes del inventario). */
+  function codigoProvisionalUnico(): string {
+    const usados = new Set<string>([
+      ...menores.map((m) => m.codigo),
+      ...menores.map((m) => m.codigoProvisional ?? ""),
+      ...brazaletes.map((b) => b.codigo),
+    ]);
+    let c = generarCodigoProvisional();
+    for (let i = 0; i < 50 && usados.has(c); i++) c = generarCodigoProvisional();
+    return c;
+  }
+
   // Validación
   const dosPersonas =
     registrador.nombre.trim() &&
@@ -95,7 +110,8 @@ export default function NuevoNino() {
     faltaPersona(registrador).length === 0 &&
     faltaPersona(testigo).length === 0 &&
     (custodioEsColoca || faltaPersona(custodio).length === 0);
-  const brazaleteOk = Boolean(brazalete) && brazaleteUsable && declaraBraz;
+  // Sin brazalete → solo se genera código provisional. Con brazalete → debe estar entregado y declarado.
+  const brazaleteOk = sinBrazalete || (Boolean(brazalete) && brazaleteUsable && declaraBraz);
   const valido = parroquia && lugarHallazgo && dosPersonas && personasOk && brazaleteOk;
 
   async function guardar() {
@@ -111,19 +127,27 @@ export default function NuevoNino() {
   }
 
   async function guardarInterno() {
-    if (!brazalete) return;
-    // Guardia anti-carrera: re-lee el brazalete justo antes de tomarlo. Si otro registro lo colocó
-    // (o cambió de estado) entre tanto, aborta sin crear al menor (evita doble-enlace del código).
-    const fresco = await obtener<Brazalete>("brazaletes", brazalete.id);
-    if (!fresco || fresco.estado !== "entregado") {
-      setGuardando(false);
-      alert("Ese brazalete ya no está disponible (otro registro lo tomó). Escanea otro.");
-      return;
+    let codigo: string;
+    if (sinBrazalete) {
+      // Aún no hay manilla: se genera un código PROVISIONAL. Al colocarse el brazalete físico
+      // (en la ficha del niño), el código se actualiza al impreso y este queda como historial.
+      codigo = codigoProvisionalUnico();
+    } else {
+      if (!brazalete) return;
+      // Guardia anti-carrera: re-lee el brazalete justo antes de tomarlo. Si otro registro lo colocó
+      // (o cambió de estado) entre tanto, aborta sin crear al menor (evita doble-enlace del código).
+      const fresco = await obtener<Brazalete>("brazaletes", brazalete.id);
+      if (!fresco || fresco.estado !== "entregado") {
+        setGuardando(false);
+        alert("Ese brazalete ya no está disponible (otro registro lo tomó). Escanea otro.");
+        return;
+      }
+      codigo = brazalete.codigo;
     }
-    const codigo = brazalete.codigo;
 
     const datos: Omit<Menor, "id" | "createdAt" | "updatedAt" | "syncStatus"> = {
       codigo,
+      brazaleteProvisional: sinBrazalete || undefined,
       estatus,
       estadoIDTR: senas || ropa || foto ? "documentado" : "identificado",
       fotoBlob: foto ?? undefined,
@@ -153,7 +177,7 @@ export default function NuevoNino() {
     });
 
     // Cadena completa: responsables del brazalete (del inventario) + personas in-situ.
-    const responsablesPersonas: PersonaActo[] = (brazalete.responsables ?? []).map((r) => ({
+    const responsablesPersonas: PersonaActo[] = (brazalete?.responsables ?? []).map((r) => ({
       rol: "responsable_brazalete" as const,
       nombre: r.nombre,
       cedula: r.cedula,
@@ -188,12 +212,12 @@ export default function NuevoNino() {
       firmaTestigo: testigo.confirma,
       firmaRecibe: false,
       personas,
-      braceleteCodigo: codigo,
-      braceleteDestinoTipo: brazalete.destinoTipo,
-      braceleteDestinoNombre: brazalete.destinoNombre,
-      ubicacionCoincide,
-      colocadoPorGrupoMovil: esGrupoMovil,
-      brazaleteYaPuesto: yaPuesto,
+      braceleteCodigo: sinBrazalete ? undefined : codigo,
+      braceleteDestinoTipo: brazalete?.destinoTipo,
+      braceleteDestinoNombre: brazalete?.destinoNombre,
+      ubicacionCoincide: sinBrazalete ? undefined : ubicacionCoincide,
+      colocadoPorGrupoMovil: sinBrazalete ? undefined : esGrupoMovil,
+      brazaleteYaPuesto: sinBrazalete ? undefined : yaPuesto,
       notificados: [...aNotificar.map((p) => p.nombre.trim()), ...responsablesPersonas.map((p) => p.nombre.trim())],
       lugar: lugarHallazgo,
       entidad: entidad || undefined,
@@ -203,16 +227,20 @@ export default function NuevoNino() {
     };
     await crear<EventoCustodia>("custodia", evento, {
       accion: "custodia.registro_inicial",
-      descripcion: `Custodia inicial de ${codigo}: coloca ${registrador.nombre.trim()} (testigo ${testigo.nombre.trim()})`,
+      descripcion: sinBrazalete
+        ? `Registro inicial de ${codigo} (código provisional, sin brazalete) por ${registrador.nombre.trim()}`
+        : `Custodia inicial de ${codigo}: coloca ${registrador.nombre.trim()} (testigo ${testigo.nombre.trim()})`,
     });
 
-    // El brazalete pasa a colocado y queda atado a este niño.
-    await actualizar<Brazalete>(
-      "brazaletes",
-      brazalete.id,
-      { estado: "colocado", menorId: menor.id },
-      { accion: "brazalete.colocado", descripcion: `Brazalete ${codigo} colocado en un niño` },
-    );
+    // El brazalete pasa a colocado y queda atado a este niño (solo si hay brazalete físico).
+    if (!sinBrazalete && brazalete) {
+      await actualizar<Brazalete>(
+        "brazaletes",
+        brazalete.id,
+        { estado: "colocado", menorId: menor.id },
+        { accion: "brazalete.colocado", descripcion: `Brazalete ${codigo} colocado en un niño` },
+      );
+    }
 
     // Notificaciones in-situ (testigo/custodio con app).
     for (const p of aNotificar) {
@@ -229,7 +257,7 @@ export default function NuevoNino() {
       });
     }
     // Constancia a los responsables del brazalete: si NO coincide la ubicación, se les pide confirmar.
-    for (const r of brazalete.responsables ?? []) {
+    for (const r of brazalete?.responsables ?? []) {
       await crearNoti({
         paraNombre: r.nombre,
         paraCedula: r.cedula,
@@ -324,6 +352,19 @@ export default function NuevoNino() {
       <TituloSeccion>4 · Brazalete</TituloSeccion>
       <div className="tarjeta p-4">
         <label className="flex items-center gap-2 text-sm font-semibold">
+          <input type="checkbox" checked={sinBrazalete} onChange={(e) => { setSinBrazalete(e.target.checked); setDeclaraBraz(false); }} />
+          El niño aún NO tiene brazalete — generar código provisional
+        </label>
+
+        {sinBrazalete ? (
+          <div className="mt-3 rounded-lg border border-[var(--azul)] bg-[var(--azul-bg)] p-3 text-sm text-[var(--azul)]">
+            Se generará un <b>código provisional (PRV-…)</b> para no perder al niño ahora. Cuando se le
+            coloque el brazalete físico, ábrelo en su ficha y usa <b>«Asignar brazalete físico»</b>: al
+            escanear el código impreso, el del niño se <b>actualiza</b> y el provisional queda en el historial.
+          </div>
+        ) : (
+        <>
+        <label className="mt-3 flex items-center gap-2 text-sm font-semibold">
           <input type="checkbox" checked={yaPuesto} onChange={(e) => setYaPuesto(e.target.checked)} />
           El niño ya tenía el brazalete puesto (no lo coloco yo ahora)
         </label>
@@ -375,6 +416,8 @@ export default function NuevoNino() {
             </label>
           </div>
         )}
+        </>
+        )}
       </div>
 
       <TituloSeccion>5 · Cadena de custodia (regla de dos personas)</TituloSeccion>
@@ -383,13 +426,13 @@ export default function NuevoNino() {
         por este teléfono y se le pide foto; si no está presente, se indica quién lo suplanta.
       </p>
       <div className="space-y-3">
-        <CampoPersona titulo={esGrupoMovil ? "Quien coloca (voluntario del grupo móvil)" : "Quien coloca el brazalete"} valor={registrador} onChange={setRegistrador} />
+        <CampoPersona titulo={sinBrazalete ? "Quien registra al niño" : esGrupoMovil ? "Quien coloca (voluntario del grupo móvil)" : "Quien coloca el brazalete"} valor={registrador} onChange={setRegistrador} />
         <CampoPersona titulo="Testigo (segundo adulto)" valor={testigo} onChange={setTestigo} />
 
         <div className="tarjeta p-3">
           <label className="flex items-center gap-2 text-sm font-semibold">
             <input type="checkbox" checked={custodioEsColoca} onChange={(e) => setCustodioEsColoca(e.target.checked)} />
-            El custodio temporal del niño es quien coloca el brazalete
+            El custodio temporal del niño es {sinBrazalete ? "quien lo registra" : "quien coloca el brazalete"}
           </label>
           {!custodioEsColoca && (
             <div className="mt-3">

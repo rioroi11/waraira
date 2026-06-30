@@ -271,6 +271,8 @@ export default defineSchema({
   menores: defineTable({
     clientId: v.string(),
     codigo: v.string(),
+    codigoProvisional: v.optional(v.string()),
+    brazaleteProvisional: v.optional(v.boolean()),
     estatus: v.union(
       v.literal("separado"),
       v.literal("no_acompanado"),

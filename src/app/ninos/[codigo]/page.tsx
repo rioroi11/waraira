@@ -1,18 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { useColeccion, actualizar, crear } from "@/lib/db";
+import { useColeccion, actualizar, crear, obtener } from "@/lib/db";
 import {
   type Menor,
   type Reclamo,
   type Cordon,
+  type Brazalete,
   type EventoCustodia,
   type TipoCustodia,
   type PersonaActo,
   type Notificacion,
   type EstadoIDTR,
+  brazaletePorCodigo,
   ESTATUS_MENOR,
   ESTADOS_IDTR,
   TRANSICIONES_IDTR,
@@ -23,6 +25,7 @@ import {
 import { ubicacionTexto } from "@/lib/geografia";
 import { mostrarNotificacion } from "@/lib/notificaciones";
 import { CampoPersona, personaVacia } from "@/components/CampoPersona";
+import { EscanearQR } from "@/components/EscanearQR";
 import { Pill, TituloSeccion, Area, Modal, Campo, Selector } from "@/components/ui";
 
 const etiquetaEstatus = (v: string) => ESTATUS_MENOR.find((e) => e.valor === v)?.etiqueta ?? v;
@@ -41,12 +44,15 @@ function Dato({ label, valor }: { label: string; valor?: string | number | null 
 
 export default function FichaNino() {
   const params = useParams<{ codigo: string }>();
+  const router = useRouter();
   const codigo = decodeURIComponent(params.codigo);
   const { datos: menores, cargando } = useColeccion<Menor>("menores");
   const { datos: reclamos } = useColeccion<Reclamo>("reclamos");
   const { datos: cordones } = useColeccion<Cordon>("cordones");
+  const { datos: brazaletes } = useColeccion<Brazalete>("brazaletes");
   const { datos: custodiaTodos } = useColeccion<EventoCustodia>("custodia");
-  const m = menores.find((x) => x.codigo === codigo);
+  // Tolerante: encuentra al niño por su código actual o por el provisional que tuvo en principio.
+  const m = menores.find((x) => x.codigo === codigo || x.codigoProvisional === codigo);
 
   const [esNuevo, setEsNuevo] = useState(false);
   const [fotoUrl, setFotoUrl] = useState<string | null>(null);
@@ -59,6 +65,11 @@ export default function FichaNino() {
   const [acuseRef, setAcuseRef] = useState("");
   // Modal de nuevo evento de custodia
   const [custOpen, setCustOpen] = useState(false);
+  // Asignar brazalete físico a un niño con código provisional
+  const [codBraz, setCodBraz] = useState("");
+  const [asigReg, setAsigReg] = useState("");
+  const [asigTes, setAsigTes] = useState("");
+  const [asignando, setAsignando] = useState(false);
 
   useEffect(() => {
     setEsNuevo(new URLSearchParams(window.location.search).get("nuevo") === "1");
@@ -134,6 +145,72 @@ export default function FichaNino() {
     );
   }
 
+  // Asigna el brazalete físico a un niño que tenía código provisional: el código se actualiza al
+  // del brazalete impreso y el provisional queda como historial (Menor.codigoProvisional + evento).
+  async function asignarBrazaleteFisico() {
+    if (!m || asignando) return;
+    const braz = brazaletePorCodigo(codBraz, brazaletes);
+    if (!braz) {
+      alert("Ese código no está en el inventario. Regístralo y entrégalo primero.");
+      return;
+    }
+    if (braz.estado !== "entregado") {
+      alert(braz.estado === "colocado" ? "Ese brazalete ya está colocado en otro niño." : "Ese brazalete aún no fue entregado a ningún destino.");
+      return;
+    }
+    if (!asigReg.trim() || !asigTes.trim()) {
+      alert("Indica quién coloca el brazalete y un testigo.");
+      return;
+    }
+    setAsignando(true);
+    try {
+      const fresco = await obtener<Brazalete>("brazaletes", braz.id);
+      if (!fresco || fresco.estado !== "entregado") {
+        alert("Ese brazalete ya no está disponible (otro registro lo tomó).");
+        setAsignando(false);
+        return;
+      }
+      const codAnterior = m.codigo;
+      const codNuevo = braz.codigo;
+      await crear<EventoCustodia>(
+        "custodia",
+        {
+          menorId: m.id,
+          codigo: codNuevo,
+          tipo: "reemision_brazalete",
+          registradorNombre: asigReg.trim(),
+          testigoNombre: asigTes.trim(),
+          firmaEntrega: true,
+          firmaTestigo: true,
+          firmaRecibe: false,
+          braceleteCodigo: codNuevo,
+          braceleteDestinoTipo: braz.destinoTipo,
+          braceleteDestinoNombre: braz.destinoNombre,
+          codigoAnterior: codAnterior,
+          lugar: braz.destinoNombre,
+        },
+        { accion: "custodia.reemision_brazalete", descripcion: `Brazalete físico ${codNuevo} asignado (era provisional ${codAnterior})` },
+      );
+      await actualizar<Menor>(
+        "menores",
+        m.id,
+        { codigo: codNuevo, codigoProvisional: codAnterior, brazaleteProvisional: false },
+        { accion: "menor.brazalete", descripcion: `Menor: provisional ${codAnterior} → brazalete ${codNuevo}` },
+      );
+      await actualizar<Brazalete>(
+        "brazaletes",
+        braz.id,
+        { estado: "colocado", menorId: m.id },
+        { accion: "brazalete.colocado", descripcion: `Brazalete ${codNuevo} colocado en un niño` },
+      );
+      router.push(`/ninos/${codNuevo}`);
+    } catch (e) {
+      console.error(e);
+      setAsignando(false);
+      alert("No se pudo asignar el brazalete. Intenta de nuevo.");
+    }
+  }
+
   async function asignarCordon(cordonId: string) {
     if (!m) return;
     const c = cordones.find((x) => x.id === cordonId);
@@ -191,9 +268,33 @@ export default function FichaNino() {
             <Pill tono="gris">{etiquetaEstatus(m.estatus)}</Pill>
             <Pill tono="azul">{etiquetaIDTR(m.estadoIDTR)}</Pill>
             <Pill tono="gris">{ubicacionTexto(m)}</Pill>
+            {m.brazaleteProvisional && <Pill tono="ambar">Código provisional</Pill>}
+            {m.codigoProvisional && <Pill tono="gris">antes: {m.codigoProvisional}</Pill>}
           </div>
         </div>
       </div>
+
+      {/* Asignar brazalete físico (solo si el niño tiene código provisional) */}
+      {m.brazaleteProvisional && (
+        <div className="mt-4 tarjeta border-2 border-[var(--ambar)] p-4">
+          <div className="text-sm font-bold text-[var(--tinta)]">Asignar brazalete físico</div>
+          <p className="mt-1 text-xs text-[var(--gris)]">
+            Este niño tiene un <b>código provisional</b> ({m.codigo}). Cuando le coloques el brazalete impreso,
+            escanéalo o apunta su código: el código del niño se <b>actualiza</b> al del brazalete y el provisional
+            queda en el historial.
+          </p>
+          <div className="mt-3">
+            <EscanearQR value={codBraz} onChange={setCodBraz} />
+          </div>
+          <div className="mt-2 grid grid-cols-2 gap-2">
+            <Campo label="Quien coloca" value={asigReg} onChange={(e) => setAsigReg(e.target.value)} />
+            <Campo label="Testigo" value={asigTes} onChange={(e) => setAsigTes(e.target.value)} />
+          </div>
+          <button className="btn btn-primario mt-3 w-full" disabled={!codBraz.trim() || !asigReg.trim() || !asigTes.trim() || asignando} onClick={asignarBrazaleteFisico}>
+            {asignando ? "Asignando…" : "Asignar brazalete y actualizar código"}
+          </button>
+        </div>
+      )}
 
       {/* Notificación al Consejo (art. 91) */}
       <TituloSeccion>Derivación legal</TituloSeccion>

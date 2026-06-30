@@ -27,6 +27,17 @@ export function generarCodigo(): string {
   return `WRA-${s}`;
 }
 
+/** Código PROVISIONAL `PRV-7K3Q`: se asigna a un niño que aún NO tiene brazalete físico.
+ *  Cuando luego se le coloca el brazalete impreso, el código se actualiza al del brazalete y el
+ *  provisional queda como historial (`Menor.codigoProvisional`). */
+export function generarCodigoProvisional(): string {
+  let s = "";
+  for (let i = 0; i < 4; i++) {
+    s += ALFABETO_CODIGO[Math.floor(Math.random() * ALFABETO_CODIGO.length)];
+  }
+  return `PRV-${s}`;
+}
+
 /** Código interno de mascota tipo `MAS-7K3Q` (mismo alfabeto legible, sin brazalete físico). */
 export function generarCodigoMascota(): string {
   let s = "";
@@ -99,7 +110,11 @@ export const TRANSICIONES_IDTR: Record<EstadoIDTR, EstadoIDTR[]> = {
 export type Sexo = "f" | "m" | "desconocido";
 
 export interface Menor extends Base {
-  codigo: string; // brazalete, p.ej. WRA-7K3Q
+  codigo: string; // código del brazalete físico; o provisional (PRV-) si aún no tiene brazalete
+  // Historial: si el niño se registró con un provisional y luego se le colocó el brazalete físico,
+  // aquí queda el código que tuvo en principio (el `codigo` pasa a ser el del brazalete escaneado).
+  codigoProvisional?: string;
+  brazaleteProvisional?: boolean; // true mientras solo tiene código provisional (sin brazalete físico)
   estatus: EstatusMenor;
   estadoIDTR: EstadoIDTR;
 
