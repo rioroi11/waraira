@@ -15,6 +15,8 @@ const NAV = [
   { href: "/validacion", etiqueta: "Validar", icono: "🔔" },
   { href: "/insumos", etiqueta: "Insumos", icono: "📦" },
   { href: "/brazaletes", etiqueta: "Brazaletes", icono: "🏷" },
+  { href: "/mascotas", etiqueta: "Mascotas", icono: "🐾" },
+  { href: "/notificaciones", etiqueta: "Avisos", icono: "📨" },
 ];
 
 function IndicadorSync() {

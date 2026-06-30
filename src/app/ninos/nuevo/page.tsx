@@ -1,25 +1,39 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { crear } from "@/lib/db";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { crear, actualizar, obtener, useColeccion } from "@/lib/db";
 import {
   type Menor,
+  type EventoCustodia,
+  type PersonaActo,
+  type Brazalete,
+  type Notificacion,
   type EstatusMenor,
   type Sexo,
-  generarCodigo,
+  brazaletePorCodigo,
+  faltaPersona,
+  etiquetaDestino,
   ESTATUS_MENOR,
 } from "@/lib/model";
+import { ubicacionTexto, mismaZona } from "@/lib/geografia";
+import { mostrarNotificacion } from "@/lib/notificaciones";
 import { SelectorUbicacion } from "@/components/SelectorUbicacion";
-import { Campo, Area, Selector, TituloSeccion } from "@/components/ui";
+import { EscanearQR } from "@/components/EscanearQR";
+import { CampoPersona, personaVacia } from "@/components/CampoPersona";
+import { Campo, Area, Selector, TituloSeccion, Pill } from "@/components/ui";
+
+const claveP = (p: { nombre: string; cedula?: string }) => `${p.nombre.trim().toLowerCase()}|${(p.cedula ?? "").trim()}`;
 
 export default function NuevoNino() {
   const router = useRouter();
+  const { datos: brazaletes } = useColeccion<Brazalete>("brazaletes");
   const [guardando, setGuardando] = useState(false);
   const [foto, setFoto] = useState<File | null>(null);
   const [previo, setPrevio] = useState<string | null>(null);
 
-  // Campos del formulario
+  // Datos del niño
   const [entidad, setEntidad] = useState("");
   const [municipio, setMunicipio] = useState("");
   const [parroquia, setParroquia] = useState("");
@@ -38,18 +52,76 @@ export default function NuevoNino() {
   const [salud, setSalud] = useState("");
   const [riesgo, setRiesgo] = useState("");
 
-  function onFoto(e: React.ChangeEvent<HTMLInputElement>) {
-    const f = e.target.files?.[0] ?? null;
-    setFoto(f);
-    setPrevio(f ? URL.createObjectURL(f) : null);
-  }
+  // Brazalete (del inventario — nunca se genera aquí)
+  const [yaPuesto, setYaPuesto] = useState(false);
+  const [codigoBraz, setCodigoBraz] = useState("");
+  const [declaraBraz, setDeclaraBraz] = useState(false);
 
-  const valido = parroquia && lugarHallazgo;
+  // Personas de la cadena
+  const [registrador, setRegistrador] = useState<PersonaActo>(personaVacia("registrador"));
+  const [testigo, setTestigo] = useState<PersonaActo>(personaVacia("testigo"));
+  const [custodioEsColoca, setCustodioEsColoca] = useState(true);
+  const [custodio, setCustodio] = useState<PersonaActo>(personaVacia("custodio"));
+
+  function onFoto(e: React.ChangeEvent<HTMLInputElement>) {
+    setFoto(e.target.files?.[0] ?? null);
+  }
+  useEffect(() => {
+    if (!foto) {
+      setPrevio(null);
+      return;
+    }
+    const url = URL.createObjectURL(foto);
+    setPrevio(url);
+    return () => URL.revokeObjectURL(url);
+  }, [foto]);
+
+  const brazalete = codigoBraz.trim() ? brazaletePorCodigo(codigoBraz, brazaletes) : undefined;
+  const esGrupoMovil = brazalete?.destinoTipo === "grupo_movil";
+  // Si el brazalete no tiene ubicación registrada, NO se puede afirmar que "no coincide".
+  const brazSinUbicacion = !!brazalete && !brazalete.entidad && !brazalete.municipio && !brazalete.parroquia;
+  const ubicacionCoincide =
+    !brazalete || esGrupoMovil || brazSinUbicacion
+      ? true
+      : mismaZona({ entidad, municipio, parroquia }, { entidad: brazalete.entidad, municipio: brazalete.municipio, parroquia: brazalete.parroquia });
+  const brazaleteUsable = brazalete?.estado === "entregado";
+
+  // Validación
+  const dosPersonas =
+    registrador.nombre.trim() &&
+    testigo.nombre.trim() &&
+    registrador.nombre.trim().toLowerCase() !== testigo.nombre.trim().toLowerCase();
+  const personasOk =
+    faltaPersona(registrador).length === 0 &&
+    faltaPersona(testigo).length === 0 &&
+    (custodioEsColoca || faltaPersona(custodio).length === 0);
+  const brazaleteOk = Boolean(brazalete) && brazaleteUsable && declaraBraz;
+  const valido = parroquia && lugarHallazgo && dosPersonas && personasOk && brazaleteOk;
 
   async function guardar() {
     if (!valido || guardando) return;
     setGuardando(true);
-    const codigo = generarCodigo();
+    try {
+      await guardarInterno();
+    } catch (e) {
+      console.error(e);
+      setGuardando(false);
+      alert("No se pudo guardar el registro. Revisa el dispositivo e intenta de nuevo.");
+    }
+  }
+
+  async function guardarInterno() {
+    if (!brazalete) return;
+    // Guardia anti-carrera: re-lee el brazalete justo antes de tomarlo. Si otro registro lo colocó
+    // (o cambió de estado) entre tanto, aborta sin crear al menor (evita doble-enlace del código).
+    const fresco = await obtener<Brazalete>("brazaletes", brazalete.id);
+    if (!fresco || fresco.estado !== "entregado") {
+      setGuardando(false);
+      alert("Ese brazalete ya no está disponible (otro registro lo tomó). Escanea otro.");
+      return;
+    }
+    const codigo = brazalete.codigo;
+
     const datos: Omit<Menor, "id" | "createdAt" | "updatedAt" | "syncStatus"> = {
       codigo,
       estatus,
@@ -72,26 +144,133 @@ export default function NuevoNino() {
       conQuienEstaba: conQuien || undefined,
       estadoSalud: salud || undefined,
       senalesRiesgo: riesgo || undefined,
+      cuidoActual: custodioEsColoca ? registrador.nombre.trim() : custodio.nombre.trim(),
       verificacionCompleta: false,
     };
-    await crear<Menor>("menores", datos, {
+    const menor = await crear<Menor>("menores", datos, {
       accion: "menor.censado",
       descripcion: `Menor ${codigo} censado en ${lugarHallazgo}`,
     });
+
+    // Cadena completa: responsables del brazalete (del inventario) + personas in-situ.
+    const responsablesPersonas: PersonaActo[] = (brazalete.responsables ?? []).map((r) => ({
+      rol: "responsable_brazalete" as const,
+      nombre: r.nombre,
+      cedula: r.cedula,
+      telefono: r.telefono,
+      presente: false,
+      tieneApp: true,
+      declaraAqui: false,
+      confirma: false,
+    }));
+    const custodioFinal: PersonaActo = custodioEsColoca ? { ...registrador, rol: "custodio" } : custodio;
+    const inSitu: PersonaActo[] = [registrador, testigo, custodioFinal];
+    const personas: PersonaActo[] = [...responsablesPersonas, ...inSitu];
+
+    // A notificar in-situ: con app y sin duplicados por IDENTIDAD. Se siembra el set con el
+    // registrador (opera este teléfono) para que no se autonotifique aunque también sea custodio.
+    const vistos = new Set<string>([claveP(registrador)]);
+    const aNotificar = inSitu.filter((p) => {
+      if (!p.tieneApp || !p.nombre.trim()) return false;
+      const k = claveP(p);
+      if (vistos.has(k)) return false;
+      vistos.add(k);
+      return true;
+    });
+
+    const evento: Omit<EventoCustodia, "id" | "createdAt" | "updatedAt" | "syncStatus"> = {
+      menorId: menor.id,
+      codigo,
+      tipo: "registro_inicial",
+      registradorNombre: registrador.nombre.trim(),
+      testigoNombre: testigo.nombre.trim(),
+      firmaEntrega: registrador.confirma,
+      firmaTestigo: testigo.confirma,
+      firmaRecibe: false,
+      personas,
+      braceleteCodigo: codigo,
+      braceleteDestinoTipo: brazalete.destinoTipo,
+      braceleteDestinoNombre: brazalete.destinoNombre,
+      ubicacionCoincide,
+      colocadoPorGrupoMovil: esGrupoMovil,
+      brazaleteYaPuesto: yaPuesto,
+      notificados: [...aNotificar.map((p) => p.nombre.trim()), ...responsablesPersonas.map((p) => p.nombre.trim())],
+      lugar: lugarHallazgo,
+      entidad: entidad || undefined,
+      municipio: municipio || undefined,
+      parroquia,
+      punto: punto || undefined,
+    };
+    await crear<EventoCustodia>("custodia", evento, {
+      accion: "custodia.registro_inicial",
+      descripcion: `Custodia inicial de ${codigo}: coloca ${registrador.nombre.trim()} (testigo ${testigo.nombre.trim()})`,
+    });
+
+    // El brazalete pasa a colocado y queda atado a este niño.
+    await actualizar<Brazalete>(
+      "brazaletes",
+      brazalete.id,
+      { estado: "colocado", menorId: menor.id },
+      { accion: "brazalete.colocado", descripcion: `Brazalete ${codigo} colocado en un niño` },
+    );
+
+    // Notificaciones in-situ (testigo/custodio con app).
+    for (const p of aNotificar) {
+      await crearNoti({
+        paraNombre: p.nombre.trim(),
+        paraCedula: p.cedula,
+        paraTelefono: p.telefono,
+        tipo: `custodia.${p.rol}`,
+        titulo: "Waraira · cadena de custodia",
+        cuerpo: `Quedaste como ${p.rol} del niño marcado con el brazalete ${codigo}.`,
+        refMenorId: menor.id,
+        refCodigo: codigo,
+        leida: false,
+      });
+    }
+    // Constancia a los responsables del brazalete: si NO coincide la ubicación, se les pide confirmar.
+    for (const r of brazalete.responsables ?? []) {
+      await crearNoti({
+        paraNombre: r.nombre,
+        paraCedula: r.cedula,
+        paraTelefono: r.telefono,
+        tipo: "custodia.constancia",
+        titulo: ubicacionCoincide ? "Waraira · brazalete colocado" : "Waraira · constancia requerida",
+        cuerpo: ubicacionCoincide
+          ? `El brazalete ${codigo} que recibiste se colocó a un niño en ${ubicacionTexto({ entidad, municipio, parroquia }) || lugarHallazgo}.`
+          : `El brazalete ${codigo} que recibiste se está usando en un niño censado en OTRA ubicación (${ubicacionTexto({ entidad, municipio, parroquia }) || lugarHallazgo}). Da constancia: ¿eres testigo presente, con conocimiento a distancia, o lo desconoces?`,
+        refMenorId: menor.id,
+        refCodigo: codigo,
+        leida: false,
+        requiereConstancia: !ubicacionCoincide,
+      });
+    }
+    mostrarNotificacion("Waraira · cadena de custodia", {
+      body: `Niño marcado con ${codigo}. Cadena con ${personas.length} persona(s)${ubicacionCoincide ? "" : " · constancia pendiente"}.`,
+      icon: "/icon.svg",
+      tag: "waraira-custodia",
+    });
+
     router.push(`/ninos/${codigo}?nuevo=1`);
+  }
+
+  async function crearNoti(n: Omit<Notificacion, "id" | "createdAt" | "updatedAt" | "syncStatus">) {
+    await crear<Notificacion>("notificaciones", n, {
+      accion: "notificacion.custodia",
+      descripcion: `Notificación a ${n.paraNombre} por ${n.refCodigo ?? ""}`,
+    });
   }
 
   return (
     <div>
       <h1 className="text-2xl font-black tracking-tight text-[var(--tinta)]">Censar niño</h1>
       <p className="mt-1 text-sm text-[var(--gris)]">
-        Prioridad a los que <b>no pueden dar su nombre</b> (bebés, en shock): foto, señas, ropa,
-        lugar y hora. Todo es confidencial. Al guardar se genera un <b>código de brazalete</b>.
+        Prioridad a los que <b>no pueden dar su nombre</b>: foto, señas, ropa, lugar y hora. Todo es
+        confidencial. El niño se enlaza con un <b>brazalete ya registrado en el inventario</b>.
       </p>
 
       <TituloSeccion>1 · Lo esencial (no perder al niño)</TituloSeccion>
       <div className="space-y-3">
-        {/* Foto */}
         <div className="tarjeta p-3">
           <div className="mb-2 text-sm font-semibold">Foto (confidencial — nunca pública)</div>
           {previo && (
@@ -103,11 +282,7 @@ export default function NuevoNino() {
 
         <SelectorUbicacion
           valor={{ entidad, municipio, parroquia }}
-          onChange={(v) => {
-            setEntidad(v.entidad);
-            setMunicipio(v.municipio);
-            setParroquia(v.parroquia);
-          }}
+          onChange={(v) => { setEntidad(v.entidad); setMunicipio(v.municipio); setParroquia(v.parroquia); }}
           requerido
         />
         <Campo label="Punto / plaza" placeholder="p.ej. Plaza Bolívar" value={punto} onChange={(e) => setPunto(e.target.value)} />
@@ -146,13 +321,96 @@ export default function NuevoNino() {
         <Area label="Señales de riesgo / angustia" value={riesgo} onChange={(e) => setRiesgo(e.target.value)} />
       </div>
 
+      <TituloSeccion>4 · Brazalete</TituloSeccion>
+      <div className="tarjeta p-4">
+        <label className="flex items-center gap-2 text-sm font-semibold">
+          <input type="checkbox" checked={yaPuesto} onChange={(e) => setYaPuesto(e.target.checked)} />
+          El niño ya tenía el brazalete puesto (no lo coloco yo ahora)
+        </label>
+        <div className="mt-3">
+          <div className="mb-1.5 text-sm font-semibold">Escanea el QR o apunta el código del brazalete</div>
+          <EscanearQR value={codigoBraz} onChange={(v) => { setCodigoBraz(v); setDeclaraBraz(false); }} />
+        </div>
+
+        {codigoBraz.trim() && !brazalete && (
+          <div className="mt-3 rounded-lg border border-[var(--ambar)] bg-[var(--ambar-bg)] p-3 text-sm text-[var(--ambar)]">
+            Ese código no está en el inventario.{" "}
+            <Link href="/brazaletes/registro" className="font-bold underline">Regístralo y entrégalo</Link> primero.
+          </div>
+        )}
+        {brazalete && brazalete.estado === "en_stock" && (
+          <div className="mt-3 rounded-lg border border-[var(--ambar)] bg-[var(--ambar-bg)] p-3 text-sm text-[var(--ambar)]">
+            Ese brazalete está en stock pero <b>no fue entregado a ningún destino</b>. Asígnalo primero en el inventario.
+          </div>
+        )}
+        {brazalete && brazalete.estado === "colocado" && (
+          <div className="mt-3 rounded-lg border border-[var(--rojo)] bg-[var(--rojo-bg)] p-3 text-sm text-[var(--rojo)]">
+            Ese brazalete ya está <b>colocado en otro niño</b>. No se puede reutilizar.
+          </div>
+        )}
+        {brazalete && brazaleteUsable && (
+          <div className="mt-3 rounded-lg border border-[var(--verde)] bg-[var(--verde-claro)] p-3">
+            <div className="text-sm text-[var(--verde-osc)]">
+              Brazalete <b className="font-mono">{brazalete.codigo}</b> · {etiquetaDestino(brazalete.destinoTipo)}:{" "}
+              <b>{brazalete.destinoNombre}</b>
+              {ubicacionTexto(brazalete) ? ` (${ubicacionTexto(brazalete)})` : ""}.
+            </div>
+            {(brazalete.responsables ?? []).length > 0 && (
+              <div className="mt-1 text-xs text-[var(--verde-osc)]">
+                Responsables: {(brazalete.responsables ?? []).map((r) => r.nombre).join(", ")} — se les notificará.
+              </div>
+            )}
+            {esGrupoMovil && <div className="mt-1"><Pill tono="azul">Lo coloca un grupo móvil</Pill></div>}
+            {!ubicacionCoincide && (
+              <div className="mt-2 rounded-md bg-[var(--ambar-bg)] p-2 text-xs text-[var(--ambar)]">
+                ⚠ La ubicación del censo <b>no coincide</b> con donde se entregó este brazalete. Se registra igual y se
+                pide <b>constancia</b> a sus responsables (no bloquea).
+              </div>
+            )}
+            <label className="mt-2 flex items-center gap-2 text-sm font-semibold text-[var(--verde-osc)]">
+              <input type="checkbox" checked={declaraBraz} onChange={(e) => setDeclaraBraz(e.target.checked)} />
+              {yaPuesto
+                ? "Declaro que este niño ya portaba este brazalete y lo confirmo."
+                : "Declaro que yo coloco este brazalete a este niño, aquí y ahora."}
+            </label>
+          </div>
+        )}
+      </div>
+
+      <TituloSeccion>5 · Cadena de custodia (regla de dos personas)</TituloSeccion>
+      <p className="mb-2 text-xs text-[var(--gris)]">
+        Quien coloca el brazalete y un testigo quedan registrados. Si alguien no tiene la app, declara
+        por este teléfono y se le pide foto; si no está presente, se indica quién lo suplanta.
+      </p>
+      <div className="space-y-3">
+        <CampoPersona titulo={esGrupoMovil ? "Quien coloca (voluntario del grupo móvil)" : "Quien coloca el brazalete"} valor={registrador} onChange={setRegistrador} />
+        <CampoPersona titulo="Testigo (segundo adulto)" valor={testigo} onChange={setTestigo} />
+
+        <div className="tarjeta p-3">
+          <label className="flex items-center gap-2 text-sm font-semibold">
+            <input type="checkbox" checked={custodioEsColoca} onChange={(e) => setCustodioEsColoca(e.target.checked)} />
+            El custodio temporal del niño es quien coloca el brazalete
+          </label>
+          {!custodioEsColoca && (
+            <div className="mt-3">
+              <CampoPersona titulo="Custodio temporal del niño" valor={custodio} onChange={setCustodio} />
+            </div>
+          )}
+        </div>
+      </div>
+
       <div className="sticky bottom-20 z-10 mt-6 flex gap-2 rounded-xl border border-[var(--linea)] bg-[var(--blanco)] p-2 shadow">
         <button className="btn btn-secundario flex-1" onClick={() => history.back()}>Cancelar</button>
         <button className="btn btn-primario flex-1" disabled={!valido || guardando} onClick={guardar}>
-          {guardando ? "Guardando…" : "Guardar y generar código"}
+          {guardando ? "Guardando…" : "Guardar y enlazar"}
         </button>
       </div>
-      {!valido && <p className="mt-2 text-xs text-[var(--ambar)]">La parroquia y el lugar del hallazgo son obligatorios.</p>}
+      {!valido && (
+        <p className="mt-2 text-xs text-[var(--ambar)]">
+          Falta: parroquia y lugar del hallazgo · un <b>brazalete entregado</b> declarado · quien coloca + testigo
+          (distintos, confirmados; foto si presente sin app, o suplente si no está){!custodioEsColoca ? " · datos del custodio" : ""}.
+        </p>
+      )}
     </div>
   );
 }

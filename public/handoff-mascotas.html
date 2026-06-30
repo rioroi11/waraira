@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Waraira · Handoff a Rafa — Módulo Mascotas</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#16201c;background:#f6f8f7;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}a{color:#1b6b4f}
+header.hero{background:linear-gradient(160deg,#0c2c22,#1b6b4f);color:#eafaf2;padding:40px 0 34px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo .w{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px}
+.logo b{font-size:20px;font-weight:800}
+h1{font-size:clamp(24px,4vw,38px);margin:16px 0 0;font-weight:800;line-height:1.08}
+.lead{opacity:.95;font-size:16px;margin:8px 0 0;max-width:720px}
+.chips{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3)}
+section{padding:26px 0}
+h2{font-size:21px;margin:0 0 12px;display:flex;align-items:center;gap:9px}h2::before{content:"";width:11px;height:11px;border-radius:3px;background:#1b6b4f}
+.card{background:#fff;border:1px solid #d9e2dd;border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px rgba(16,40,30,.06);margin-bottom:12px}
+ul{margin:6px 0 0;padding-left:20px}li{margin:4px 0;font-size:14.5px}
+table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;border:1px solid #d9e2dd;border-radius:12px;overflow:hidden}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid #eef2f0;vertical-align:top}
+th{background:#eaf3ee;color:#0f3d2e;font-weight:800}
+code{background:#eef2f0;border-radius:5px;padding:1px 6px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+.todo{background:#fff;border:1px solid #d9e2dd;border-left:5px solid #1b6b4f;border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.todo b{color:#0f3d2e}
+.warn{background:#fdf4e3;border:1px solid #f0d9a8;border-left:5px solid #b9770e;border-radius:12px;padding:14px 16px}
+.warn b{color:#9a6309}
+.ok{background:#e8f3ee;border:1px solid #bfe0cd;border-left:5px solid #1b6b4f;border-radius:12px;padding:14px 16px}
+pre{background:#0f3d2e;color:#eafaf2;border-radius:10px;padding:12px 14px;overflow:auto;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.links a{display:inline-block;background:#1b6b4f;color:#fff;text-decoration:none;font-weight:800;font-size:14px;padding:10px 16px;border-radius:10px;margin:4px 8px 4px 0}
+.links a.s{background:#fff;color:#0f3d2e;border:1px solid #d9e2dd}
+footer{padding:24px 0 50px;color:#5c6b64;font-size:13px;text-align:center}
+.tag{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px;background:#e8f3ee;color:#0f3d2e;margin-left:6px}
+.tag.new{background:#1b6b4f;color:#fff}
+</style></head><body>
+
+<header class="hero"><div class="wrap">
+  <div class="logo"><div class="w">W</div><b>Waraira</b></div>
+  <h1>Handoff técnico — Módulo Mascotas</h1>
+  <p class="lead">Resumen para Rafa de lo construido en esta tanda: módulo de Mascotas completo, listo para integrar el host de fotos. Local-first (IndexedDB), Next.js 16 + React 19 + Tailwind v4, Convex como convergencia opcional (apagada).</p>
+  <div class="chips">
+    <span class="chip">✅ tsc + build limpios</span>
+    <span class="chip">🚀 Desplegado en producción</span>
+    <span class="chip">🐾 Sin brazaletes</span>
+    <span class="chip">🔗 Custodia append-only</span>
+  </div>
+</div></header>
+
+<section><div class="wrap">
+  <h2>1 · Qué se construyó</h2>
+  <div class="card">
+    Módulo <b>/mascotas</b> análogo a Niños e Insumos. Cada mascota se registra con foto, datos y ubicación
+    (geografía real de Venezuela) y recibe un código interno <code>MAS-XXXX</code>. Su <b>historial de movimiento</b>
+    es una <b>cadena de custodia append-only</b> (mismo rigor que Niños): quién la trasladó, a quién se entregó,
+    ingreso/salida de refugio y atención veterinaria — con regla de dos personas y confirmación del receptor (R3),
+    inmutable (R10). Incluye:
+    <ul>
+      <li><b>3 pestañas</b>: Mascotas (fichas), Cartelera (se busca / encontrada / reunificada) y Necesidades.</li>
+      <li><b>Refugio</b> como campos en la ficha (residencial / público acondicionado / institucional / hogar temporal).</li>
+      <li><b>Necesidades veterinarias</b> (medicinas_vet, atencion_vet, operacion, alimento_mascota, hospedaje, traslado_mascota) que <b>reutilizan el motor de Insumos</b> (tabla <code>reportes</code> + matching). Cada necesidad puede ir atada a una ficha (<code>mascotaId</code>) y aparece también en <code>/insumos</code>. Los proveedores entran como <b>ofertas</b>.</li>
+      <li><b>Cartel</b> imprimible/compartible (foto + datos + zona + contacto + QR del código) y hoja de <b>chapas/collar QR</b> opcional.</li>
+      <li>Datos de <b>ejemplo</b> sembrables desde la UI (botón "Cargar datos de ejemplo").</li>
+    </ul>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>2 · Archivos (qué tocar / dónde mirar)</h2>
+  <table>
+    <tr><th>Capa</th><th>Archivo</th><th></th></tr>
+    <tr><td>Modelo / tipos / gates</td><td><code>src/lib/model.ts</code> (sección «Mascota»)</td><td>Mascota, EventoCustodiaMascota, AvisoMascota, enums, <code>faltaParaTraspasoMascota</code>, +6 categorías vet en <code>CategoriaInsumo</code> y <code>mascotaId</code> en <code>Reporte</code></td></tr>
+    <tr><td>Lógica pura</td><td><code>src/lib/mascotas.ts</code></td><td>reusa <code>insumos.ts</code>; <code>codigoMascotaUnico</code>, <code>reportesDeMascotas</code>, <code>feedAvisosOrdenado</code>, <code>datosCartel</code></td></tr>
+    <tr><td>Foto (host)</td><td><code>src/lib/fotos.ts</code><span class="tag new">INTEGRAR</span></td><td>Único punto de subida — ver §3</td></tr>
+    <tr><td>Local (IndexedDB)</td><td><code>src/lib/db.ts</code></td><td><code>DB_VERSION = 5</code> + colecciones <code>mascotas</code>, <code>custodiaMascota</code>, <code>avisosMascota</code> — ver §4</td></tr>
+    <tr><td>Convergencia</td><td><code>src/lib/sync.ts</code></td><td>endpoints nuevos; <code>sinBinarios</code> ya quita <code>fotoBlob</code>; ahora también borra <code>id</code>/<code>syncStatus</code></td></tr>
+    <tr><td>Convex</td><td><code>convex/{schema,mascotas,custodiaMascota,avisosMascota,reportes}.ts</code></td><td>3 tablas nuevas + <code>reportes</code> extendido. <code>custodiaMascota</code> es insert-only (inmutable); <code>mascotas</code>/<code>avisosMascota</code> hacen replace</td></tr>
+    <tr><td>UI</td><td><code>src/app/mascotas/{page,nuevo,[codigo],[codigo]/cartel,chapas}/page.tsx</code></td><td>+ <code>src/components/FotoMascota.tsx</code></td></tr>
+    <tr><td>Nav / entrega</td><td><code>Shell.tsx</code>, <code>public/resumen-mascotas.html</code>, <code>docs/MODULO-MASCOTAS.md</code></td><td>carátula + módulo + doc (convención §10)</td></tr>
+  </table>
+</div></section>
+
+<section><div class="wrap">
+  <h2>3 · Integración pendiente: host de fotos (Cloudflare)</h2>
+  <div class="todo">
+    <b>Decisión:</b> el host definitivo lo defines tú (Cloudflare R2 / Images). Dejé el código con <b>un único punto de integración</b>:
+    <code>src/lib/fotos.ts</code> → <code>subirFotoPublica(blob)</code>. Hoy devuelve <code>null</code> (sin host) y la app cae al respaldo:
+    foto <b>local</b> (offline-first, nunca sale del teléfono, R7) + campo para pegar una URL pública a mano. La UI ya llama a
+    esa función en el alta de mascota — solo hay que rellenar su cuerpo y que <code>subidaConfigurada()</code> dé <code>true</code>.
+    <ul>
+      <li><b>Contrato:</b> entra un <code>Blob</code>, sale la URL pública permanente (CDN) o <code>null</code>.</li>
+      <li>Sugerido leer la config de <code>NEXT_PUBLIC_FOTO_UPLOAD_ENDPOINT</code> para no acoplar a un proveedor.</li>
+      <li>Opciones: (a) R2 + Worker que firma un PUT y devuelve la URL pública; (b) Cloudflare Images con "direct creator upload URL" y usar la variante de entrega como <code>fotoUrl</code>.</li>
+      <li><code>fotoUrl</code> (string) SÍ sincroniza a Convex y es lo que hace el cartel compartible; <code>fotoBlob</code> nunca viaja.</li>
+    </ul>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>4 · Heads-up técnico: upgrade de IndexedDB v4 → v5</h2>
+  <div class="warn">
+    Subí <code>DB_VERSION</code> de 4 a 5 para crear los object stores nuevos. En navegadores que <b>ya tenían la base
+    abierta en v4</b> (pestaña vieja de la app, o uso previo) el <code>open(5)</code> queda <b>bloqueado</b> esperando que se
+    cierren las conexiones v4 → la app se queda en "Cargando…". <b>En un navegador nuevo arranca en v5 y funciona.</b>
+    Lo confirmamos en pruebas: pasó en un perfil con datos viejos.
+    <br><br>
+    <b>Fix sugerido</b> (en <code>src/lib/db.ts → abrir()</code>): manejar el bloqueo y reaccionar a cambios de versión, p.ej.:
+    <pre>req.onblocked = () =&gt; { /* avisar: cierra otras pestañas de Waraira */ };
+// y en cada conexión abierta:
+db.onversionchange = () =&gt; db.close();  // libera para que el upgrade entre</pre>
+    Alternativa rápida para probar en un equipo con datos viejos: borrar la base (DevTools → Application → IndexedDB → <code>waraira</code> → Delete) y recargar. <b>Ojo:</b> borra los datos locales de ese equipo.
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>5 · Estado y enlaces</h2>
+  <div class="ok">
+    <b>Verificado:</b> <code>npx tsc --noEmit</code> y <code>npm run build</code> limpios. Desplegado a producción en Vercel
+    (proyecto <code>insumos</code>, alias <code>insumos-three.vercel.app</code>). Convex sigue apagado; todo funciona local-first.
+  </div>
+  <div class="links" style="margin-top:14px">
+    <a href="https://insumos-three.vercel.app/mascotas">Módulo /mascotas →</a>
+    <a class="s" href="https://insumos-three.vercel.app/resumen-mascotas.html">Carátula del módulo</a>
+    <a class="s" href="https://insumos-three.vercel.app/resumen.html">Resumen general Waraira</a>
+  </div>
+  <p style="font-size:13.5px;color:#43514a;margin-top:12px">Doc técnico del módulo en el repo: <code>docs/MODULO-MASCOTAS.md</code>.</p>
+</div></section>
+
+<footer><div class="wrap">Waraira · handoff a Rafa · módulo de Mascotas · 2026. <b>Unir, no dividir.</b></div></footer>
+</body></html>

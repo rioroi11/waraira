@@ -1,0 +1,150 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Waraira · Mascotas — custodia trazada + se busca/encontrada</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#16201c;background:#f6f8f7;line-height:1.55}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}a{color:#1b6b4f}
+header.hero{background:linear-gradient(160deg,#0c2c22,#1b6b4f);color:#eafaf2;padding:46px 0 40px;position:relative;overflow:hidden}
+header.hero::after{content:"";position:absolute;right:-80px;bottom:-120px;width:360px;height:360px;background:radial-gradient(circle,rgba(255,255,255,.10),transparent 70%);border-radius:50%}
+.logo{display:flex;align-items:center;gap:12px}
+.logo .w{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:24px}
+.logo b{font-size:22px;font-weight:800;letter-spacing:.01em}
+h1{font-size:clamp(28px,5vw,46px);margin:18px 0 0;font-weight:800;line-height:1.05}
+.lead{opacity:.95;font-size:clamp(15px,2.4vw,19px);margin:10px 0 0;max-width:740px}
+.chips{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12.5px;font-weight:800;letter-spacing:.02em;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3)}
+section{padding:30px 0}
+h2{font-size:clamp(19px,3vw,24px);margin:0 0 14px;display:flex;align-items:center;gap:9px}h2::before{content:"";width:12px;height:12px;border-radius:3px;background:#1b6b4f}
+.problema{background:#fff;border:1px solid #d9e2dd;border-left:5px solid #a8322d;border-radius:14px;padding:18px 20px;font-size:16px}
+.problema .t{font-weight:800;color:#a8322d;display:block;margin-bottom:6px}
+.grid3{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}@media(max-width:760px){.grid3{grid-template-columns:1fr}}
+.pilar{background:#fff;border:1px solid #d9e2dd;border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px rgba(16,40,30,.06)}
+.pilar .ic{font-size:26px}.pilar b{display:block;margin:8px 0 4px;font-size:16px}.pilar p{margin:0;font-size:14px;color:#43514a}
+.mapa{background:#0f3d2e;border-radius:18px;padding:26px 22px;color:#eafaf2}
+.flujo{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;justify-content:center}
+.nodo{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:14px 16px;flex:1;min-width:140px;max-width:185px;text-align:center}
+.nodo .n{font-size:24px}.nodo b{display:block;margin-top:6px;font-size:14.5px}.nodo span{font-size:12px;opacity:.85;display:block;margin-top:3px}
+.flecha{display:flex;align-items:center;font-size:24px;color:#7fe0b8;font-weight:800}
+@media(max-width:760px){.flecha{transform:rotate(90deg);justify-content:center;width:100%}.nodo{max-width:none}}
+.ciclo{display:flex;align-items:center;font-size:22px;color:#7fe0b8;font-weight:800;justify-content:center;width:100%;margin-top:8px}
+.banda{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px}
+.lateral{flex:1;min-width:220px;background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.25);border-radius:12px;padding:12px 14px;font-size:13.5px}
+.lateral b{color:#7fe0b8}
+.estados{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.erow{background:#fff;border:1px solid #d9e2dd;border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(16,40,30,.06);margin-bottom:10px}
+.erow .tt{font-weight:800;display:block;margin-bottom:8px}
+.pchip{display:inline-block;background:#e8f3ee;color:#0f3d2e;font-weight:700;font-size:12.5px;padding:5px 11px;border-radius:8px}
+.pchip.full{background:#0f3d2e;color:#eafaf2}
+.sep{color:#1b6b4f;font-weight:800}
+.cats{display:flex;flex-wrap:wrap;gap:8px}
+.cat{background:#fff;border:1px solid #d9e2dd;border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:700;color:#0f3d2e}
+.cat .e{margin-right:5px}
+.legal{background:#fdf4e3;border:1px solid #f0d9a8;border-left:5px solid #b9770e;border-radius:14px;padding:16px 18px;font-size:14.5px}
+.legal b{color:#9a6309}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:15px;padding:14px 22px;border-radius:12px;text-decoration:none}
+.btn.p{background:#1b6b4f;color:#fff}.btn.s{background:#fff;color:#0f3d2e;border:1px solid #d9e2dd}
+.fuentes{font-size:12.5px;color:#5c6b64}
+footer{padding:26px 0 56px;color:#5c6b64;font-size:13px;text-align:center}
+.kpis{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.kpi{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:10px 16px}
+.kpi b{font-size:22px;display:block}.kpi span{font-size:12px;opacity:.9}
+</style></head><body>
+
+<header class="hero"><div class="wrap">
+  <div class="logo"><div class="w">W</div><b>Waraira</b></div>
+  <h1>Mascotas · custodia trazada + se busca/encontrada</h1>
+  <p class="lead">Mascotas en emergencias <b>ubicadas</b> con foto, datos y descripción. Quién las traslada, a quién se entregan y a dónde se mueven queda en una <b>cadena de custodia inmutable</b>. Cartelera de búsqueda con <b>cartel y QR</b>, y tablero de necesidades veterinarias. <b>Sin brazaletes.</b></p>
+  <div class="chips">
+    <span class="chip">📵 Funciona offline</span>
+    <span class="chip">🔗 Custodia append-only (dos personas)</span>
+    <span class="chip">🪧 Cartel + QR compartible</span>
+    <span class="chip">🐾 Identificación: nombre + foto</span>
+  </div>
+</div></header>
+
+<section><div class="wrap">
+  <h2>El problema</h2>
+  <div class="problema"><span class="t">En la emergencia, las mascotas se pierden en el ruido</span>
+    Familias evacuadas dejan atrás a sus animales; voluntarios los recogen y trasladan, pero <b>nadie sabe quién tiene a quién</b>, a qué refugio fue, ni cómo devolverlo a su responsable. Circulan fotos sueltas de "se busca" sin contacto verificable ni seguimiento. <b>Waraira da a cada mascota un código, una ficha ubicada y un historial de custodia con testigo: quién respondió por ella, paso a paso, sin que se pueda borrar.</b>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Cómo funciona — mapa del flujo</h2>
+  <div class="mapa">
+    <div class="flujo">
+      <div class="nodo"><div class="n">🐾</div><b>1. Registrar</b><span>Foto, datos, ubicación → código MAS-XXXX</span></div>
+      <div class="flecha">→</div>
+      <div class="nodo"><div class="n">🔗</div><b>2. Custodia</b><span>Traslado / entrega / refugio / vet, con testigo</span></div>
+      <div class="flecha">→</div>
+      <div class="nodo"><div class="n">📣</div><b>3. Aviso</b><span>Se busca / encontrada en la cartelera</span></div>
+      <div class="flecha">→</div>
+      <div class="nodo"><div class="n">🪧</div><b>4. Cartel + QR</b><span>Imprimible y compartible por link</span></div>
+      <div class="flecha">→</div>
+      <div class="nodo"><div class="n">🤝</div><b>5. Reunificada</b><span>Devuelta a su responsable (R3)</span></div>
+    </div>
+    <div class="ciclo">↺ Cada eslabón de custodia actualiza quién la custodia ahora · el historial nunca se reescribe.</div>
+    <div class="banda">
+      <div class="lateral"><b>🔗 Dos personas:</b> cada movimiento se asienta con un registrador y un testigo distintos; en traspasos confirma quien recibe (R3). El historial es <b>append-only</b>.</div>
+      <div class="lateral"><b>🏠 Refugio en la ficha:</b> residencial, público acondicionado, institucional u hogar temporal, con su responsable y contacto.</div>
+      <div class="lateral"><b>📸 Foto host-agnóstica:</b> la foto local es confidencial; una <b>URL pública</b> (Imgur, etc.) permite que el cartel se vea al compartirlo.</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><b>MAS-</b><span>código que encadena la custodia</span></div>
+      <div class="kpi"><b>2</b><span>personas por eslabón</span></div>
+      <div class="kpi"><b>0 Bs</b><span>jamás se toca dinero</span></div>
+      <div class="kpi"><b>QR</b><span>solo el código, nunca datos sensibles</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Estados de la mascota</h2>
+  <div class="erow"><span class="tt">Ciclo de vida en el sistema</span>
+    <div class="estados">
+      <span class="pchip">Resguardada</span><span class="sep">→</span>
+      <span class="pchip">En refugio</span><span class="sep">→</span>
+      <span class="pchip">En tratamiento</span><span class="sep">→</span>
+      <span class="pchip">Perdida</span><span class="sep">→</span>
+      <span class="pchip full">Reunificada</span>
+    </div>
+    <p style="margin:10px 0 0;font-size:13.5px;color:#43514a">La mascota es <b>mutable</b>: cambia de estado, de custodio y de refugio. Cada cambio queda trazado; los eslabones de custodia anteriores no se alteran.</p>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Pilares</h2>
+  <div class="grid3">
+    <div class="pilar"><div class="ic">🔗</div><b>Custodia append-only</b><p>Quién la trasladó, a quién se entregó y a dónde se movió, paso a paso. Regla de dos personas + confirma el receptor (R3). Registro inmutable (R10).</p></div>
+    <div class="pilar"><div class="ic">🏠</div><b>Refugio en la ficha</b><p>Residencial, público acondicionado, institucional u hogar temporal — con responsable y contacto, en la propia ficha de la mascota.</p></div>
+    <div class="pilar"><div class="ic">💊</div><b>Necesidades + proveedores</b><p>Medicinas, atención vet, operaciones, alimento, hospedaje y traslado. Mismo motor que Insumos: necesidad ↔ oferta, solo sugiere.</p></div>
+    <div class="pilar"><div class="ic">🪧</div><b>Cartelera + cartel QR</b><p>Avisos de se busca / encontrada / reunificada, y un cartel imprimible y compartible con foto, datos, zona, contacto y QR a la ficha.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Necesidades veterinarias y proveedores</h2>
+  <div class="cats">
+    <span class="cat"><span class="e">💊</span>Medicinas veterinarias</span>
+    <span class="cat"><span class="e">🩺</span>Atención veterinaria</span>
+    <span class="cat"><span class="e">🔪</span>Operación / cirugía</span>
+    <span class="cat"><span class="e">🦴</span>Alimento para mascotas</span>
+    <span class="cat"><span class="e">🏠</span>Hospedaje / refugio</span>
+    <span class="cat"><span class="e">🚐</span>Traslado de mascota</span>
+  </div>
+  <p style="font-size:13.5px;color:#43514a;margin:12px 2px 0">Los <b>proveedores</b> de salud, hospedaje, refugio y custodia entran como <b>ofertas</b> en el mismo motor; el tablero empareja necesidad ↔ oferta por categoría y zona. Cada necesidad puede ir <b>atada a una mascota</b> y aparece a la vez en su ficha y en el tablero general.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Privacidad y neutralidad</h2>
+  <div class="legal">
+    La foto local de la mascota y las fotos de respaldo de la cadena de custodia <b>nunca se sincronizan</b> al servidor; solo viajan los datos y la <b>URL pública</b> que el dueño elige para poder compartir el cartel. El QR de la chapa/cartel codifica <b>solo el código</b>, jamás datos sensibles. Waraira es <b>neutral</b> y de <b>cero dinero</b>: solo pone orden, traza y contacto verificable donde antes había rumor.
+    <div class="cta">
+      <a class="btn p" href="https://insumos-three.vercel.app/mascotas">Abrir el módulo de Mascotas →</a>
+      <a class="btn s" href="https://insumos-three.vercel.app/resumen.html">Ver el resumen general de Waraira</a>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><p class="fuentes">Waraira · módulo de Mascotas · prueba para revisión · 2026. <b>Unir, no dividir.</b></p></div></footer>
+</body></html>

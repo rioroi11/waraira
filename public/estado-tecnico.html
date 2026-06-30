@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Waraira · Estado técnico — puesta al día para Rafa</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#16201c;background:#f6f8f7;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}a{color:#1b6b4f}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#eef3f0;border:1px solid #dde6e1;border-radius:6px;padding:1px 6px;font-size:.92em;color:#0f3d2e}
+header.hero{background:linear-gradient(160deg,#0c2c22,#1b6b4f);color:#eafaf2;padding:46px 0 40px;position:relative;overflow:hidden}
+header.hero::after{content:"";position:absolute;right:-80px;bottom:-120px;width:360px;height:360px;background:radial-gradient(circle,rgba(255,255,255,.10),transparent 70%);border-radius:50%}
+.logo{display:flex;align-items:center;gap:12px}
+.logo .w{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:24px}
+.logo b{font-size:22px;font-weight:800}
+h1{font-size:clamp(26px,5vw,42px);margin:18px 0 0;font-weight:800;line-height:1.07}
+.lead{opacity:.95;font-size:clamp(15px,2.4vw,18px);margin:10px 0 0;max-width:780px}
+.chips{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12.5px;font-weight:800;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3)}
+section{padding:28px 0}
+h2{font-size:clamp(19px,3vw,24px);margin:0 0 6px;display:flex;align-items:center;gap:9px}h2::before{content:"";width:12px;height:12px;border-radius:3px;background:#1b6b4f}
+.sub{color:#5c6b64;font-size:14px;margin:0 0 16px}
+.card{background:#fff;border:1px solid #d9e2dd;border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px rgba(16,40,30,.06);margin-bottom:12px}
+.card .tt{font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.card p{margin:0;font-size:14.5px;color:#3a4942}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.tech{background:#e8f3ee;color:#0f3d2e;font-weight:700;font-size:12.5px;padding:5px 11px;border-radius:8px;border:1px solid #cfe5da}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #d9e2dd;border-radius:12px;overflow:hidden;font-size:14px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid #e6ede9;vertical-align:top}
+th{background:#0f3d2e;color:#eafaf2;font-size:13px;font-weight:700}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-block;font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:999px}
+.b-ok{background:#dff3e8;color:#1b6b4f}.b-wip{background:#fdf0d6;color:#9a6309}.b-off{background:#f7e0de;color:#a8322d}
+.flow{background:#0f3d2e;border-radius:18px;padding:24px 20px;color:#eafaf2}
+.flow .row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:center}
+.node{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:12px 14px;flex:1;min-width:150px;max-width:200px;text-align:center}
+.node b{display:block;font-size:13.5px;margin-bottom:3px}.node span{font-size:11.5px;opacity:.85}
+.arr{color:#7fe0b8;font-size:20px;font-weight:800}
+@media(max-width:760px){.arr{transform:rotate(90deg);width:100%;text-align:center}.node{max-width:none}}
+.next{background:#fff;border:1px solid #d9e2dd;border-left:5px solid #b9770e;border-radius:14px;padding:14px 18px;margin-bottom:12px}
+.next .tt{font-weight:800;color:#9a6309;margin-bottom:4px}
+.next p{margin:0 0 6px;font-size:14px;color:#3a4942}
+.next code{font-size:12.5px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:15px;padding:13px 20px;border-radius:12px;text-decoration:none}
+.btn.p{background:#1b6b4f;color:#fff}.btn.s{background:#fff;color:#0f3d2e;border:1px solid #d9e2dd}
+footer{padding:24px 0 56px;color:#5c6b64;font-size:13px;text-align:center}
+.note{font-size:13px;color:#5c6b64;margin-top:8px}
+</style></head><body>
+
+<header class="hero"><div class="wrap">
+  <div class="logo"><div class="w">W</div><b>Waraira</b></div>
+  <h1>Estado técnico del proyecto</h1>
+  <p class="lead">Puesta al día para <b>Rafa</b> (mentor · integraciones). Qué está construido, sobre qué stack corre, y exactamente <b>qué falta del lado de integración</b> para pasar de "demo local" a "red compartida en tiempo real".</p>
+  <div class="chips">
+    <span class="chip">⚛️ Next 16 · React 19 · Tailwind v4</span>
+    <span class="chip">📵 Local-first (IndexedDB)</span>
+    <span class="chip">🔁 Convex como convergencia</span>
+    <span class="chip">☁️ Vercel (org enves)</span>
+  </div>
+</div></header>
+
+<section><div class="wrap">
+  <h2>1 · Qué es, en una frase</h2>
+  <div class="card">
+    <p>Plataforma civil de coordinación <b>offline-first</b> (PWA instalable) para la emergencia nacional de Venezuela (sismos 24–25 jun 2026). Foco: <b>niños separados/no acompañados (UASC)</b> — censo, cadena de custodia, reunificación verificada — más cordones de cuido, voluntariado, insumos y mascotas. Postura: <b>neutral, complemento de la autoridad</b> ("Unir, no dividir"). Doc canónico: <code>docs/WARAIRA.md</code>.</p>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>2 · Arquitectura (lo que te importa)</h2>
+  <p class="sub">El punto clave: <b>el teléfono es la fuente de verdad en campo</b>; la nube es una capa de convergencia opcional, todavía apagada.</p>
+  <div class="grid2">
+    <div class="card"><div class="tt">📵 Local-first / offline</div>
+      <p><b>IndexedDB es la fuente de verdad</b> en terreno (<code>src/lib/db.ts</code>): las plazas no tienen señal. Cada registro lleva un <code>syncStatus</code>. La app funciona 100% sin red.</p>
+      <div class="stack"><span class="tech">IndexedDB</span><span class="tech">PWA</span><span class="tech">syncStatus por registro</span></div>
+    </div>
+    <div class="card"><div class="tt">🔁 Convergencia (Convex)</div>
+      <p>Capa opcional en <code>convex/*.ts</code>. <code>src/lib/sync.ts</code> empuja lo pendiente por <b>upsert idempotente</b> cuando hay red + <code>NEXT_PUBLIC_CONVEX_URL</code>. La app <b>no</b> importa <code>convex/_generated</code> (rompería el build): usa <code>makeFunctionReference</code>. <code>convex</code> está excluido del <code>tsconfig</code> raíz.</p>
+      <div class="stack"><span class="tech">Convex ^1.42</span><span class="tech">upsert idempotente</span><span class="tech">makeFunctionReference</span></div>
+    </div>
+    <div class="card"><div class="tt">🗺️ Geografía nacional real</div>
+      <p>División político-territorial oficial: <b>Estado → Municipio → Parroquia → Punto</b> (24 estados, 335 municipios, 1.139 parroquias; "Vargas" → "La Guaira"). Internamente el estado se llama <code>entidad</code>. Selector en cascada <code>&lt;SelectorUbicacion&gt;</code> reutilizado en todos los módulos.</p>
+      <div class="stack"><span class="tech">src/lib/geografia.ts</span><span class="tech">cascada 3 niveles</span></div>
+    </div>
+    <div class="card"><div class="tt">🧩 Dominio y reglas</div>
+      <p><code>src/lib/model.ts</code> concentra tipos, máquinas de estado, ratios CFS y las reglas R1–R11 (privacidad, derivación, anti-trata, auditabilidad). Las decisiones de seguridad viven en código, no en la UI.</p>
+      <div class="stack"><span class="tech">máquinas de estado</span><span class="tech">ratios conmensurables</span><span class="tech">gates anti-trata</span></div>
+    </div>
+  </div>
+  <p class="note"><b>Stack nuevo agregado esta tanda:</b> <code>html5-qrcode</code> + <code>qrcode.react</code> (generar/escanear QR de brazalete), <code>xlsx</code> + <code>pdfjs-dist</code> (importar lotes de códigos desde planilla/PDF).</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>3 · Módulos construidos</h2>
+  <table>
+    <tr><th>Módulo</th><th>Qué hace</th><th>Estado</th></tr>
+    <tr><td><b>Censo de niños (IDTR)</b></td><td>Registro con foto confidencial, señas, lugar/hora; genera código <code>WRA-XXXX</code>. Ciclo Identificación→…→Reunificación→Seguimiento.</td><td><span class="badge b-ok">Construido</span></td></tr>
+    <tr><td><b>Cadena de custodia del menor</b></td><td>Registro <b>append-only</b> de cada eslabón (marcado, resguardo, traspaso, salida), regla de dos personas + firma de quien recibe (R3) + acuse a la autoridad. En la ficha de <code>/ninos</code>.</td><td><span class="badge b-ok">Construido</span></td></tr>
+    <tr><td><b>Brazalete</b></td><td>Manilla con <b>solo código + QR</b> (nunca nombre/foto), doble pieza desprendible. Hoja imprimible + importación de lotes. <code>/brazaletes</code>.</td><td><span class="badge b-ok">Construido</span></td></tr>
+    <tr><td><b>Cordones de cuido (CFS)</b></td><td>Checklist de perímetro, capacidad ≤125, ratios por edad, mínimo 2 adultos, check-in/out de turnos.</td><td><span class="badge b-ok">Construido</span></td></tr>
+    <tr><td><b>Voluntariado + validación comunitaria</b></td><td>Registro con cédula/teléfono/zona/GPS; los vecinos avalan (≥2 avales → validado), anti-suplantación.</td><td><span class="badge b-ok">Construido</span></td></tr>
+    <tr><td><b>Reunificación familiar</b></td><td>Imposible cerrar con un clic: ≥2 coincidencias + entrevista + autorización + firmas. Alerta anti-trata por reclamante repetido.</td><td><span class="badge b-ok">Construido</span></td></tr>
+    <tr><td><b>Insumos</b></td><td>Balance "dónde falta vs. dónde hay" por necesidad, sin dinero.</td><td><span class="badge b-ok">Construido</span></td></tr>
+    <tr><td><b>Mascotas</b></td><td>Custodia + cartelera de extraviados/encontrados + necesidades veterinarias (sin brazalete). <code>/mascotas</code>.</td><td><span class="badge b-ok">Construido</span></td></tr>
+    <tr><td><b>Tablero por zona</b></td><td>Conteos agregados (nunca PII) + déficit de voluntarios por ratios.</td><td><span class="badge b-ok">Construido</span></td></tr>
+  </table>
+</div></section>
+
+<section><div class="wrap">
+  <h2>4 · El salto que falta: de local a red compartida</h2>
+  <p class="sub">Hoy está desplegada <b>SIN Convex</b> → cada dispositivo ve solo sus propios datos. Sirve para mostrar interfaz y flujos. El siguiente eslabón es tuyo:</p>
+  <div class="flow">
+    <div class="row">
+      <div class="node"><b>Hoy</b><span>Demo local por dispositivo</span></div>
+      <div class="arr">→</div>
+      <div class="node"><b>Encender Convex</b><span>Censo + alarma compartidos entre teléfonos</span></div>
+      <div class="arr">→</div>
+      <div class="node"><b>Web Push</b><span>Alarma con la app cerrada</span></div>
+      <div class="arr">→</div>
+      <div class="node"><b>Interop oficial</b><span>Verificar cédula · enlazar autoridades</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>5 · Cola de integraciones (para ti, Rafa)</h2>
+  <p class="sub">Ordenadas por dependencia. La (1) desbloquea casi todo lo demás.</p>
+
+  <div class="next"><div class="tt">① Encender Convex <span class="badge b-off">apagado</span></div>
+    <p>Activa censo compartido y la <b>alarma de validación comunitaria en tiempo real</b> entre teléfonos.</p>
+    <p>Pasos: <code>npx convex dev</code> (con login) → setear <code>NEXT_PUBLIC_CONVEX_URL</code> → <code>vercel --prod</code>. El esquema ya está en <code>convex/schema.ts</code> y las funciones por módulo en <code>convex/*.ts</code> (<code>brazaletes</code>, <code>custodia</code>, <code>notificaciones</code>, <code>mascotas</code>…).</p>
+  </div>
+
+  <div class="next"><div class="tt">② Web Push / VAPID <span class="badge b-wip">pendiente</span></div>
+    <p>Notificación push para que la alarma de aval llegue con la app cerrada. Requiere par de llaves VAPID + service worker + suscripción por dispositivo.</p>
+  </div>
+
+  <div class="next"><div class="tt">③ Verificación de cédula real <span class="badge b-wip">requiere acceso oficial</span></div>
+    <p>Al registrarse con cédula, que Waraira <b>corrobore que existe</b> contra base oficial del Estado (anti-suplantación de voluntarios y de quienes reclaman niños). Depende de obtener acceso/enlace institucional.</p>
+  </div>
+
+  <div class="next"><div class="tt">④ Deduplicación de fotos de niños <span class="badge b-wip">pendiente</span></div>
+    <p>Al subir una foto, detectar si <b>ya existe</b> en el sistema (otro la subió) → evita doble registro y ayuda a identificar reclamos cruzados. Hashing perceptual / embedding por similitud.</p>
+  </div>
+
+  <div class="next"><div class="tt">⑤ Interoperar con autoridades y otras plataformas <span class="badge b-wip">pendiente</span></div>
+    <p>Intercambio de datos (censos, refugios, insumos) para conciliar y no duplicar — esquemas humanitarios estándar <b>3W/4W</b>. Enlazar, no reemplazar.</p>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>6 · Cómo levantarlo y dónde mirar</h2>
+  <div class="grid2">
+    <div class="card"><div class="tt">▶️ Local</div>
+      <p>Repo: <code>/Users/edma/Workspace/insumos</code> · <code>npm install</code> → <code>npm run dev</code>. Build: <code>npm run build</code>. Deploy prod: <code>vercel --prod --yes</code> (org <code>enves</code>).</p>
+      <p class="note">⚠️ Esta versión de Next 16 trae breaking changes: <code>AGENTS.md</code> exige leer <code>node_modules/next/dist/docs/</code> antes de tocar código Next.</p>
+    </div>
+    <div class="card"><div class="tt">🗂️ Mapa de archivos clave</div>
+      <p><code>src/lib/db.ts</code> (IndexedDB) · <code>src/lib/sync.ts</code> (push a Convex) · <code>src/lib/model.ts</code> (dominio/reglas) · <code>src/lib/geografia.ts</code> (división territorial) · <code>convex/schema.ts</code> + <code>convex/*.ts</code> (backend).</p>
+    </div>
+  </div>
+  <div class="cta">
+    <a class="btn p" href="https://insumos-three.vercel.app">▶ Plataforma en vivo</a>
+    <a class="btn s" href="https://insumos-three.vercel.app/resumen.html">Resumen ejecutivo</a>
+    <a class="btn s" href="https://insumos-three.vercel.app/modulos/flujos/index.html">Flujos diagramados</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  Waraira · estado técnico al 30 jun 2026 · "Unir, no dividir." · Neutral · Cero dinero · Privacidad por diseño<br/>
+  Fuente única de verdad: <code>docs/WARAIRA.md</code> en el repo.
+</div></footer>
+</body></html>

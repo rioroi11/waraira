@@ -19,6 +19,13 @@ const categoriaArg = v.union(
   v.literal("traslados"),
   v.literal("insumos"),
   v.literal("otro"),
+  // Categorias veterinarias (modulo Mascotas).
+  v.literal("medicinas_vet"),
+  v.literal("atencion_vet"),
+  v.literal("operacion"),
+  v.literal("alimento_mascota"),
+  v.literal("hospedaje"),
+  v.literal("traslado_mascota"),
 );
 const estadoArg = v.union(
   v.literal("abierta"),

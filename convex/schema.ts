@@ -30,6 +30,13 @@ export default defineSchema({
       v.literal("traslados"),
       v.literal("insumos"),
       v.literal("otro"),
+      // Categorias veterinarias (modulo Mascotas).
+      v.literal("medicinas_vet"),
+      v.literal("atencion_vet"),
+      v.literal("operacion"),
+      v.literal("alimento_mascota"),
+      v.literal("hospedaje"),
+      v.literal("traslado_mascota"),
     ),
     punto: v.string(),
     zona: v.string(), // parroquia (el cliente envia `parroquia`; convergencia la mapea aqui)
@@ -92,6 +99,9 @@ export default defineSchema({
         }),
       ),
     ),
+    // Si la necesidad/oferta esta atada a una ficha de mascota (modulo Mascotas).
+    mascotaId: v.optional(v.string()),
+    referenciaUbicacion: v.optional(v.string()),
     createdAt: v.number(),
     updatedAt: v.number(),
   })
@@ -99,6 +109,162 @@ export default defineSchema({
     .index("by_estado", ["estado"])
     .index("by_zona", ["zona"])
     .index("by_tipo", ["tipo"]),
+
+  // ───────────── Mascotas. Ubicadas, con custodia trazada. Sin brazaletes.
+  // La foto confidencial (fotoBlob) queda local (R7). `fotoUrl` (host publico) SI viaja
+  // para poder compartir el cartel "se busca". A diferencia del menor, la mascota es mutable.
+  mascotas: defineTable({
+    clientId: v.string(),
+    esEjemplo: v.optional(v.boolean()),
+    codigo: v.string(), // MAS-XXXX
+    especie: v.union(v.literal("perro"), v.literal("gato"), v.literal("ave"), v.literal("otro")),
+    nombre: v.string(),
+    sexo: v.union(v.literal("macho"), v.literal("hembra"), v.literal("desconocido")),
+    edadAprox: v.optional(v.string()),
+    raza: v.optional(v.string()),
+    tamano: v.optional(v.union(v.literal("pequeno"), v.literal("mediano"), v.literal("grande"))),
+    color: v.optional(v.string()),
+    senas: v.optional(v.string()),
+    estadoSalud: v.optional(v.string()),
+    esterilizado: v.optional(v.boolean()),
+    microchip: v.optional(v.string()),
+    temperamento: v.optional(v.string()),
+    notas: v.optional(v.string()),
+    fotoUrl: v.optional(v.string()), // SI viaja (compartible)
+    tieneFoto: v.optional(v.boolean()), // materializado por sync; el Blob nunca llega
+    entidad: v.optional(v.string()),
+    municipio: v.optional(v.string()),
+    parroquia: v.string(),
+    punto: v.optional(v.string()),
+    lat: v.optional(v.number()),
+    lng: v.optional(v.number()),
+    custodioActualId: v.optional(v.string()),
+    custodioActualNombre: v.optional(v.string()),
+    refugio: v.optional(
+      v.object({
+        tipo: v.union(
+          v.literal("residencial"),
+          v.literal("publico_acondicionado"),
+          v.literal("institucional"),
+          v.literal("hogar_temporal"),
+        ),
+        nombre: v.string(),
+        ubicacion: v.optional(v.string()),
+        responsableNombre: v.optional(v.string()),
+        responsableTelefono: v.optional(v.string()),
+      }),
+    ),
+    estado: v.union(
+      v.literal("resguardada"),
+      v.literal("en_refugio"),
+      v.literal("en_tratamiento"),
+      v.literal("perdida"),
+      v.literal("reunificada"),
+      v.literal("fallecida"),
+    ),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_clientId", ["clientId"])
+    .index("by_codigo", ["codigo"])
+    .index("by_parroquia", ["parroquia"])
+    .index("by_estado", ["estado"]),
+
+  // ───────────── Cadena de custodia de la mascota. Append-only. R3 + R10. Sin binarios (R7).
+  custodiaMascota: defineTable({
+    clientId: v.string(),
+    mascotaId: v.string(),
+    codigo: v.string(),
+    tipo: v.union(
+      v.literal("registro_inicial"),
+      v.literal("traspaso"),
+      v.literal("salida_con_responsable"),
+      v.literal("ingreso_refugio"),
+      v.literal("salida_refugio"),
+      v.literal("atencion_veterinaria"),
+      v.literal("reunificacion"),
+    ),
+    registradorId: v.optional(v.string()),
+    registradorNombre: v.string(),
+    testigoNombre: v.string(),
+    recibeNombre: v.optional(v.string()),
+    recibeContacto: v.optional(v.string()),
+    recibeDocumento: v.optional(v.string()),
+    firmaEntrega: v.boolean(),
+    firmaTestigo: v.boolean(),
+    firmaRecibe: v.boolean(),
+    personas: v.optional(
+      v.array(
+        v.object({
+          rol: v.union(
+            v.literal("registrador"),
+            v.literal("responsable_brazalete"),
+            v.literal("testigo"),
+            v.literal("custodio"),
+            v.literal("recibe"),
+          ),
+          nombre: v.string(),
+          cedula: v.optional(v.string()),
+          telefono: v.optional(v.string()),
+          presente: v.boolean(),
+          tieneApp: v.boolean(),
+          declaraAqui: v.boolean(),
+          confirma: v.boolean(),
+          suplente: v.optional(
+            v.object({
+              nombre: v.string(),
+              cedula: v.optional(v.string()),
+              telefono: v.optional(v.string()),
+            }),
+          ),
+        }),
+      ),
+    ),
+    notificados: v.optional(v.array(v.string())),
+    refugioNombre: v.optional(v.string()),
+    veterinario: v.optional(v.string()),
+    lugar: v.optional(v.string()),
+    entidad: v.optional(v.string()),
+    municipio: v.optional(v.string()),
+    parroquia: v.optional(v.string()),
+    punto: v.optional(v.string()),
+    lat: v.optional(v.number()),
+    lng: v.optional(v.number()),
+    nota: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_clientId", ["clientId"])
+    .index("by_codigo", ["codigo"])
+    .index("by_mascotaId", ["mascotaId"]),
+
+  // ───────────── Cartelera de avisos de mascotas (se busca / encontrada / reunificada).
+  avisosMascota: defineTable({
+    clientId: v.string(),
+    esEjemplo: v.optional(v.boolean()),
+    mascotaId: v.optional(v.string()),
+    codigo: v.optional(v.string()),
+    tipo: v.union(v.literal("se_busca"), v.literal("encontrada"), v.literal("reunificada")),
+    titulo: v.string(),
+    descripcion: v.string(),
+    fotoUrl: v.optional(v.string()),
+    tieneFoto: v.optional(v.boolean()),
+    zona: v.optional(v.string()),
+    entidad: v.optional(v.string()),
+    municipio: v.optional(v.string()),
+    parroquia: v.optional(v.string()),
+    punto: v.optional(v.string()),
+    lat: v.optional(v.number()),
+    lng: v.optional(v.number()),
+    contactoNombre: v.string(),
+    contactoTelefono: v.string(),
+    estado: v.union(v.literal("activo"), v.literal("resuelto")),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_clientId", ["clientId"])
+    .index("by_estado", ["estado"])
+    .index("by_mascotaId", ["mascotaId"]),
 
   // ───────────── Menor (UASC). Capa restringida; identidad jamas publica (LOPNNA 65).
   // La foto NO se sincroniza como binario aqui: queda local. `tieneFoto` solo lo indica.
@@ -151,6 +317,15 @@ export default defineSchema({
     custodioActualId: v.optional(v.string()),
     notificadoConsejo: v.optional(v.number()),
     notificadoConsejoNota: v.optional(v.string()),
+    // Acuse de la notificacion a la autoridad (Consejo / MP / Cruz Roja RFL).
+    acuseAutoridad: v.optional(
+      v.object({
+        receptor: v.string(),
+        via: v.string(),
+        fecha: v.number(),
+        referencia: v.optional(v.string()),
+      }),
+    ),
     testigosComunidad: v.optional(v.string()),
     verificacionCompleta: v.boolean(),
     detallesPrivados: v.optional(v.string()),
@@ -161,6 +336,162 @@ export default defineSchema({
     .index("by_codigo", ["codigo"])
     .index("by_parroquia", ["parroquia"])
     .index("by_estadoIDTR", ["estadoIDTR"]),
+
+  // ───────────── Cadena de custodia del menor (Registro 1). Append-only. R3 + R10.
+  // Sin PII del niño: encadena por `codigo`. La identidad vive en `menores` (restringida).
+  custodia: defineTable({
+    clientId: v.string(),
+    menorId: v.string(),
+    codigo: v.string(),
+    tipo: v.union(
+      v.literal("registro_inicial"),
+      v.literal("traspaso"),
+      v.literal("salida_con_adulto"),
+      v.literal("resguardo"),
+      v.literal("reemision_brazalete"),
+    ),
+    registradorId: v.optional(v.string()),
+    registradorNombre: v.string(),
+    testigoNombre: v.string(),
+    recibeNombre: v.optional(v.string()),
+    recibeContacto: v.optional(v.string()),
+    recibeDocumento: v.optional(v.string()),
+    firmaEntrega: v.boolean(),
+    firmaTestigo: v.boolean(),
+    firmaRecibe: v.boolean(),
+    // Personas del acto (sin binarios: la foto queda local; R7). braceleteCodigo vincula el UID.
+    personas: v.optional(
+      v.array(
+        v.object({
+          rol: v.union(
+            v.literal("registrador"),
+            v.literal("responsable_brazalete"),
+            v.literal("testigo"),
+            v.literal("custodio"),
+            v.literal("recibe"),
+          ),
+          nombre: v.string(),
+          cedula: v.optional(v.string()),
+          telefono: v.optional(v.string()),
+          presente: v.boolean(),
+          tieneApp: v.boolean(),
+          declaraAqui: v.boolean(),
+          confirma: v.boolean(),
+          suplente: v.optional(
+            v.object({
+              nombre: v.string(),
+              cedula: v.optional(v.string()),
+              telefono: v.optional(v.string()),
+            }),
+          ),
+        }),
+      ),
+    ),
+    braceleteCodigo: v.optional(v.string()),
+    braceleteDestinoTipo: v.optional(
+      v.union(
+        v.literal("centro_oficial"),
+        v.literal("hospital"),
+        v.literal("espacio_acondicionado"),
+        v.literal("grupo_movil"),
+      ),
+    ),
+    braceleteDestinoNombre: v.optional(v.string()),
+    ubicacionCoincide: v.optional(v.boolean()),
+    colocadoPorGrupoMovil: v.optional(v.boolean()),
+    brazaleteYaPuesto: v.optional(v.boolean()),
+    notificados: v.optional(v.array(v.string())),
+    nodoId: v.optional(v.string()),
+    lugar: v.optional(v.string()),
+    entidad: v.optional(v.string()),
+    municipio: v.optional(v.string()),
+    parroquia: v.optional(v.string()),
+    punto: v.optional(v.string()),
+    lat: v.optional(v.number()),
+    lng: v.optional(v.number()),
+    nota: v.optional(v.string()),
+    codigoAnterior: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_clientId", ["clientId"])
+    .index("by_codigo", ["codigo"])
+    .index("by_menorId", ["menorId"]),
+
+  // ───────────── Brazaletes (inventario de entrega). Sin binarios (foto queda local). R7.
+  brazaletes: defineTable({
+    clientId: v.string(),
+    codigo: v.string(),
+    estado: v.union(
+      v.literal("en_stock"),
+      v.literal("entregado"),
+      v.literal("colocado"),
+      v.literal("anulado"),
+    ),
+    proveedor: v.optional(v.string()),
+    lote: v.optional(v.string()),
+    destinoTipo: v.optional(
+      v.union(
+        v.literal("centro_oficial"),
+        v.literal("hospital"),
+        v.literal("espacio_acondicionado"),
+        v.literal("grupo_movil"),
+      ),
+    ),
+    destinoNombre: v.optional(v.string()),
+    // Responsables que recibieron el brazalete (sin binarios: la foto queda local; R7).
+    responsables: v.optional(
+      v.array(
+        v.object({
+          nombre: v.string(),
+          cedula: v.optional(v.string()),
+          telefono: v.optional(v.string()),
+          esGrupoMovil: v.optional(v.boolean()),
+        }),
+      ),
+    ),
+    entidad: v.optional(v.string()),
+    municipio: v.optional(v.string()),
+    parroquia: v.optional(v.string()),
+    punto: v.optional(v.string()),
+    lat: v.optional(v.number()),
+    lng: v.optional(v.number()),
+    fechaEntrega: v.optional(v.number()),
+    menorId: v.optional(v.string()),
+    notas: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_clientId", ["clientId"])
+    .index("by_codigo", ["codigo"])
+    .index("by_estado", ["estado"]),
+
+  // ───────────── Notificaciones a personas del acto + constancias.
+  notificaciones: defineTable({
+    clientId: v.string(),
+    paraNombre: v.string(),
+    paraCedula: v.optional(v.string()),
+    paraTelefono: v.optional(v.string()),
+    tipo: v.string(),
+    titulo: v.string(),
+    cuerpo: v.string(),
+    refMenorId: v.optional(v.string()),
+    refCodigo: v.optional(v.string()),
+    leida: v.boolean(),
+    requiereConstancia: v.optional(v.boolean()),
+    respuesta: v.optional(
+      v.union(
+        v.literal("testigo_presente"),
+        v.literal("conocimiento_distancia"),
+        v.literal("desconoce"),
+      ),
+    ),
+    respondidaEn: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_clientId", ["clientId"])
+    .index("by_refMenorId", ["refMenorId"]),
 
   // ───────────── Cordon (Espacio Seguro / CFS).
   cordones: defineTable({

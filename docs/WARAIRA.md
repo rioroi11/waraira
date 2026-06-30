@@ -34,8 +34,13 @@ Waraira pone **orden, traza y seguridad**, y **unifica** oferta/necesidad real y
 - **Censo de niños (IDTR)** — registro con foto **confidencial**, señas, ropa, lugar/hora;
   genera un **código de brazalete** (`WRA-XXXX`). Ciclo IDTR: Identificación → Documentación →
   Búsqueda → Verificación → Derivación → Reunificación → Seguimiento.
-- **Brazalete** — la manilla lleva **solo el código** (nunca nombre/foto). Un código = un niño.
-  Hoja imprimible en `/brazaletes`.
+- **Cadena de custodia del menor (Registro 1)** — registro **append-only** de quién respondió
+  por el niño paso a paso (marcado, resguardo, traspaso, salida con adulto, reemisión de
+  brazalete), con **regla de dos personas** (registrador + testigo) y **firma de quien recibe**
+  (R3). Integrado en la ficha de `/ninos`; el alta crea el primer eslabón. Incluye **acuse** de
+  la notificación a la autoridad. Spec: `docs/MODULO-MENORES.md`.
+- **Brazalete** — la manilla lleva **solo el código + su QR** (nunca nombre/foto). Un código = un
+  niño; **doble pieza desprendible** vinculada al registrador. Hoja imprimible en `/brazaletes`.
 - **Cordones de cuido (Espacios Seguros / CFS)** — checklist de perímetro, capacidad ≤125,
   ratios por edad, **mínimo 2 adultos**, check-in/out de turnos.
 - **Voluntariado + validación comunitaria** — registro con cédula/teléfono/zona/GPS; vetting,

@@ -20,14 +20,39 @@ import { useOnline } from "./useOnline";
 // Colección local → mutación de convergencia en Convex.
 const ENDPOINTS: Record<Coleccion, string> = {
   menores: "menores:upsert",
+  custodia: "custodia:upsert",
+  brazaletes: "brazaletes:upsert",
+  notificaciones: "notificaciones:upsert",
   cordones: "cordones:upsert",
   turnos: "cordones:upsertTurno",
   voluntarios: "voluntarios:upsert",
   reclamos: "reunificacion:upsert",
   avales: "voluntarios:upsertAval",
   reportes: "convergencia:upsertReporte",
+  mascotas: "mascotas:upsert",
+  custodiaMascota: "custodiaMascota:upsert",
+  avisosMascota: "avisosMascota:upsert",
   eventos: "convergencia:upsertEvento",
 };
+
+/**
+ * Quita TODO binario (Blob) del documento, en cualquier nivel (también dentro de arrays como
+ * `personas[].fotoBlob`). Las fotos y cédulas-imagen son confidenciales (R7): nunca viajan al
+ * servidor; quedan solo en el teléfono. Devuelve una copia segura para sincronizar.
+ */
+function sinBinarios(v: unknown): unknown {
+  if (v instanceof Blob) return undefined;
+  if (Array.isArray(v)) return v.map(sinBinarios);
+  if (v && typeof v === "object") {
+    const out: Record<string, unknown> = {};
+    for (const [k, val] of Object.entries(v)) {
+      const limpio = sinBinarios(val);
+      if (limpio !== undefined) out[k] = limpio;
+    }
+    return out;
+  }
+  return v;
+}
 
 export function convexConfigurado(): boolean {
   return Boolean(process.env.NEXT_PUBLIC_CONVEX_URL);
@@ -55,8 +80,15 @@ export async function sincronizarTodo(): Promise<void> {
     const ok: string[] = [];
     for (const d of docs) {
       try {
-        const doc: Record<string, unknown> = { ...(d as unknown as Record<string, unknown>), clientId: d.id };
-        delete doc.fotoBlob; // el binario de la foto no viaja (privacidad/local)
+        // Materializa los indicadores de auditoría a partir de los binarios ANTES de quitarlos:
+        // así "existe foto" viaja como booleano aunque la foto (confidencial) nunca salga (R7).
+        const raw: Record<string, unknown> = { ...(d as unknown as Record<string, unknown>), clientId: d.id };
+        if (raw.fotoBlob instanceof Blob) raw.tieneFoto = true;
+        // El id local viaja como `clientId`; `id`/`syncStatus` no existen en el schema de Convex.
+        delete raw.id;
+        delete raw.syncStatus;
+        // Quita cualquier binario (fotos, en cualquier nivel) antes de enviar (R7).
+        const doc = sinBinarios(raw) as Record<string, unknown>;
         await client.mutation(ref, { doc });
         ok.push(d.id);
       } catch {

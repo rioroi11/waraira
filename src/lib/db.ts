@@ -12,26 +12,40 @@ import { useEffect, useState } from "react";
 import { generarId, type Base, type Evento } from "./model";
 
 const DB_NOMBRE = "waraira";
-const DB_VERSION = 2;
+// v3: añade `custodia`. v4: añade `brazaletes` (inventario) y `notificaciones`.
+// v5: añade módulo Mascotas (`mascotas`, `custodiaMascota`, `avisosMascota`).
+const DB_VERSION = 5;
 
 export type Coleccion =
   | "menores"
+  | "custodia"
+  | "brazaletes"
+  | "notificaciones"
   | "cordones"
   | "voluntarios"
   | "turnos"
   | "reclamos"
   | "avales"
   | "reportes"
+  | "mascotas"
+  | "custodiaMascota"
+  | "avisosMascota"
   | "eventos";
 
 const COLECCIONES: Coleccion[] = [
   "menores",
+  "custodia",
+  "brazaletes",
+  "notificaciones",
   "cordones",
   "voluntarios",
   "turnos",
   "reclamos",
   "avales",
   "reportes",
+  "mascotas",
+  "custodiaMascota",
+  "avisosMascota",
   "eventos",
 ];
 
