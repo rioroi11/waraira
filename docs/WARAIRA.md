@@ -2,7 +2,7 @@
 
 > Fuente única de verdad sobre **qué es Waraira, qué hace, qué se construyó y qué falta**.
 > Léelo al inicio de cualquier sesión nueva (junto con la memoria del proyecto).
-> Última actualización: 28 de junio de 2026.
+> Última actualización: 30 de junio de 2026.
 
 ## 1. Qué es
 
@@ -13,7 +13,7 @@ centro y norte centro-occidental**; **La Guaira concentra ~90%**, pero el alcanc
 no solo La Guaira**.
 
 Foco principal: **niños separados y no acompañados (UASC)**. También: cordones de cuido,
-voluntariado, reunificación familiar e insumos. Postura: **"Unir, no dividir."**
+voluntariado, reunificación familiar, insumos y **mascotas extraviadas/rescatadas**. Postura: **"Unir, no dividir."**
 (Nota: se eliminó el lema "a la orden del Estado" a pedido de la dueña — el encuadre es
 **invitación entre pares**, no sumisión.)
 
@@ -31,16 +31,31 @@ Waraira pone **orden, traza y seguridad**, y **unifica** oferta/necesidad real y
 
 ## 3. Qué hace (módulos construidos)
 
-- **Censo de niños (IDTR)** — registro con foto **confidencial**, señas, ropa, lugar/hora;
-  genera un **código de brazalete** (`WRA-XXXX`). Ciclo IDTR: Identificación → Documentación →
-  Búsqueda → Verificación → Derivación → Reunificación → Seguimiento.
-- **Cadena de custodia del menor (Registro 1)** — registro **append-only** de quién respondió
-  por el niño paso a paso (marcado, resguardo, traspaso, salida con adulto, reemisión de
-  brazalete), con **regla de dos personas** (registrador + testigo) y **firma de quien recibe**
-  (R3). Integrado en la ficha de `/ninos`; el alta crea el primer eslabón. Incluye **acuse** de
+- **Censo de niños (IDTR)** — registro con foto **confidencial**, señas, ropa, lugar/hora. El niño
+  se **enlaza a un brazalete del inventario** (escaneo QR o código manual); si aún no hay manilla,
+  se genera un **código provisional `PRV-XXXX`** y luego, al colocar el brazalete físico, el código
+  **se actualiza** al impreso y el provisional queda como historial. Ciclo IDTR: Identificación →
+  Documentación → Búsqueda → Verificación → Derivación → Reunificación → Seguimiento.
+- **Inventario de brazaletes (proveedor → lote → destino)** — los brazaletes vienen **impresos del
+  proveedor**; se registran en lote (subiendo archivo CSV/Excel/PDF/texto, lista o rango) → `en_stock`;
+  se **fraccionan y entregan** a un destino (centro oficial / hospital / espacio acondicionado /
+  **grupo móvil**) con lista de **responsables** (cédula + foto + ubicación) → `entregado`; al colocarse
+  en un niño → `colocado`. En `/brazaletes/registro`. (Ya **no** se autogenera `WRA-XXXX` al censar.)
+- **Cadena de custodia del menor (Registro 1)** — registro **append-only** de quién respondió por el
+  niño paso a paso (marcado, resguardo, traspaso, salida con adulto, reemisión de brazalete), con
+  **regla de dos personas** (registrador + testigo), **firma de quien recibe** (R3), **cédula + foto**
+  de cada persona, y **suplencia** (si alguien no está presente, quién lo suplanta + foto). Si la
+  ubicación del censo no coincide con donde se entregó el brazalete, se pide **constancia** a sus
+  responsables (testigo presente / a distancia / desconoce) — **nunca bloquea**. Incluye **acuse** de
   la notificación a la autoridad. Spec: `docs/MODULO-MENORES.md`.
-- **Brazalete** — la manilla lleva **solo el código + su QR** (nunca nombre/foto). Un código = un
-  niño; **doble pieza desprendible** vinculada al registrador. Hoja imprimible en `/brazaletes`.
+- **Avisos / notificaciones** (`/notificaciones`) — bandeja de la cadena de custodia y para responder
+  las **constancias**. (Push real entre teléfonos pendiente; hoy local + notificación del navegador.)
+- **Brazalete (hoja imprimible)** — la manilla lleva **solo el código + su QR** (nunca nombre/foto).
+  Un código = un niño. En `/brazaletes`.
+- **Mascotas** (`/mascotas`) — registro de mascotas extraviadas/rescatadas con foto, especie/señas y
+  ubicación; **cadena de custodia** propia (sin brazalete físico, código `MAS-XXXX`), **cartelera**
+  pública con cartel imprimible, **chapas** (QR), y **necesidades veterinarias** atadas al motor de
+  insumos. Spec: `docs/MODULO-MASCOTAS.md`.
 - **Cordones de cuido (Espacios Seguros / CFS)** — checklist de perímetro, capacidad ≤125,
   ratios por edad, **mínimo 2 adultos**, check-in/out de turnos.
 - **Voluntariado + validación comunitaria** — registro con cédula/teléfono/zona/GPS; vetting,
@@ -68,10 +83,15 @@ Consejo de Protección / Tribunal, **no dicta custodia**.
 ## 5. Arquitectura
 
 - **Next.js 16 (App Router) + React 19 + Tailwind v4**. PWA instalable.
-- **Local-first**: IndexedDB es la fuente de verdad en campo (`src/lib/db.ts`). Cada registro
-  con `syncStatus`.
-- **Convergencia (opcional)**: Convex (`convex/*.ts`) — `src/lib/sync.ts` empuja lo pendiente
-  por `upsert` idempotente cuando hay red + `NEXT_PUBLIC_CONVEX_URL`. **Aún NO encendido.**
+- **Local-first**: IndexedDB es la fuente de verdad en campo (`src/lib/db.ts`, **`DB_VERSION 5`**).
+  Cada registro con `syncStatus`. Colecciones: `menores, custodia, brazaletes, notificaciones,
+  cordones, voluntarios, turnos, reclamos, avales, reportes, mascotas, custodiaMascota, avisosMascota,
+  eventos` (bitácora append-only, R10).
+- **Convergencia (opcional)**: Convex (`convex/*.ts`) — `src/lib/sync.ts` empuja lo pendiente por
+  `upsert` idempotente cuando hay red + `NEXT_PUBLIC_CONVEX_URL`, con **strip profundo de binarios**
+  (fotos/cédulas nunca salen del teléfono, R7). **Aún NO encendido.**
+- **Libs nuevas**: `src/lib/importarCodigos.ts` (importa códigos del proveedor desde CSV/Excel/PDF/texto
+  con `xlsx`+`pdfjs`), `src/lib/fotos.ts` (host de fotos), `qrcode.react` + `html5-qrcode` (QR).
 - **Geografía nacional REAL** (`src/lib/geografia.ts` + `geografia-ve.ts`): **Estado → Municipio →
   Parroquia → Punto** (división político-territorial oficial: 24 estados, 335 municipios, 1.139
   parroquias; "Vargas" renombrado a "La Guaira"). El estado se nombra internamente **`entidad`**
@@ -111,6 +131,26 @@ Consejo de Protección / Tribunal, **no dicta custodia**.
    el sistema** (si alguien más la subió) → evita doble registro y ayuda a identificar.
 5. **Umbral de avales**: hoy en 2 (`AVALES_REQUERIDOS` en `model.ts`); la dueña podría querer 1.
 6. Enlace/intercambio de datos con **autoridades y otras plataformas** (interoperar, no duplicar).
+7. **Host de fotos** (Cloudflare R2/Images u otro): hoy las fotos son `Blob` local que no sincroniza;
+   para compartirlas entre dispositivos (cifradas) hace falta el host. Ver `src/lib/fotos.ts` y los
+   handoffs de Rafa en `docs/handoff/`.
+8. **Migración IndexedDB v4→v5**: al subir `DB_VERSION`, si el usuario tiene la app abierta en otra
+   pestaña, `indexedDB.open(5)` puede quedar **bloqueada** ("Cargando…"). Falta manejar `onblocked`
+   en `db.ts` (cerrar/avisar). Verificar con Rafa.
+9. **Senders reales**: SMS (Twilio, fallback offline) y WhatsApp para avisos/constancias.
+
+## 9. Decisiones de la dueña (Edma)
+
+- Alcance **nacional** (no solo La Guaira).
+- **Offline-first** obligatorio; privacidad estricta del menor.
+- Brazalete: **impreso del proveedor**, registrado en inventario y entregado a un destino antes de
+  colocarse; la manilla lleva **solo código + QR**. El niño se **enlaza** a un brazalete, no se genera.
+- Validación comunitaria por **aval de vecinos** (≥2) con identidad y teléfono.
+- **Sin** lema "a la orden del Estado".
+- **Separa sesiones**: trabajo por sesiones temáticas (desarrollo de cada módulo, contenido). No mezclar.
+- **Repo privado**: el repo de GitHub debe ser **privado**, compartido solo con el colega de
+  integraciones (Rafa). Los handoffs técnicos viven en `docs/handoff/` (no en `public/`, para no
+  servirlos en internet).
 
 ## 10. Convención de entrega — OBLIGATORIA para cada módulo
 
@@ -130,12 +170,3 @@ que aplicamos con el módulo de niños):
    Ambos sobre el despliegue en producción (`vercel --prod --yes`).
 
 > Regla corta: **carátula + módulo + ambos links, siempre.**
-
-## 9. Decisiones de la dueña (Edma)
-
-- Alcance **nacional** (no solo La Guaira).
-- **Offline-first** obligatorio; privacidad estricta del menor.
-- Brazalete con **solo código**.
-- Validación comunitaria por **aval de vecinos** (≥2) con identidad y teléfono.
-- **Sin** lema "a la orden del Estado".
-- **Separa sesiones**: esta sesión = desarrollo; otra sesión = creación de contenido.

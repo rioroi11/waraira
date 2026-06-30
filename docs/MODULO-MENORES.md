@@ -115,35 +115,56 @@ Waraira documenta** (reusa el módulo de Reunificación: `Reclamo` + `faltantesR
 
 **F — Cierre del loop:** avisar el desenlace a quien reportó.
 
-### 5.bis Inventario de brazaletes + alta con declaración (implementado)
+### 5.bis Inventario, provisional, declaración y constancia (FLUJO FINAL — implementado)
 
-El brazalete se **registra antes** de colocarse: en `/brazaletes/registro` se anota el código (escaneado
-por QR o apuntado), **a quién se entregó** (nombre + cédula + teléfono + foto, confidencial) y **dónde**
-(centro + ubicación). Queda como `disponible` (entidad `Brazalete`, estado disponible/asignado/anulado).
+**Inventario (`/brazaletes/registro`).** Los brazaletes vienen **impresos del proveedor**. Se registran
+en lote: **subiendo el archivo del proveedor** (CSV/Excel/PDF/texto — `src/lib/importarCodigos.ts`),
+**pegando lista**, o por **rango** desde–hasta → quedan `en_stock`. Un lote se **fracciona** y se
+**asigna a un destino** (`destinoTipo`: centro oficial / hospital / espacio acondicionado / **grupo móvil**)
+con una **lista de responsables** (nombre + cédula + teléfono + **foto**, confidencial) → `entregado`.
+Estados del brazalete: **`en_stock → entregado → colocado`** (+ `anulado`). **Nunca se autogenera un código
+al censar.**
 
-Al **censar al niño** (`/ninos/nuevo`, sección 4–5): casilla **"¿tiene brazalete?"** → se escanea/apunta
-el código → el sistema lo busca en el inventario y muestra la **declaración** (*"entregado a X (cédula) en
-tal ubicación; ¿declaras que con él marcas a este niño?"*). Al confirmar, **quien recibió el brazalete
-queda como testigo**. Las **personas del acto** (registrador, testigo, custodio que sigue) se capturan con
-`PersonaActo`: nombre + **cédula** + casillas **¿presente?/¿tiene app?**; si está **presente y sin app**,
-declara por este teléfono y se le pide **foto**. A las personas con app se les genera una **Notificación**
-(local + aviso del navegador; el push real entre teléfonos depende de encender Convex + Web Push, roadmap).
-Al guardar: se crea el `Menor` (código = brazalete o autogenerado), el `EventoCustodia` `registro_inicial`
-con las personas, se marca el brazalete `asignado`, y se emiten las notificaciones.
+**Censar al niño (`/ninos/nuevo`).** Dos caminos:
+1. **Con brazalete del inventario** — se escanea/apunta el código (debe estar `entregado`). El sistema
+   muestra el **destino + responsables** y pide **declarar** (*"yo coloco / ya lo portaba"*). Coincidencia
+   de ubicación: para centro fijo **avisa** si no coincide; para **grupo móvil no se exige**. Si **no
+   coincide**, se manda **constancia** a los responsables del brazalete (3 respuestas: **testigo presente /
+   conocimiento a distancia / desconoce**) — **nunca bloquea**; se registra igual. El brazalete pasa a
+   `colocado`.
+2. **Sin brazalete** — casilla *"el niño aún NO tiene brazalete"* → se genera un **código provisional
+   `PRV-XXXX`**. Después, en la ficha del niño, **«Asignar brazalete físico»** escanea el código impreso:
+   el `codigo` del niño se **actualiza** al del brazalete y el provisional queda como **historial**
+   (`Menor.codigoProvisional` + evento `reemision_brazalete` con `codigoAnterior`). La ficha resuelve por
+   código actual **o** provisional, así los links viejos siguen funcionando.
+
+**Cadena de personas.** Cada `PersonaActo` lleva **nombre + cédula** + casillas **¿presente?/¿tiene app?**;
+si está **presente y sin app** declara por este teléfono y se le pide **foto**; si **no está presente**, se
+indica **quién la suplanta** (nombre + cédula + foto del suplente, `SuplenteActo`). La cadena registra a
+**todos**: responsables del brazalete + quien coloca + testigo + custodio temporal. A las personas con app
+se les genera **`Notificacion`** (local + aviso del navegador; push real pendiente). `/notificaciones` es la
+bandeja para ver avisos y **responder constancias**.
 
 ## 6. Modelo de datos (en este repo)
 
-- **`EventoCustodia`** (`src/lib/model.ts`) — Registro 1: cadena **append-only** de quién/dónde/cuándo
-  y quién entrega/recibe/atestigua. Nunca se reescribe. Tipos: `registro_inicial`, `traspaso`,
-  `salida_con_adulto`, `resguardo`, `reemision_brazalete`. Encadena siempre contra el mismo `codigo`.
-- **`Menor`** (existente) — Registro 2: expediente del menor y familia (capa restringida), estado IDTR
-  y resolución. La foto es confidencial y nunca sincroniza.
-- Reusados: `Cordon`/`PerimetroCFS` (nodos seguros), `Vetting`/`Aval` (vetting + regla de dos),
-  `Reclamo`/`faltantesReclamo` (verificación de reclamante), `notificadoConsejo`/`acuseAutoridad`
-  (notificación), `eventos` (bitácora append-only R10).
+- **`Brazalete`** (`src/lib/model.ts`) — inventario: `codigo`, `estado` (en_stock/entregado/colocado/anulado),
+  `proveedor`, `lote`, `destinoTipo`, `destinoNombre`, `responsables[]` (`ResponsableBrazalete`), ubicación,
+  `menorId`.
+- **`EventoCustodia`** — Registro 1: cadena **append-only** de quién/dónde/cuándo, con `personas[]`
+  (`PersonaActo` + `suplente`), `braceleteCodigo`, `braceleteDestino*`, `ubicacionCoincide`,
+  `colocadoPorGrupoMovil`, `brazaleteYaPuesto`, `codigoAnterior`. Tipos: `registro_inicial`, `traspaso`,
+  `salida_con_adulto`, `resguardo`, `reemision_brazalete`. Nunca se reescribe.
+- **`Menor`** — Registro 2: expediente (capa restringida), `codigo` (brazalete o `PRV-`),
+  `codigoProvisional`/`brazaleteProvisional` (historial), estado IDTR, `acuseAutoridad`. Foto confidencial,
+  nunca sincroniza.
+- **`Notificacion`** — avisos + **constancia** (`requiereConstancia`, `respuesta`).
+- Gates puros: `faltaPersona` (cédula + presente-sin-app→foto + no-presente→suplente), `faltaParaTraspaso`,
+  `brazaletePorCodigo`. Reusados: `Cordon`/`PerimetroCFS`, `Vetting`/`Aval`, `Reclamo`/`faltantesReclamo`,
+  `eventos` (bitácora R10).
 
-**Reglas de datos:** el brazalete porta solo el código/QR; el expediente guarda la PII (restringida,
-nunca pública). Fotos nunca viajan ni se publican. Cada paso de custodia emite su `Evento`.
+**Reglas de datos:** el brazalete porta solo el código/QR; el expediente guarda la PII (restringida, nunca
+pública). Fotos y cédulas-imagen **nunca viajan** (strip profundo de binarios en `sync.ts`) ni se publican.
+Cada paso de custodia emite su `Evento`.
 
 ## 7. Salvaguardas y casos borde
 
