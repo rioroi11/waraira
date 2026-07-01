@@ -312,3 +312,19 @@ Para que cualquier bloque de arriba se pueda asignar a otra persona sin que pier
 - [ ] Tarea 3: revisar juntos (Edma + Rafa) antes de enviar cualquier mensaje (mensajes finales ya redactados, ver §3 de `tarea3-difusion-aliados.md`).
 - [ ] Tarea 2: probar en vivo con navegador real los puntos marcados "no probado" (confirmación de envío, verificación de contacto, campos condicionales).
 - [ ] Aviso a Rafa de cada bloque cerrado, por separado (no en un solo lote al final).
+
+---
+
+## 8. Otras ideas de producto de Edma (fuera del alcance original de las 3 tareas)
+
+### Ampliar quién puede avalar a un voluntario o persona registrada (1-jul-2026)
+
+Hoy el aval de un voluntario/persona registrada se apoya en vecinos por dirección (proximidad
+geográfica). **Propuesta de Edma:** agregar campos opcionales al perfil, además de la dirección,
+para **escuela, universidad y lugar de trabajo**. Si la persona los llena, el sistema podría enviar
+también solicitud de confirmación a compañeros de esos contextos, no solo a vecinos, para ampliar el
+número real de personas que pueden avalarla (más candidatos para el M-of-N de corroboración, útil
+para alguien que tenga pocos vecinos cercanos que lo conozcan pero sí compañeros de trabajo/estudio
+que sí puedan dar fe). Todos los campos quedan opcionales, no reemplazan el aval por vecindad,
+lo complementan. Pendiente de que el equipo de Rafa evalúe cómo encaja con el módulo de
+acreditación/vetting ya construido (`convex/vetting.ts`).
