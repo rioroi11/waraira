@@ -337,3 +337,13 @@ qué sirve.
 Pendiente de que el equipo de Rafa evalúe cómo encaja con el módulo de acreditación/vetting de
 menores ya construido (`convex/vetting.ts`, `convex/lib/minorsGate.ts`; recordar que el módulo de
 Menores está apagado con kill-switch hasta revisión legal LOPNNA).
+
+### Verificación uniforme: solo por código de mensaje (SMS/WhatsApp) (1-jul-2026)
+
+**Decisión de Edma:** en Mascotas, Niños, Insumos y cualquier otro módulo, la verificación de
+identidad o de una acción (confirmar que alguien es quien dice ser, confirmar una entrega, un
+traslado, un aval, etc.) debe hacerse **únicamente por código enviado por mensaje (SMS/WhatsApp)**,
+no por otros métodos (subir documento, foto, verificación manual). Es consistente con el modelo de
+identidad que ya usa la plataforma (T1: teléfono + OTP), la idea es no introducir métodos de
+verificación distintos módulo por módulo, sino mantener uno solo, simple y ya construido, en todos
+lados.
