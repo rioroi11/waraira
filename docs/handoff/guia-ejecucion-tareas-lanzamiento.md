@@ -343,12 +343,17 @@ construido (`convex/vetting.ts`, `convex/lib/minorsGate.ts`; recordar que el mó
 apagado con kill-switch hasta revisión legal LOPNNA). Para Mascotas, revisar contra
 `docs/MODULO-MASCOTAS.md` (custodia trazada, sin brazaletes).
 
-### Verificación uniforme: solo por código de mensaje (SMS/WhatsApp) (1-jul-2026)
+### Verificación uniforme: solo por código de mensaje (SMS/WhatsApp), salvo el aval de Niños/Mascotas (1-jul-2026, corregido)
 
-**Decisión de Edma:** en Mascotas, Niños, Insumos y cualquier otro módulo, la verificación de
-identidad o de una acción (confirmar que alguien es quien dice ser, confirmar una entrega, un
-traslado, un aval, etc.) debe hacerse **únicamente por código enviado por mensaje (SMS/WhatsApp)**,
-no por otros métodos (subir documento, foto, verificación manual). Es consistente con el modelo de
-identidad que ya usa la plataforma (T1: teléfono + OTP), la idea es no introducir métodos de
-verificación distintos módulo por módulo, sino mantener uno solo, simple y ya construido, en todos
-lados.
+**Decisión de Edma, corregida:** hay dos mecanismos distintos, no uno solo:
+
+- **El aval de cuidado de niños y de mascotas** (nota de arriba) es **humano, por notificación** a
+  usuarios que coinciden en domicilio/universidad/escuela/trabajo: no es un código, es una persona
+  real confirmando a otra.
+- **En todos los demás módulos** (Insumos, y cualquier otra verificación de identidad/acción que no
+  sea ese aval específico: confirmar que alguien es quien dice ser, confirmar una entrega, un
+  traslado, etc.) la verificación debe hacerse **únicamente por código enviado por mensaje
+  (SMS/WhatsApp)**, no por otros métodos (subir documento, foto, verificación manual). Es
+  consistente con el modelo de identidad que ya usa la plataforma (T1: teléfono + OTP); la idea es
+  no introducir métodos de verificación distintos módulo por módulo, sino mantener uno solo, simple
+  y ya construido, en todo lo que no sea el aval humano de niños/mascotas.
