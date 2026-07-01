@@ -32,13 +32,16 @@ El sitio cumple bien lo no negociable: cero comparaciones ególatras, "complemen
 reemplazamos" repetido y correcto en las 4 páginas, dignidad real ante niñez y fallecimientos, cero
 guiones largos. El problema no es de guardrails sino de **registro**: jerga de producto/tech
 repetida ("baja barrera" ×3, "oferta" ×2, "por diseño", "capa civil") y despersonalización ("el
-servicio" en vez de "Waraira/nosotros", 6+ veces). El hallazgo más fuerte: en Términos, **"El
-servicio se ofrece tal como está"** es un calco literal del boilerplate SaaS en inglés ("the service
-is provided as is"), pegado justo al lado de "esfuerzo humanitario hecho de buena fe": el choque de
-tono más grande de todo el sitio. También hay una **inconsistencia real entre páginas legales**:
-Privacidad define Waraira como "una capa civil de coordinación" y Términos como "una herramienta
-civil y gratuita": dos definiciones distintas del mismo producto en el mismo sitio. Recomiendo
-unificar en **"herramienta"** (la de Términos), es más concreta y fácil de repetir de boca en boca.
+servicio" en vez de "Waraira/nosotros", 6+ veces). **Decisión final de Edma: reemplazar "el
+servicio" por "Waraira" en las 6+ apariciones señaladas en las tablas de abajo.** El hallazgo más
+fuerte estaba en Términos, **"El servicio se ofrece tal como está"**, un calco literal del
+boilerplate SaaS en inglés ("the service is provided as is") pegado justo al lado de "esfuerzo
+humanitario hecho de buena fe": el choque de tono más grande de todo el sitio. **Ya resuelto**, ver
+la redacción final de Edma en la tabla de Términos más abajo. También hay una **inconsistencia real
+entre páginas legales**: Privacidad define Waraira como "una capa civil de coordinación" y Términos
+como "una herramienta civil y gratuita": dos definiciones distintas del mismo producto en el mismo
+sitio. Recomiendo unificar en **"herramienta"** (la de Términos), es más concreta y fácil de repetir
+de boca en boca.
 
 ### Inicio (`/es`)
 
@@ -99,7 +102,7 @@ unificar en **"herramienta"** (la de Términos), es más concreta y fácil de re
 | "No hagas extracción masiva ni abuses del servicio." | "No hagas extracción masiva de datos (por ejemplo, con programas automáticos) ni abuses de Waraira." | "extracción masiva" sin explicación es incomprensible para la mayoría |
 | "Ponemos orden, trazabilidad y un resguardo sobre la capa civil..." | "Ponemos orden y dejamos todo trazado, y resguardamos lo que podemos desde este lado civil. Los casos se los pasamos a las autoridades..." | La frase más institucional del sitio |
 | "También puedes reportar por medio de un allegado, con su consentimiento." | "También puedes reportar por medio de alguien de confianza, si esa persona está de acuerdo." | "allegado"/"consentimiento" son registro formal/legal |
-| **"El servicio se ofrece tal como está, como un esfuerzo humanitario hecho de buena fe, sin garantías."** | "Waraira es un esfuerzo humanitario hecho de buena fe. Lo ofrecemos como está, sin poder garantizar que todo funcione siempre perfecto." | **El choque de tono más fuerte del sitio**: boilerplate SaaS en inglés pegado a "esfuerzo humanitario" |
+| **"El servicio se ofrece tal como está, como un esfuerzo humanitario hecho de buena fe, sin garantías."** | **Decisión final de Edma (1-jul-2026), aplicar tal cual:** "Waraira es un esfuerzo humanitario hecho de buena fe. Es una iniciativa nueva, pensada para que todos la aprovechen y le den buen uso. Estamos abiertos a sugerencias, y entre todos la sostenemos: usándola con conciencia y completando la información que pide." | **El choque de tono más fuerte del sitio**: boilerplate SaaS en inglés pegado a "esfuerzo humanitario". Edma reemplazó la cláusula de garantías por un llamado a participar y sostener la plataforma entre todos, en vez de una advertencia legal |
 | "Nuestra responsabilidad se limita a lo que permita la ley." | Sin cambios | Cláusula legal necesaria; en esta sección el registro formal es esperable |
 
 ---
@@ -174,7 +177,7 @@ Herramientas, Otro. Para "Ropa" hay 3 subcampos de **texto libre**: Edad, Talla,
 - *Combustible*: el nombre suena solo a gasolina/diesel, pero **gas doméstico (bombona)** y
   **energía** (plantas, baterías, power banks) son de las necesidades más urgentes post-sismo y no
   calzan mentalmente ahí: la gente termina reportándolos como "Otro" y se pierde la trazabilidad.
-  Propuesta: renombrar/expandir a **"Gas y energía"**.
+  **Decisión final de Edma (1-jul-2026): renombrar/expandir la categoría a "Gas y energía".**
 
 **Categoría completa que falta: insumos para mascotas.** No existe ningún gancho en
 `SUPPLY_CATEGORIES` para mascotas, aunque el proyecto ya tiene un módulo Mascotas aparte
@@ -260,20 +263,21 @@ como "no probado en vivo" necesita que alguien lo confirme con una sesión de na
 
 ## Resumen para Rafa
 
-1. **Copy:** guardrails de marca cumplidos en las 4 páginas; el trabajo real es de registro
-   (despersonalizar "el servicio" → "Waraira/nosotros", quitar jerga de producto repetida, y
-   resolver la definición inconsistente de Waraira entre Privacidad ("capa") y Términos
-   ("herramienta"): usar "herramienta" en todo el sitio). El hallazgo más urgente de copy es la
-   frase de boilerplate SaaS en Términos ("el servicio se ofrece tal como está").
-2. **Categorías:** un hallazgo cruzado confirmado por dos vías independientes ("Refugio" significa
-   dos cosas distintas), un hueco crítico de seguridad ("persona atrapada" no tiene categoría propia
-   y cae mal en desaparecida/peligro genérico), un rename necesario ("Combustible" → "Gas y
-   energía"), y una pieza completa que falta (insumos para mascotas, el motor de necesidades no
-   tiene gancho para el módulo Mascotas todavía). Dos decisiones de producto de Edma para incorporar
-   directo, no solo hallazgos: (a) al elegir "Otro" debe desplegarse un campo de texto obligatorio
-   para especificar de qué se trata, y (b) los insumos de mascotas necesitan su propia
-   sección/feed con las mismas tres pestañas de estado que ya usa `/es/necesidades`
-   ("Verificados / Sin verificar / Cubiertos"), no mezclarse sueltos en el feed general.
+1. **Copy: 2 decisiones finales de Edma, aplicar tal cual, no evaluar como propuesta:**
+   (a) reemplazar "el servicio" por "Waraira" en las 6+ apariciones señaladas en las tablas; (b) la
+   frase de Términos sobre garantías queda reemplazada por la redacción final en la tabla de
+   Términos ("Waraira es un esfuerzo humanitario hecho de buena fe. Es una iniciativa nueva..."),
+   ya no es la frase de boilerplate SaaS original. El resto de hallazgos de copy (jerga de producto
+   repetida, la definición inconsistente "capa" vs. "herramienta") siguen como propuesta abierta
+   para que el equipo de Rafa decida.
+2. **Categorías: 3 decisiones finales de Edma, aplicar tal cual:** (a) renombrar "Combustible" a
+   **"Gas y energía"**; (b) al elegir "Otro" debe desplegarse un campo de texto obligatorio para
+   especificar de qué se trata; (c) los insumos de mascotas necesitan su propia sección/feed con las
+   mismas tres pestañas de estado que ya usa `/es/necesidades` ("Verificados / Sin verificar /
+   Cubiertos"), no mezclarse sueltos en el feed general. Además quedan dos hallazgos abiertos para
+   que Rafa evalúe: el hallazgo cruzado de "Refugio" (significa dos cosas distintas) y el hueco de
+   seguridad de "persona atrapada" (no tiene categoría propia y cae mal en desaparecida/peligro
+   genérico).
 3. **Flujos:** la cascada de ubicación obligatoria + GPS redundante, y la falta de confirmación
    visible tras enviar un reporte, son las dos fricciones de mayor riesgo bajo red intermitente.
    Varios puntos quedaron marcados explícitamente como "no probado en vivo": antes de decidir
