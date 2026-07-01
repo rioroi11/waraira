@@ -317,26 +317,31 @@ Para que cualquier bloque de arriba se pueda asignar a otra persona sin que pier
 
 ## 8. Otras ideas de producto de Edma (fuera del alcance original de las 3 tareas)
 
-### Ampliar quién puede avalar a un voluntario o persona registrada (1-jul-2026)
+### Ampliar quién puede avalar a un voluntario o persona registrada (1-jul-2026, refinado)
 
-**Contexto específico: este aval es el de cuidado de niños** (la acreditación/vetting para quien va
-a estar en contacto con menores, no un aval genérico de voluntariado). Hoy se apoya en vecinos por
-dirección (proximidad geográfica). **Propuesta de Edma:** agregar campos opcionales al perfil,
-además de la dirección, para **escuela, universidad y lugar de trabajo**. Si la persona los llena,
-el sistema podría enviar también solicitud de confirmación a compañeros de esos contextos, no solo a
-vecinos, para ampliar el número real de personas que pueden avalarla (más candidatos para el M-of-N
-de corroboración, útil para alguien que tenga pocos vecinos cercanos que lo conozcan pero sí
-compañeros de trabajo/estudio que sí puedan dar fe). Todos los campos quedan opcionales, no
-reemplazan el aval por vecindad, lo complementan.
+**Contexto específico: este aval es el de cuidado de niños Y el de mascotas** (la
+acreditación/vetting para quien va a estar en contacto con menores o a cargo de una mascota, no un
+aval genérico de voluntariado). Hoy se apoya en vecinos por dirección (proximidad geográfica).
 
-**Además, decisión de Edma sobre transparencia:** el sistema debe explicarle a la persona, en el
-momento de pedirle estos datos, **por qué se los pide**: que es específicamente para el aval de
-cuidado de niños, no un dato genérico de perfil. No pedir escuela/universidad/trabajo sin decir para
-qué sirve.
+**Propuesta de Edma (refinada):** agregar campos opcionales al perfil, además de la dirección, para
+**escuela, universidad y lugar de trabajo**. **El aval es humano, no automático:** el mecanismo es
+que el sistema notifica a otros usuarios ya registrados que coincidan en alguno de esos mismos datos
+(mismo domicilio/zona, misma universidad, misma escuela, mismo trabajo) para que sean ellos quienes,
+como personas, confirmen o den fe de la persona a avalar. Es una ampliación del mismo patrón que ya
+existe por vecindad (notificar por coincidencia de domicilio), aplicado también a universidad,
+escuela y trabajo, para tener más candidatos reales que puedan dar fe (útil para alguien con pocos
+vecinos cercanos que lo conozcan, pero sí compañeros de estudio/trabajo que sí puedan). Todos los
+campos quedan opcionales, no reemplazan el aval por vecindad, lo complementan.
 
-Pendiente de que el equipo de Rafa evalúe cómo encaja con el módulo de acreditación/vetting de
-menores ya construido (`convex/vetting.ts`, `convex/lib/minorsGate.ts`; recordar que el módulo de
-Menores está apagado con kill-switch hasta revisión legal LOPNNA).
+**Decisión de Edma sobre transparencia:** el sistema debe explicarle a la persona, en el momento de
+pedirle estos datos, **por qué se los pide**: que es específicamente para el aval de cuidado de
+niños o de mascotas, no un dato genérico de perfil. No pedir escuela/universidad/trabajo sin decir
+para qué sirve.
+
+Pendiente de que el equipo de Rafa evalúe cómo encaja con el módulo de acreditación/vetting ya
+construido (`convex/vetting.ts`, `convex/lib/minorsGate.ts`; recordar que el módulo de Menores está
+apagado con kill-switch hasta revisión legal LOPNNA). Para Mascotas, revisar contra
+`docs/MODULO-MASCOTAS.md` (custodia trazada, sin brazaletes).
 
 ### Verificación uniforme: solo por código de mensaje (SMS/WhatsApp) (1-jul-2026)
 
