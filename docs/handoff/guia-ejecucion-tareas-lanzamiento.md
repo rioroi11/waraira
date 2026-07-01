@@ -319,12 +319,21 @@ Para que cualquier bloque de arriba se pueda asignar a otra persona sin que pier
 
 ### Ampliar quién puede avalar a un voluntario o persona registrada (1-jul-2026)
 
-Hoy el aval de un voluntario/persona registrada se apoya en vecinos por dirección (proximidad
-geográfica). **Propuesta de Edma:** agregar campos opcionales al perfil, además de la dirección,
-para **escuela, universidad y lugar de trabajo**. Si la persona los llena, el sistema podría enviar
-también solicitud de confirmación a compañeros de esos contextos, no solo a vecinos, para ampliar el
-número real de personas que pueden avalarla (más candidatos para el M-of-N de corroboración, útil
-para alguien que tenga pocos vecinos cercanos que lo conozcan pero sí compañeros de trabajo/estudio
-que sí puedan dar fe). Todos los campos quedan opcionales, no reemplazan el aval por vecindad,
-lo complementan. Pendiente de que el equipo de Rafa evalúe cómo encaja con el módulo de
-acreditación/vetting ya construido (`convex/vetting.ts`).
+**Contexto específico: este aval es el de cuidado de niños** (la acreditación/vetting para quien va
+a estar en contacto con menores, no un aval genérico de voluntariado). Hoy se apoya en vecinos por
+dirección (proximidad geográfica). **Propuesta de Edma:** agregar campos opcionales al perfil,
+además de la dirección, para **escuela, universidad y lugar de trabajo**. Si la persona los llena,
+el sistema podría enviar también solicitud de confirmación a compañeros de esos contextos, no solo a
+vecinos, para ampliar el número real de personas que pueden avalarla (más candidatos para el M-of-N
+de corroboración, útil para alguien que tenga pocos vecinos cercanos que lo conozcan pero sí
+compañeros de trabajo/estudio que sí puedan dar fe). Todos los campos quedan opcionales, no
+reemplazan el aval por vecindad, lo complementan.
+
+**Además, decisión de Edma sobre transparencia:** el sistema debe explicarle a la persona, en el
+momento de pedirle estos datos, **por qué se los pide**: que es específicamente para el aval de
+cuidado de niños, no un dato genérico de perfil. No pedir escuela/universidad/trabajo sin decir para
+qué sirve.
+
+Pendiente de que el equipo de Rafa evalúe cómo encaja con el módulo de acreditación/vetting de
+menores ya construido (`convex/vetting.ts`, `convex/lib/minorsGate.ts`; recordar que el módulo de
+Menores está apagado con kill-switch hasta revisión legal LOPNNA).
