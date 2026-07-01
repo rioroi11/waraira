@@ -226,7 +226,7 @@ descartarlo del todo o de proponerlo.
 
 ---
 
-## 3. Mensajes finales, listos para revisión de Rafa (nadie fue contactado)
+## 3. Mensajes finales, listos para revisar juntos (Edma + Rafa) antes de enviar (nadie fue contactado)
 
 Texto final por organización, para copiar/pegar una vez que Rafa dé luz verde. Ninguno se envió.
 

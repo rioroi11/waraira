@@ -295,9 +295,9 @@ Para que cualquier bloque de arriba se pueda asignar a otra persona sin que pier
    prensa, sin confirmar" / "sin confirmar"). Sin esa etiqueta, el bloque no está completo.
 3. **Aviso de cierre:** cuando un bloque está listo, se avisa a Rafa señalando el bloque exacto
    (no "ya terminé la Tarea 1" sino "Bloque B2: Cruz Roja por filial, listo").
-4. **Ningún bloque de la Tarea 3 pasa a "contacto real" sin aprobación de Rafa.** Eso ya está
-   marcado en el brief y se repite aquí porque es el paso de mayor riesgo (es comunicación pública a
-   nombre de Waraira).
+4. **Ningún bloque de la Tarea 3 pasa a "contacto real" sin que Edma y Rafa lo revisen juntos.** Eso
+   ya está marcado en el brief ("lo revisamos juntos antes de enviar") y se repite aquí porque es el
+   paso de mayor riesgo (es comunicación pública a nombre de Waraira).
 
 ---
 
@@ -309,6 +309,6 @@ Para que cualquier bloque de arriba se pueda asignar a otra persona sin que pier
 - [x] Tarea 1: cerrada por decisión de Edma (1-jul-2026), sin Fase 2 ni corroboración por llamada, cubierto por el disclaimer de la página pública de contactos.
 - [x] Tarea 3: mensajes finales listos por organización (`tarea3-difusion-aliados.md` §3).
 - [x] Tarea 2: Bloques A-D (copy y categorías) entregados (`tarea2-copy-categorias.md`).
-- [ ] Tarea 3: aprobación de Rafa antes de enviar cualquier mensaje (mensajes finales ya redactados, ver §3 de `tarea3-difusion-aliados.md`).
+- [ ] Tarea 3: revisar juntos (Edma + Rafa) antes de enviar cualquier mensaje (mensajes finales ya redactados, ver §3 de `tarea3-difusion-aliados.md`).
 - [ ] Tarea 2: probar en vivo con navegador real los puntos marcados "no probado" (confirmación de envío, verificación de contacto, campos condicionales).
 - [ ] Aviso a Rafa de cada bloque cerrado, por separado (no en un solo lote al final).

@@ -27,4 +27,4 @@ host de fotos (Cloudflare R2/Images), verificación de cédula, y la migración 
   completa (incluye lectura del código fuente real para las categorías).
 - **`tarea3-difusion-aliados.md`**: kit de difusión mejorado + 8 organizaciones aliadas investigadas
   y priorizadas, con mensaje final listo por organización (§3). Investigación completa; falta
-  aprobación de Rafa antes de contactar a nadie (no se contactó a ninguna organización todavía).
+  revisarlos juntos (Edma + Rafa) antes de contactar a nadie (no se contactó a ninguna organización todavía).
