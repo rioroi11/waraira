@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# espejo local del vault Obsidian (symlinks al propio repo)
+/Waraira/Repo/
+
+# repo de Rafa anidado (waraira.org, remote rafaaro) — no embeber
+/waraira.org/
