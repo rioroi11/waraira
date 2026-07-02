@@ -80,8 +80,8 @@ asuste, sin superlativos. **Lema: «Entre todos, unidos.»** (nunca «a la orden
   clic; trae los logos descargables y todas las bios).
 - **Bios por red:** `docs/PERFILES-REDES.md`.
 - **Textos de difusión ya redactados** (posts, llamados, FAQ): `docs/CONTENIDO-DIFUSION.md`.
-- **Plataforma en vivo:** https://insumos-three.vercel.app
-- **Sitio (en preparación):** waraira.org
+- **Sitio / plataforma (links públicos):** https://waraira.org
+- **Capturas para redes (screencast/screenshots):** https://dev.waraira.org (plataforma real)
 
 ---
 

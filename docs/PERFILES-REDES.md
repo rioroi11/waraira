@@ -73,8 +73,8 @@
 | **Nombre visible** | Waraira |
 | **Handle sugerido (preferente)** | `@waraira` |
 | **Alternativas si `@waraira` está tomado** | `@waraira_org` · `@waraira.org` · `@somoswaraira` · `@waraira_ve` |
-| **Sitio web** | https://waraira.org *(en preparación)* — hoy en vivo: https://insumos-three.vercel.app |
-| **Resumen ejecutivo** | https://insumos-three.vercel.app/resumen.html |
+| **Sitio web** | https://waraira.org *(dominio definitivo; el proxy redirige a `/es`)* |
+| **Cómo funciona** | https://waraira.org/como-funciona |
 | **Categoría** | Organización sin fines de lucro / Causa social / Servicio comunitario |
 | **Ubicación** | Venezuela |
 | **Avatar** | la marca sola (cumbre + faro), 400×400, fondo emerald |
@@ -258,7 +258,7 @@
 - [ ] **Avatar** (marca sola) y **portada** (lockup sobre cumbre) exportados desde `brand-redes.html`.
 - [ ] Bio sin promesas de dinero ni lenguaje político (R8/R9).
 - [ ] Ningún rostro/dato de menor en ninguna pieza (art. 65).
-- [ ] Enlace correcto (hoy `insumos-three.vercel.app`; cambiar a `waraira.org` al activarse).
+- [ ] Enlace correcto: `https://waraira.org` (dominio definitivo). Capturas para perfiles/portada se toman de `https://dev.waraira.org`.
 - [ ] Mensaje de bienvenida de WhatsApp configurado.
 - [ ] Post fijado puesto en X / IG / FB.
 </content>

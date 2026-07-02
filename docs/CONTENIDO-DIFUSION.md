@@ -12,9 +12,16 @@
 > Última actualización: 1 de julio de 2026 — voz de pertenencia colectiva; sello "Entre todos, unidos."
 
 **Enlaces que se repiten en las piezas:**
-- Plataforma: https://insumos-three.vercel.app
-- Resumen ejecutivo (mapa conceptual): https://insumos-three.vercel.app/resumen.html
-- Flujos diagramados: https://insumos-three.vercel.app/modulos/flujos/index.html
+- Plataforma (links públicos): https://waraira.org
+- Cómo funciona: https://waraira.org/como-funciona
+
+> **Calibración (2 jul 2026 — repo definitivo `waraira.org`).** Los links públicos apuntan al dominio
+> definitivo **waraira.org** (el proxy redirige `/` → `/es`). Las **capturas / screencast se toman de
+> https://dev.waraira.org** (plataforma real). El dev **aún no tiene** los módulos Insumos, Mascotas ni
+> Niños/brazaletes (dan 404): en el texto se narran como **próximamente**, pero **solo se captura y se
+> linkea lo que ya está vivo**: Inicio (`/es`), Necesidades/Dónde falta (`/es/necesidades`), Reportar
+> (`/es/reportar`), Personas (`/es/personas`), Traslados (`/es/traslados`), Hospitales (`/es/hospitales`),
+> Mapa (`/es/mapa`) y Alertas (`/es/alertas`). Mapa de rutas y guion adaptado en `docs/GUION-LOCUCION.md` (v2).
 
 ---
 
@@ -59,7 +66,7 @@ deriva a ellas.
 Aquí no hay ellos y nosotros — solo nosotros. Waraira es nuestra, la cuidamos entre todos y nadie
 la quiebra.
 
-Entra, hazla tuya y compártela: https://insumos-three.vercel.app
+Entra, hazla tuya y compártela: https://waraira.org
 
 **Entre todos, unidos.**
 
@@ -90,7 +97,7 @@ Cómo la haces tuya desde afuera:
    niños o insumos, invítalos a enlazarse con Waraira para que nadie duplique esfuerzos y nadie
    quede por fuera.
 
-Conócela y hazla tuya: https://insumos-three.vercel.app
+Conócela y hazla tuya: https://waraira.org
 
 **Entre todos, unidos.**
 
@@ -122,7 +129,7 @@ Waraira no es una lista más: es la confianza que levantamos entre todos. Lo que
 Waraira suma fuerzas: es de todos los que ayudamos.
 Autoridades, ONG, colectivos: enlácense, compartamos datos, no dupliquemos.
 Ciudadanía: háganla suya y compártanla.
-Aquí no hay ellos y nosotros — solo nosotros. 👉 https://insumos-three.vercel.app
+Aquí no hay ellos y nosotros — solo nosotros. 👉 https://waraira.org
 Entre todos, unidos.
 
 ### A3.5 — Post suelto (privacidad, para generar confianza)
@@ -143,7 +150,7 @@ Así nos cuidamos entre todos y le cerramos la puerta a los farsantes.
 🟡 *Waraira* — la hacemos entre todos para que la ayuda llegue a tiempo y cada niño rescatado siga a salvo.
 Censo seguro de niños · insumos con punto, zona y estado · voluntarios avalados por sus vecinos. Sin señal y
 sin pedir dinero.
-👉 https://insumos-three.vercel.app
+👉 https://waraira.org
 *Entre todos, unidos.*
 
 ### A4.2 — Mensaje medio (para grupos)
@@ -157,7 +164,7 @@ familias sin censo, y eso es peligroso: roban niños y aparecen falsos padres.
 ✅ Insumos con punto, zona, contacto y estado: la confianza que levantamos juntos.
 
 Funciona sin señal y no pide dinero. No reemplaza a las autoridades: las apoya.
-Hazla tuya y compártela: https://insumos-three.vercel.app
+Hazla tuya y compártela: https://waraira.org
 *Entre todos, unidos.*
 
 ### A4.3 — Antídoto contra el rumor (para responder cadenas no verificadas)
@@ -165,7 +172,7 @@ Antes de reenviar: ¿sabes si esa ayuda es real, si ya se entregó, de qué zona
 llamar? Si no, es rumor, y el rumor nos divide.
 En *Waraira* cada oferta y cada necesidad tiene punto, zona, contacto y estado actualizado —
 respaldado por los tuyos.
-Subamos la info ahí y hagámosla nuestra: https://insumos-three.vercel.app
+Subamos la info ahí y hagámosla nuestra: https://waraira.org
 
 ---
 
@@ -178,6 +185,13 @@ imágenes de niños. Cursor lento, sin prisa; zoom manual (CapCut) sobre lo que 
 **Orden de módulos (decisión de Edma):** Insumos → Voluntariado → Mascotas → Niños. Un solo video
 corrido, que después se recorta en 4 piezas cortas (una por módulo) para redes.
 
+> 🎬 **Qué grabar hoy (calibración a dev.waraira.org).** Esta tabla es la **visión completa del plan** y
+> se graba cuando los módulos Insumos/Voluntariado/Mascotas/Niños estén vivos. El dev actual **no los tiene**
+> (dan 404), así que **el video que se produce ahora sigue el `docs/GUION-LOCUCION.md` v2**, que narra solo
+> las pantallas reales de dev (Inicio · Necesidades · Reportar · Personas · Traslados · Hospitales · Mapa).
+> Las capturas se toman de **https://dev.waraira.org**. En la columna de abajo, ✅ = ya capturable en dev;
+> 🔜 = próximamente (no capturable aún).
+
 > ⚠️ **Antes de grabar — cargar SOLO datos ficticios de ejemplo en la plataforma.** Ningún nombre,
 > foto, cédula, teléfono o código real de niños, voluntarios, mascotas o insumos debe aparecer en
 > pantalla. Usa datos inventados (ej. "María Ejemplo", fotos de stock/placeholder, códigos de
@@ -186,12 +200,12 @@ corrido, que después se recorta en 4 piezas cortas (una por módulo) para redes
 
 | Tiempo  | Pantalla a grabar (screencast)                                                 | Voz en off / texto                                                                                                                                                                                                                                                                                        |
 | ------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0–8 s   | `resumen.html` — vista general de la plataforma, scroll lento                  | "Después del terremoto, miles salimos a ayudar. Eso deja dicho de que estamos hechos. Y con eso desde ya lo que sigue lo hacemos nosotros."                                                                                                                                                               |
-| 8–24 s  | `/insumos` — listado de ofertas/necesidades con punto, zona, contacto y estado | "La ayuda circula como rumor, y el rumor nos divide. pero ahora la sierra Waraira corta con eso: aqui lo que subes queda respaldado por los tuyos, con punto, zona y contacto. No es una app que alguien te entrega desde arriba: es la confianza que sostenemos entre todos, y que nadie puede quebrar." |
-| 24–38 s | `/voluntarios` + `/validacion` — aval vecinal                                  | "Los voluntarios se avalan con su número de teléfono. Y a quienes van a cuidar niños y mascotas los avalan sus propios vecinos, compañeros de trabajo o de estudio. Solo cuida quien la comunidad reconoce. Mínimo dos confirmaciones. Así nos cuidamos entre todos."                                     |
-| 38–52 s | `/mascotas` — cartelera de mascotas                                            | "Las mascotas también encuentran su camino de regreso: cada una recibe un código, foto y cartel en la cartelera de 'se busca, encontrada, reunificada'. Custodia trazada y necesidades veterinarias visibles para quien pueda ayudar. Aquí ninguno está solo."                                            |
-| 52–72 s | `/ninos` → `/brazaletes/registro` → `/reunificacion`                           | "Hay niños separados de sus familias, sin censo, sin saber cuántos son ni quién los cuida. Entre todos ponemos orden: cada niño tiene un código, en un brazalete nunca lleva su nombre ni su foto. La reunificación exige autoridad: imposible cerrarla con un clic. Así los cuidamos entre todos."       |
-| 72–90 s | `resumen.html` — cierre, URL grande superpuesta                                | "Funciona sin internet, no pide dinero, y trabaja junto a las autoridades para apoyarlas. Waraira no es de un bando ni de un color: es nuestra, y la sostenemos entre todos. Para que cada niño rescatado siga a salvo. Únete, hazla tuya, compártela. Entre todos, unidos."                              |
+| 0–8 s   | ✅ Inicio `/es` (dev) — vista general de la plataforma, scroll lento            | "Después del terremoto, miles salimos a ayudar. Eso deja dicho de que estamos hechos. Y con eso desde ya lo que sigue lo hacemos nosotros."                                                                                                                                                               |
+| 8–24 s  | 🔜 Insumos (no en dev) · equivalente vivo: ✅ Necesidades `/es/necesidades`     | "La ayuda circula como rumor, y el rumor nos divide. pero ahora la sierra Waraira corta con eso: aqui lo que subes queda respaldado por los tuyos, con punto, zona y contacto. No es una app que alguien te entrega desde arriba: es la confianza que sostenemos entre todos, y que nadie puede quebrar." |
+| 24–38 s | 🔜 Voluntarios + aval vecinal (no público en dev)                              | "Los voluntarios se avalan con su número de teléfono. Y a quienes van a cuidar niños y mascotas los avalan sus propios vecinos, compañeros de trabajo o de estudio. Solo cuida quien la comunidad reconoce. Mínimo dos confirmaciones. Así nos cuidamos entre todos."                                     |
+| 38–52 s | 🔜 Mascotas — cartelera (no en dev)                                            | "Las mascotas también encuentran su camino de regreso: cada una recibe un código, foto y cartel en la cartelera de 'se busca, encontrada, reunificada'. Custodia trazada y necesidades veterinarias visibles para quien pueda ayudar. Aquí ninguno está solo."                                            |
+| 52–72 s | 🔜 Niños → brazaletes → reunificación (no en dev)                              | "Hay niños separados de sus familias, sin censo, sin saber cuántos son ni quién los cuida. Entre todos ponemos orden: cada niño tiene un código, en un brazalete nunca lleva su nombre ni su foto. La reunificación exige autoridad: imposible cerrarla con un clic. Así los cuidamos entre todos."       |
+| 72–90 s | ✅ Mapa `/es/mapa` (dev) — cierre, URL grande superpuesta                       | "Funciona sin internet, no pide dinero, y trabaja junto a las autoridades para apoyarlas. Waraira no es de un bando ni de un color: es nuestra, y la sostenemos entre todos. Para que cada niño rescatado siga a salvo. Únete, hazla tuya, compártela. Entre todos, unidos."                              |
 
 **Recortes por módulo (los 4 clips para publicar por separado):**
 - Clip 1 — Insumos (0–24 s: intro + módulo)
@@ -216,6 +230,10 @@ arriba. El propio acto de verificarse es el filtro que separa a quien cuida de q
 **Formato:** igual que A5 — 100% screencast de la plataforma en vivo (flujo de registro y aval), voz
 en off serena, cursor lento, zoom manual sobre lo que se nombra. Sin actores, sin b-roll, sin niños.
 
+> 🎬 **Capturas a dev.waraira.org.** El **registro y la verificación por código SÍ están vivos en dev**:
+> se capturan en `/es/entrar` (teléfono → código OTP → verificado). El **aval vecinal** es 🔜 (aún no público
+> en dev). En la tabla: ✅ = capturable hoy en `https://dev.waraira.org`; 🔜 = próximamente.
+
 > ⚠️ **Antes de grabar — cargar SOLO datos ficticios.** Ningún nombre, cédula, teléfono o código real
 > en pantalla. Usa "María Ejemplo", teléfono `0000-0000000`, código de prueba, avales inventados.
 
@@ -228,12 +246,12 @@ en off serena, cursor lento, zoom manual sobre lo que se nombra. Sin actores, si
 
 | Tiempo  | Pantalla a grabar (screencast)                                   | Voz en off / texto                                                                                                                                                                              |
 | ------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0–7 s   | `resumen.html` o `/voluntarios`, scroll lento                    | "Si ya estás ayudando en una plaza, en un refugio, en tu cuadra: esto es tuyo. Y si quieres empezar, también. Waraira es de todos los que la sostenemos."                                       |
-| 7–18 s  | `/voluntarios` — encabezado del módulo, quieto                   | **[LÍNEA CLAVE — ver intensidades abajo]** "La ayuda que de verdad sirve no espera que nadie dé la orden. Nace entre vecinos, y es nuestra. Hoy tiene dónde encontrarse."                        |
-| 18–30 s | `/voluntarios/registro` — formulario, se llenan datos ficticios  | "Registrarte toma un minuto. Pones tu nombre y tu número. Nada de dinero, nada de trámites raros. Es tu manera de decir: aquí estoy, y esto también es mío."                                     |
-| 30–44 s | Campo de teléfono → llega el **código** → se escribe             | "Verificas tu número con un código que te llega al teléfono. Ese paso pequeño es el que le dice a todos que del otro lado hay una persona real. Verificarte es lo que nos permite confiar entre nosotros — y lo que te distingue del que finge." |
-| 44–58 s | `/validacion` — aval vecinal, dos confirmaciones                 | "Y si vas a cuidar niños o mascotas, tus propios vecinos, o tu gente del trabajo o del estudio, confirman que te conocen. Mínimo dos. Solo cuida quien la comunidad reconoce. Así nos respaldamos entre todos." |
-| 58–75 s | `resumen.html` — cierre, URL grande + "Entre todos, unidos."     | "No hace falta que nadie te mande a ser bueno. Ya lo eres. Regístrate, verifícate, y sé parte de lo que hacemos entre todos, desde tu lugar de ciudadano. Waraira es nuestra. Entre todos, unidos." |
+| 0–7 s   | ✅ Inicio `/es` (dev), scroll lento                               | "Si ya estás ayudando en una plaza, en un refugio, en tu cuadra: esto es tuyo. Y si quieres empezar, también. Waraira es de todos los que la sostenemos."                                       |
+| 7–18 s  | 🔜 Voluntarios (no público en dev) · alt. ✅ Inicio `/es`         | **[LÍNEA CLAVE — ver intensidades abajo]** "La ayuda que de verdad sirve no espera que nadie dé la orden. Nace entre vecinos, y es nuestra. Hoy tiene dónde encontrarse."                        |
+| 18–30 s | ✅ `/es/entrar` — formulario de teléfono, datos ficticios         | "Registrarte toma un minuto. Pones tu nombre y tu número. Nada de dinero, nada de trámites raros. Es tu manera de decir: aquí estoy, y esto también es mío."                                     |
+| 30–44 s | ✅ `/es/entrar` — teléfono → llega el **código** OTP → se escribe | "Verificas tu número con un código que te llega al teléfono. Ese paso pequeño es el que le dice a todos que del otro lado hay una persona real. Verificarte es lo que nos permite confiar entre nosotros — y lo que te distingue del que finge." |
+| 44–58 s | 🔜 Aval vecinal, dos confirmaciones (no en dev)                  | "Y si vas a cuidar niños o mascotas, tus propios vecinos, o tu gente del trabajo o del estudio, confirman que te conocen. Mínimo dos. Solo cuida quien la comunidad reconoce. Así nos respaldamos entre todos." |
+| 58–75 s | ✅ Mapa `/es/mapa` (dev) — cierre, URL grande + "Entre todos, unidos." | "No hace falta que nadie te mande a ser bueno. Ya lo eres. Regístrate, verifícate, y sé parte de lo que hacemos entre todos, desde tu lugar de ciudadano. Waraira es nuestra. Entre todos, unidos." |
 
 **La LÍNEA CLAVE (7–18 s) en tres intensidades — elige una:**
 - **Suave (recomendada):** "La ayuda que de verdad sirve no espera que nadie dé la orden. Nace entre vecinos, y es nuestra."
@@ -255,12 +273,12 @@ Ya hay miles de manos ayudando. Solo falta ordenarlas entre todos para que ningu
 quede sin quién responda por él.
 Regístrate y verifícate en Waraira: es tu manera de estar, y de hacerla tuya, desde tu lugar de ciudadano.
 No pedimos dinero. No te pedimos que seas héroe. Te pedimos que estés.
-👉 https://insumos-three.vercel.app · *Entre todos, unidos.*
+👉 https://waraira.org · *Entre todos, unidos.*
 
 **Versión 2 (agencia, más breve):**
 La ayuda ordenada no espera que nadie dé la orden: nace entre vecinos, y es nuestra.
 Regístrate, verifica tu número, y sé parte. Un minuto, desde el teléfono, sin señal y sin dinero.
-👉 https://insumos-three.vercel.app · *Entre todos, unidos.*
+👉 https://waraira.org · *Entre todos, unidos.*
 
 ---
 
@@ -293,7 +311,7 @@ titular, medium para bajada).
 | **2 · Pertenencia** | **Ya estás ayudando. Hazla tuya.** | Un minuto para registrarte y verificar tu número. Sin dinero, sin señal, sin trámites. |
 | **3 · Confianza** | **Verificarte es cuidarnos.** | Es lo que nos permite confiar entre todos. Regístrate en Waraira. |
 
-**Micro-texto fijo al pie (todas las rutas):** `waraira` · insumos-three.vercel.app · *Entre todos, unidos.*
+**Micro-texto fijo al pie (todas las rutas):** `waraira` · waraira.org · *Entre todos, unidos.*
 
 > Nota: la ruta 1 lleva el mismo matiz cívico del video, dicho en positivo y sin nombrar a nadie. Si
 > se busca lo más neutro para audiencias sensibles, la ruta 2 o la 3 son las más seguras.
@@ -359,8 +377,8 @@ seguro para los datos de la niñez.
 
 Con respeto y voluntad de cooperación,
 **Equipo Waraira**
-Plataforma: https://insumos-three.vercel.app · Resumen ejecutivo:
-https://insumos-three.vercel.app/resumen.html
+Plataforma: https://waraira.org · Cómo funciona:
+https://waraira.org/como-funciona
 
 > Nota de verificación legal: confirmar el texto literal del art. 127 y las cifras penales antes
 > de citarlas en versión final (ver `docs/WARAIRA.md` §7). Validar con abogado venezolano de LOPNNA.
@@ -373,7 +391,7 @@ Somos **Waraira**, una iniciativa civil que ordena el censo de niños separados 
 emergencia, con identidad del menor siempre protegida y reunificación que exige autorización de
 la autoridad. **No los sustituimos: los apoyamos.** Queremos **enlazarnos** para verificar
 cédulas, cotejar fotos de niños internamente y conciliar datos sin duplicar. ¿Con quién podemos
-coordinar una reunión técnica? https://insumos-three.vercel.app — *Entre todos, unidos.*
+coordinar una reunión técnica? https://waraira.org — *Entre todos, unidos.*
 
 ---
 
@@ -404,7 +422,7 @@ Propuesta concreta:
 
 ¿Coordinamos una llamada esta semana? Quedamos atentos.
 
-Equipo Waraira — https://insumos-three.vercel.app
+Equipo Waraira — https://waraira.org
 
 ---
 
@@ -439,9 +457,8 @@ insumos (3W/4W), para **no duplicar**.
 **Lo que NO es.** No reemplaza a las autoridades (deriva a ellas). No pide dinero. No expone a
 ningún niño. No es de un bando ni de un color: es de todos los que la sostenemos.
 
-**Enlaces.** Plataforma: https://insumos-three.vercel.app · Resumen ejecutivo:
-https://insumos-three.vercel.app/resumen.html · Flujos:
-https://insumos-three.vercel.app/modulos/flujos/index.html
+**Enlaces.** Plataforma: https://waraira.org · Cómo funciona:
+https://waraira.org/como-funciona
 
 **Contacto de prensa:** [completar]
 
@@ -493,4 +510,4 @@ de censos e insumos). El objetivo es interoperar y no duplicar.
 autoridades u organizaciones que conozcas.
 
 **¿Dónde la veo?**
-https://insumos-three.vercel.app
+https://waraira.org

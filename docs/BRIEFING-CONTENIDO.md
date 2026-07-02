@@ -99,9 +99,16 @@ Destinatarios a invitar a **enlazarse / compartir datos**:
 
 ## 7. Material de apoyo (links y archivos)
 
-- **Resumen ejecutivo (carátula con mapa conceptual)**: https://insumos-three.vercel.app/resumen.html
-- **Plataforma en vivo**: https://insumos-three.vercel.app
-- **Flujos diagramados**: https://insumos-three.vercel.app/modulos/flujos/index.html
+> **Calibración (2 jul 2026).** Para el contenido **público**, los links van al dominio definitivo
+> **https://waraira.org** y las **capturas se toman de https://dev.waraira.org** (plataforma real). Los
+> enlaces de abajo son el **prototipo insumos** = material de referencia interno de la **visión completa
+> del plan** (Insumos/Mascotas/Niños), útil para redactar, no para linkear en piezas públicas. Ver el
+> mapa de rutas reales de dev en `docs/GUION-LOCUCION.md` (v2).
+
+- **Sitio definitivo (links públicos)**: https://waraira.org · **Cómo funciona**: https://waraira.org/como-funciona
+- **Capturas para redes**: https://dev.waraira.org
+- **Referencia del plan (prototipo insumos)** — Resumen ejecutivo: https://insumos-three.vercel.app/resumen.html ·
+  Plataforma: https://insumos-three.vercel.app · Flujos diagramados: https://insumos-three.vercel.app/modulos/flujos/index.html
 - En el repo: `docs/WARAIRA.md`, `waraira-plan.html`, `modulos/flujos/*.html`,
   `modulos/voluntariado.html`.
 
