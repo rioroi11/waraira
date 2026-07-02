@@ -13,7 +13,7 @@ centro y norte centro-occidental**; **La Guaira concentra ~90%**, pero el alcanc
 no solo La Guaira**.
 
 Foco principal: **niños separados y no acompañados (UASC)**. También: cordones de cuido,
-voluntariado, reunificación familiar, insumos y **mascotas extraviadas/rescatadas**. Postura: **"Unir, no dividir."**
+voluntariado, reunificación familiar, insumos y **mascotas extraviadas/rescatadas**. Postura: **"Entre todos, unidos."**
 (Nota: se eliminó el lema "a la orden del Estado" a pedido de la dueña — el encuadre es
 **invitación entre pares**, no sumisión.)
 

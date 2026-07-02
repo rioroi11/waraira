@@ -13,7 +13,7 @@
 La vía más inteligente **no es elegir un canal, sino adoptar una postura que te haga
 adoptable por los tres a la vez.** Esa postura ya está escrita en los principios de Waraira:
 
-- **R8 (sin política) + "Unir, no dividir"** → nadie te acusa de bandería. Abre la puerta
+- **R8 (sin política) + "Entre todos, unidos"** → nadie te acusa de bandería. Abre la puerta
   pública *y* la privada al mismo tiempo.
 - **R11 (complemento de 911) + "Waraira deriva, no dicta custodia"** → no compites con la
   autoridad ni con otras plataformas; **te enchufas**. Una herramienta que no pide poder es

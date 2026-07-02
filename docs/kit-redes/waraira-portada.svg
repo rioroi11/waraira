@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="500" viewBox="0 0 600 200">
+  <rect width="600" height="200" fill="#022c22"/>
+  <g opacity="0.5">
+    <path d="M372 200 L488 78 L536 128 L574 96 L600 142 L600 200 Z" fill="#0e3a2c"/>
+    <path d="M340 200 C430 184 510 190 600 194 L600 200 Z" fill="#0c2f24"/>
+  </g>
+  <circle cx="536" cy="86" r="9" fill="#fbbf24" opacity="0.8"/>
+  <g transform="translate(44 60) scale(0.56)">
+    <g transform="translate(-34.66 -21.3) scale(0.303)">
+      <path d="M237.4 356 L306 134 L374.6 356" fill="none" stroke="#6ee7b7" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M137.4 378 L206 156 L274.6 378" fill="none" stroke="#ecfdf5" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="206" cy="143" r="23" fill="#fbbf24"/>
+    </g>
+    <text x="107" y="92" font-size="100" font-family="Hanken Grotesk, Helvetica Neue, Arial, sans-serif" font-weight="700" fill="#ecfdf5" letter-spacing="-2">waraira</text>
+  </g>
+  <text x="46" y="150" font-family="Helvetica Neue, Arial, sans-serif" font-weight="500" font-size="15" fill="#93a99c">Coordinación civil de ayuda · Venezuela</text>
+</svg>

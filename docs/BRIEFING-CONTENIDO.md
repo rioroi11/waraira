@@ -94,7 +94,7 @@ Destinatarios a invitar a **enlazarse / compartir datos**:
 - **Neutralidad política** (R8): Waraira no se politiza, no ataca, no le teme a nadie; "no
   atacar, accionar" (estilo Gandhi). No usar el caso para confrontar.
 - **Cero dinero** (R9): no se piden donaciones de dinero dentro de Waraira; solo coordinación.
-- Lema: **"Unir, no dividir."** **No** usar "a la orden del Estado".
+- Lema: **"Entre todos, unidos."** **No** usar "a la orden del Estado".
 - Verificar afirmaciones legales antes de publicarlas (ver §7 de `WARAIRA.md`).
 
 ## 7. Material de apoyo (links y archivos)

@@ -77,7 +77,7 @@ Cómo ayudas desde afuera:
 
 Conócela: https://insumos-three.vercel.app
 
-**Unir, no dividir.**
+**Entre todos, unidos.**
 
 ---
 
@@ -107,7 +107,7 @@ En Waraira cada oferta tiene punto, zona, contacto y estado. Se acaba el rumor.
 Waraira no reemplaza a nadie: une.
 Autoridades, ONG, colectivos: enlácense, compartamos datos, no dupliquemos.
 Ciudadanía: úsenla y compártanla.
-Unir, no dividir. 👉 https://insumos-three.vercel.app
+Entre todos, unidos. 👉 https://insumos-three.vercel.app
 
 ### A3.5 — Post suelto (privacidad, para generar confianza)
 En Waraira la identidad de un niño NUNCA es pública.
@@ -128,7 +128,7 @@ Así se cierra la puerta a los farsantes.
 Censo seguro de niños · insumos verificados · voluntarios avalados por sus vecinos. Sin señal y
 sin pedir dinero.
 👉 https://insumos-three.vercel.app
-*Unir, no dividir.*
+*Entre todos, unidos.*
 
 ### A4.2 — Mensaje medio (para grupos)
 Está circulando mucha ayuda y mucho rumor. Hay niños separados de sus familias sin censo, y eso
@@ -142,7 +142,7 @@ es peligroso: roban niños y aparecen falsos padres.
 
 Funciona sin señal y no pide dinero. No reemplaza a las autoridades: las apoya.
 Compártela: https://insumos-three.vercel.app
-*Unir, no dividir.*
+*Entre todos, unidos.*
 
 ### A4.3 — Antídoto contra el rumor (para responder cadenas no verificadas)
 Antes de reenviar: ¿sabes si esa ayuda es real, si ya se entregó, de qué zona es y a quién
@@ -165,7 +165,7 @@ capturas de la plataforma y texto en pantalla.
 | 32–45 s | Logo Waraira + brazalete con código WRA-1234 | "Waraira pone orden. Cada niño tiene un código. El brazalete nunca lleva su nombre ni su foto." |
 | 45–58 s | Capturas: validación de vecinos, insumos, mapa | "Voluntarios avalados por sus vecinos. Insumos verificados. Reunificación que exige autoridad, imposible con un clic." |
 | 58–75 s | Texto: "funciona sin señal · no pide dinero" | "Funciona sin internet. No pedimos dinero. No reemplazamos a las autoridades: las apoyamos." |
-| 75–90 s | URL grande + "Unir, no dividir" | "Waraira. Para que ningún niño se pierda en la ayuda. Únete, enlázate, compártela." |
+| 75–90 s | URL grande + "Entre todos, unidos" | "Waraira. Para que ningún niño se pierda en la ayuda. Únete, enlázate, compártela." |
 
 ---
 
@@ -232,7 +232,7 @@ Somos **Waraira**, una iniciativa civil que ordena el censo de niños separados 
 emergencia, con identidad del menor siempre protegida y reunificación que exige autorización de
 la autoridad. **No los sustituimos: los apoyamos.** Queremos **enlazarnos** para verificar
 cédulas, cotejar fotos de niños internamente y conciliar datos sin duplicar. ¿Con quién podemos
-coordinar una reunión técnica? https://insumos-three.vercel.app — *Unir, no dividir.*
+coordinar una reunión técnica? https://insumos-three.vercel.app — *Entre todos, unidos.*
 
 ---
 
@@ -276,7 +276,7 @@ Equipo Waraira — https://insumos-three.vercel.app
 **Qué es.** Plataforma civil **offline-first** (funciona sin señal, en el teléfono) para
 coordinar la respuesta a la emergencia nacional de Venezuela iniciada el 24 de junio de 2026.
 Foco principal: **niños separados y no acompañados**. También: cordones de cuido, voluntariado,
-reunificación familiar e insumos. Postura: **"Unir, no dividir."**
+reunificación familiar e insumos. Postura: **"Entre todos, unidos."**
 
 **El problema.** Niños acordonados en plazas y gimnasios sin censo; riesgo de sustracción, abuso
 y reclamos fraudulentos; voluntarios sin verificación; y ayuda que circula como rumor no
@@ -336,7 +336,7 @@ No. Solo coordina. Cero dinero dentro de la plataforma.
 Sí. Es offline-first: el teléfono guarda la información y se sincroniza cuando hay señal.
 
 **¿Tiene color político?**
-No. Waraira es neutral: no ataca a nadie ni responde a ningún bando. Unir, no dividir.
+No. Waraira es neutral: no ataca a nadie ni responde a ningún bando. Entre todos, unidos.
 
 **Soy una autoridad / ONG / colectivo. ¿Cómo me enlazo?**
 Escríbenos para acordar el intercambio de datos (cédulas, cotejo interno de fotos, conciliación

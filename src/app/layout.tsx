@@ -10,7 +10,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Waraira · Coordinación civil — Venezuela",
   description:
-    "Plataforma offline-first para censar y proteger niños, organizar cordones de cuido, voluntariado, reunificación familiar e insumos. Unir, no dividir.",
+    "Plataforma offline-first para censar y proteger niños, organizar cordones de cuido, voluntariado, reunificación familiar e insumos. Entre todos, unidos.",
   manifest: "/manifest.webmanifest",
   applicationName: "Waraira",
   appleWebApp: { capable: true, statusBarStyle: "default", title: "Waraira" },
