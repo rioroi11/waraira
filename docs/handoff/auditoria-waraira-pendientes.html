@@ -1,0 +1,329 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Waraira · Auditoría dev.waraira.org vs. plan — pendientes</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#16201c;background:#f6f8f7;line-height:1.55}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}a{color:#1b6b4f}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#eef3f0;border:1px solid #dde6e1;border-radius:6px;padding:1px 6px;font-size:.9em;color:#0f3d2e}
+header.hero{background:linear-gradient(160deg,#0c2c22,#1b6b4f);color:#eafaf2;padding:46px 0 40px;position:relative;overflow:hidden}
+header.hero::after{content:"";position:absolute;right:-80px;bottom:-120px;width:360px;height:360px;background:radial-gradient(circle,rgba(255,255,255,.10),transparent 70%);border-radius:50%}
+.logo{display:flex;align-items:center;gap:12px}
+.logo .w{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:24px}
+.logo b{font-size:22px;font-weight:800}
+h1{font-size:clamp(24px,4.6vw,38px);margin:18px 0 0;font-weight:800;line-height:1.1}
+.lead{opacity:.95;font-size:clamp(15px,2.2vw,17.5px);margin:10px 0 0;max-width:820px}
+.chips{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12.5px;font-weight:800;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3)}
+section{padding:26px 0}
+h2{font-size:clamp(19px,3vw,23px);margin:0 0 6px;display:flex;align-items:center;gap:9px}h2::before{content:"";width:12px;height:12px;border-radius:3px;background:#1b6b4f}
+.sub{color:#5c6b64;font-size:14px;margin:0 0 16px}
+.card{background:#fff;border:1px solid #d9e2dd;border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px rgba(16,40,30,.06);margin-bottom:12px}
+.card .tt{font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.card p{margin:0;font-size:14.5px;color:#3a4942}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}@media(max-width:820px){.stat-row{grid-template-columns:repeat(2,1fr)}}
+.stat{background:#fff;border:1px solid #d9e2dd;border-radius:14px;padding:16px;text-align:center}
+.stat b{display:block;font-size:30px;line-height:1}
+.stat span{font-size:12.5px;color:#5c6b64;font-weight:700}
+.stat.red b{color:#a8322d}.stat.amber b{color:#9a6309}.stat.green b{color:#1b6b4f}.stat.gray b{color:#5c6b64}
+.badge{display:inline-block;font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.b-ok{background:#dff3e8;color:#1b6b4f}.b-wip{background:#fdf0d6;color:#9a6309}.b-off{background:#f7e0de;color:#a8322d}.b-info{background:#e7ecef;color:#3d4a52}
+.grid-modules{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}@media(max-width:920px){.grid-modules{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.grid-modules{grid-template-columns:1fr}}
+.mtile{border-radius:12px;padding:12px 14px;color:#fff;font-size:13px;font-weight:700;display:flex;flex-direction:column;gap:4px;min-height:64px;justify-content:center}
+.mtile span{font-weight:600;font-size:11.5px;opacity:.92}
+.mtile.ok{background:#1b6b4f}.mtile.amber{background:#b9770e}.mtile.red{background:#a8322d}
+.pending{background:#fff;border:1px solid #d9e2dd;border-left:5px solid #a8322d;border-radius:14px;padding:14px 18px;margin-bottom:12px}
+.pending.p-med{border-left-color:#b9770e}
+.pending.p-check{border-left-color:#3d6ea5}
+.pending .tt{font-weight:800;margin-bottom:4px;display:flex;gap:8px;align-items:center}
+.pending p{margin:4px 0 0;font-size:14px;color:#3a4942}
+.confirmed{background:#eafaf2;border:1px solid #bfe4d1;border-radius:14px;padding:12px 16px;margin-bottom:10px;font-size:14px;color:#0f3d2e}
+.confirmed b{color:#1b6b4f}
+details{background:#fff;border:1px solid #d9e2dd;border-radius:14px;margin-bottom:10px;overflow:hidden}
+details summary{cursor:pointer;padding:14px 18px;font-weight:800;list-style:none;display:flex;align-items:center;gap:10px;justify-content:space-between}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"▸";transition:transform .15s;color:#5c6b64;font-size:13px}
+details[open] summary::after{transform:rotate(90deg)}
+details .inner{padding:0 18px 16px}
+.finding{border-top:1px solid #eef1ef;padding:10px 0;font-size:13.8px}
+.finding:first-child{border-top:none}
+.finding .row1{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-weight:700;margin-bottom:3px}
+.finding .ev{color:#5c6b64;font-size:13px}
+.filterbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.filterbtn{border:1px solid #d9e2dd;background:#fff;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:700;cursor:pointer;color:#3a4942}
+.filterbtn.active{background:#0f3d2e;color:#eafaf2;border-color:#0f3d2e}
+footer{padding:24px 0 56px;color:#5c6b64;font-size:13px;text-align:center}
+.note{font-size:13px;color:#5c6b64;margin-top:8px}
+.hidden{display:none !important}
+</style></head><body>
+
+<header class="hero"><div class="wrap">
+  <div class="logo"><div class="w">W</div><b>Waraira</b></div>
+  <h1>Auditoría: dev.waraira.org vs. lo pautado en los documentos</h1>
+  <p class="lead">Recorrido completo del sitio (público + panel de staff), probado con <b>tres roles distintos</b> (Sistema, actor normal T1, staff con grant limitado), comparado contra el inventario funcional consolidado de <code>docs/WARAIRA.md</code>, los módulos y la documentación de arquitectura de <code>waraira.org/docs</code>.</p>
+  <div class="chips">
+    <span class="chip">🌐 dev.waraira.org (waraira.org aún no está en producción)</span>
+    <span class="chip">👤 3 roles probados</span>
+    <span class="chip">🧩 16 módulos auditados</span>
+    <span class="chip">📅 1 de julio de 2026</span>
+  </div>
+</div></header>
+
+<section><div class="wrap">
+  <h2>1 · Resumen en números</h2>
+  <p class="sub">Contando hallazgos por severidad a través de los 16 módulos (después de las correcciones hechas con las pruebas de rol).</p>
+  <div class="stat-row">
+    <div class="stat red"><b>4</b><span>Pendientes de alta prioridad</span></div>
+    <div class="stat amber"><b>8</b><span>Pendientes de prioridad media</span></div>
+    <div class="stat green"><b>7</b><span>Ya construido / corregido (doc desactualizada)</span></div>
+    <div class="stat gray"><b>2</b><span>A verificar con el equipo (no bug de producto)</span></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>2 · Tablero de módulos</h2>
+  <p class="sub">Un vistazo por módulo. Verde = coincide con lo pautado o está correctamente diferido/bloqueado. Ámbar = hay algo pendiente de revisar. Rojo = hay una brecha real que conviene atender pronto.</p>
+  <div class="grid-modules">
+    <div class="mtile ok">Mapa público<span>1 nota menor (leyenda)</span></div>
+    <div class="mtile amber">Directorio<span>bug de datos en tarjetas</span></div>
+    <div class="mtile ok">Mascotas<span>diferido correctamente (D3)</span></div>
+    <div class="mtile ok">Reporte y traslados (público)<span>corregido tras prueba de roles</span></div>
+    <div class="mtile amber">Insumos / necesidades<span>taxonomía y balance por zona</span></div>
+    <div class="mtile amber">Hospitales<span>falta estado "Desvía"</span></div>
+    <div class="mtile ok">Traslados (staff)<span>solo detalle menor de texto</span></div>
+    <div class="mtile amber">Alertas<span>buenas noticias: ya remediado</span></div>
+    <div class="mtile red">Voluntarios<span>aval roto + alcance de vetting</span></div>
+    <div class="mtile ok">Menores<span>kill-switch OFF confirmado</span></div>
+    <div class="mtile ok">Fallecidos<span>kill-switch OFF confirmado</span></div>
+    <div class="mtile red">Staff · Moderación<span>PII sin redactar (confirmado)</span></div>
+    <div class="mtile amber">Staff · Conocimiento<span>buenas noticias: ya remediado</span></div>
+    <div class="mtile ok">Staff · Config/Admin<span>todo coincide</span></div>
+    <div class="mtile ok">Auth / Cuenta<span>todo coincide (crítico legal OK)</span></div>
+    <div class="mtile ok">Home / legal / voz y tono<span>todo coincide</span></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>3 · Lo que queda pendiente por atender</h2>
+  <p class="sub">Ordenado por prioridad. Esto es lo accionable — el detalle completo de cada módulo está en la sección 6.</p>
+
+  <p class="note" style="margin:0 0 10px;font-weight:800;color:#a8322d">Prioridad alta</p>
+  <div class="pending"><div class="tt">🔴 Moderación no redacta PII <span class="badge b-off">confirmado con 2 roles</span></div>
+    <p>Los reportes muestran nombres completos (ej. "Carmen Díaz") tanto con la sesión de Sistema como con un staff de grant limitado a "reports". No es un artefacto de haber probado con un rol privilegiado — es un comportamiento real de la vista de Moderación.</p></div>
+  <div class="pending"><div class="tt">🔴 Botón "Registrar aval" no responde</div>
+    <p>En el detalle de un voluntario, "Registrar aval" no abre ningún modal ni cambia el contador de avales al hacer clic, a diferencia de "Formación" que sí funciona. Parece un handler no cableado.</p></div>
+  <div class="pending"><div class="tt">🔴 Directorio: texto roto en las 4 tarjetas</div>
+    <p>Cada tarjeta del Directorio muestra un fragmento cortado idéntico ("· José (.") en vez de una atribución completa, igual en español e inglés — apunta a un bug de interpolación de datos (posiblemente el cálculo de tiempo relativo), no de traducción.</p></div>
+  <div class="pending"><div class="tt">🔴 Insumos: no hay balance por zona</div>
+    <p>El tablero de necesidades (<code>/es/necesidades</code>, botón "Dónde falta" en el nav — no el formulario "Reportar") solo agrega por categoría (ej. "Agua: 2 piden / 0 ofrecen"). No existe la vista de balance por zona geográfica que pedía el plan original.</p></div>
+  <div class="pending"><div class="tt">🔴 Voluntarios: acotar el vetting a menores y mascotas <span class="badge b-off">decisión de Edma, 2026-07-01</span></div>
+    <p>El mecanismo de avales + formación + verificado se construyó igual para todas las capacidades (conductor, médico, maker, etc.). <b>Decisión:</b> se acota a únicamente <b>cuidadores de menores</b> y <b>cuidadores de mascotas</b>. El resto de los voluntarios (transporte, insumos, médicos, etc.) no debe pasar por avales/formación — solo necesita la verificación de teléfono que ya existe. Anotado en <code>waraira.org/docs/architecture/staff-resource-coordination.md</code>.</p></div>
+
+  <p class="note" style="margin:16px 0 10px;font-weight:800;color:#9a6309">Prioridad media</p>
+  <div class="pending p-med"><div class="tt">🟠 Insumos: taxonomía reducida</div><p>El selector "Categoría" en <code>/es/reportar</code> tiene 9 opciones (Agua, Comida, Medicinas, Materiales de refugio, Ropa, Higiene, Gas y energía, Herramientas, Otro) en vez de las 11 originales — carpas/colchonetas/cobijas se fusionaron en "Materiales de refugio". El tablero <code>/es/necesidades</code> tiene 3 pestañas (Verificados/Sin verificar/Cubiertos) en vez de 2. Sigue pendiente de decisión.</p></div>
+  <div class="pending p-med"><div class="tt">🟠 Reconciliación se queda separada de Moderación <span class="badge b-ok">decidido</span></div><p>El plan original decía que "duplicados" viviría dentro de Moderación; en el sitio real sigue siendo una página independiente en el menú de Triage. <b>Decisión: se mantiene separada, no se fusiona.</b></p></div>
+  <div class="pending p-med"><div class="tt">🟠 Hospitales: falta el estado "Desvía"</div><p>El modal de actualizar capacidad solo ofrece Con cupo / Cupo limitado / Sin cupo / Sin dato. Ya estaba aprobado como "ship-now" — falta implementarlo.</p></div>
+  <div class="pending p-med"><div class="tt">🟠 Voluntarios: falta el "dispatch consciente de acceso"</div><p>El diferenciador de producto más citado en el plan original (emparejar voluntarios a sitios según su nivel de acceso) sigue sin construirse — solo existe un roster de disponibilidad, sin acción de asignar.</p></div>
+  <div class="pending p-med"><div class="tt">🟠 Voluntarios: navegación inconsistente en el roster</div><p>No todas las tarjetas del listado llevan a su página de detalle al hacer clic.</p></div>
+  <div class="pending p-med"><div class="tt">🟠 Mapa: la leyenda anuncia mascotas</div><p>"Mascota perdida" y "Mascota encontrada" siguen en la leyenda del mapa público aunque el módulo está apagado y no hay marcadores reales de ese tipo.</p></div>
+  <div class="pending p-med"><div class="tt">🟠 Traslados: texto truncado</div><p>La tarjeta pública muestra "Traslada Despacho /." — el enmascaramiento del nombre del transportista corta mal el texto y deja puntuación suelta.</p></div>
+
+  <p class="note" style="margin:16px 0 10px;font-weight:800;color:#3d6ea5">A confirmar con el equipo (no es un bug de producto)</p>
+  <div class="pending p-check"><div class="tt">🔵 Usuarios semilla no entran con su rol preasignado</div><p>Los números documentados (+584120000010, +584120000013) pasan por el wizard de onboarding como cuenta nueva, en vez de entrar directo con el rol/grant que la documentación dice que ya tienen. Confirmar si el seeding de roles está cargado en este momento en el deployment de dev.</p></div>
+  <div class="pending p-check"><div class="tt">🔵 "Cómo funciona": 3 menciones de "Waraira" a revisar</div><p>Texto exacto hoy: (1) título "Cómo funciona Waraira"; (2) "Waraira ayuda a que la ayuda llegue. Conecta a quien necesita auxilio con quien puede darlo..."; (3) "...Waraira suma la coordinación: une cada necesidad con un recurso...". Antes se documentaban 6 menciones — ya bajó a 3. Confirmar si esto ya cumple la regla de voz y tono o si se quiere bajar más.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>3bis · Ya confirmado que funciona (se saca de pendientes)</h2>
+  <div class="confirmed"><b>"Otro" → especificar —</b> al elegir la categoría "Otro" en <code>/es/reportar</code>, el campo "¿Qué? (especifica)" sí aparece y es obligatorio. Confirmado con prueba en vivo el 1 de julio. No es un pendiente para Rafa.</div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>4 · Hallazgo de entorno — importante, repórtalo al equipo</h2>
+  <div class="pending" style="border-left-color:#a8322d">
+    <div class="tt">🔴 El "eco" del código OTP está activo ahora mismo en dev</div>
+    <p>Al entrar con un número de teléfono, el sistema <b>no envió un SMS real</b> — mostró el código de un solo uso directamente en pantalla ("Modo dev · código: xxxxxx · Usar"), tal como lo notó Edma en el momento. Esto contradice <code>docs/architecture/dev-mode-and-ergonomics.md</code>, que documenta que el owner fijó <code>DEV_OTP_ECHO=false</code> el 30 de junio (envío real por SMS). Mientras este interruptor esté en <code>true</code>, cualquiera que conozca un número de la lista semilla — incluido el de rol <b>Sistema</b> con acceso total — puede entrar sin necesitar el teléfono real. No es necesariamente un problema (puede ser intencional para esta sesión de trabajo), pero vale la pena confirmar con quien administra el Convex de dev si se reactivó a propósito y cuándo se vuelve a apagar.</p>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>5 · Lo que ya funciona bien (se corrige el reporte anterior)</h2>
+  <p class="sub">Esta segunda ronda, probando con un actor normal (rol "Usuario") y un staff con grant restringido a "reports", refutó algunos hallazgos que en la primera pasada —hecha solo con la sesión de Sistema— parecían brechas.</p>
+  <div class="confirmed"><b>Confirmar entrega de traslados —</b> el botón solo aparece con la sesión de Sistema (que tiene todos los permisos). Un actor normal y un staff sin el grant "transfers" <b>no ven el botón en absoluto</b>. El hallazgo de "posible bug de acceso" del primer reporte queda descartado.</div>
+  <div class="confirmed"><b>Control de acceso por módulo —</b> con el rol limitado, <code>/es/panel</code>, <code>/es/moderacion</code>, <code>/es/hospitales/gestion</code>, <code>/es/menores</code>, <code>/es/fallecidos</code>, <code>/es/ajustes</code> y <code>/es/traslados/gestion</code> devuelven 404 (nunca un 403 que delate que la ruta existe) salvo para el/los módulo(s) concedidos. El panel de staff también se adapta: el rol limitado solo vio la tarjeta de "Moderación", no las de Hospitales/Alertas/Traslados que sí ve Sistema.</div>
+  <div class="confirmed"><b>Documentos filtra por audiencia —</b> con el grant limitado a "reports", la biblioteca de Documentos mostró solo 1 documento (el protocolo de moderación) en vez de los varios que ve Sistema.</div>
+  <div class="confirmed"><b>Menores y Fallecidos —</b> el kill-switch se confirma apagado también para un usuario normal, no solo para Sistema.</div>
+  <div class="confirmed"><b>Restaurar alerta archivada, filtros de Bitácora, Glosario sin botón "Eliminar" —</b> todo esto ya está construido en el sitio; la documentación que decía que faltaba quedó desactualizada (el propio <code>/es/roadmap</code>, fechado hoy, ya lo documenta como resuelto).</div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>6 · Detalle completo por módulo</h2>
+  <p class="sub">Haz clic en cada módulo para ver todos los hallazgos con su evidencia. <span class="badge b-off">alta</span> <span class="badge b-wip">media</span> <span class="badge b-ok">coincide / diferido esperado</span> <span class="badge b-info">a verificar</span></p>
+
+  <details>
+    <summary>Mapa público (shell + paneles) <span class="badge b-ok">mayormente OK</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Shell único con paneles routeables (mapa/cerca/personas), sin recarga completa</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Cero marcadores de mascotas en el mapa (módulo apagado, D3)</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-wip">desviación baja</span> La leyenda del mapa sigue listando "Mascota perdida/encontrada" pese a no haber datos de ese tipo</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Coordenadas de personas enmascaradas a nivel de localidad (Estado·Municipio·Parroquia), sin dirección exacta</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-info">no verificable</span> Defectos de z-index / sobrecarga móvil reportados en docs no se pudieron reproducir (no fue posible forzar un viewport móvil real en el entorno compartido)</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Buscador "Cerca de ti" por dirección funciona (geocodificación + reportes cercanos con distancia)</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Directorio <span class="badge b-wip">bug de datos</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">diferido esperado</span> Ausente de nav/home/footer/leyenda, tal como pauta la decisión D3; accesible solo por URL directa</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-wip">desviación media</span> Las 4 tarjetas muestran un fragmento roto idéntico ("· José (.") en ES y EN — no es un problema de i18n (el switch de idioma funciona bien), sino de interpolación de datos</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Mascotas <span class="badge b-ok">diferido correctamente</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">bloqueado esperado</span> <code>/es/mascotas</code> da 404</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> El selector de tipo de reporte no ofrece opciones de mascotas</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Reporte, seguimiento y traslados (público) <span class="badge b-ok">corregido tras prueba de roles</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Categoría "Persona atrapada" ya existe; parámetro <code>?tipo=</code> preselecciona el tipo correctamente</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Renombres "Gas y energía" / "Materiales de refugio" ya aplicados</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Categoría "Otro" exige un especificador de texto obligatorio</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> <code>/es/seguimiento</code> funciona como lookup público por código, con manejo correcto de códigos inválidos</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">corregido</span> "Confirmar entrega" NO aparece para un actor normal ni para un staff sin grant "transfers" — solo lo ve Sistema. El hallazgo de brecha de acceso de la primera pasada queda descartado</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Insumos / necesidades <span class="badge b-wip">pendientes reales</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Renombres de categoría aplicados; contacto oculto por defecto y revelable bajo demanda; sin ninguna mecánica de dinero (R9)</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-wip">desviación media</span> 9 categorías en vez de 11 (carpas/colchonetas/cobijas fusionadas en "Materiales de refugio")</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-wip">desviación baja</span> 3 pestañas (Verificados/Sin verificar/Cubiertos) en vez de las 2 especificadas</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-off">falta</span> No existe una vista de balance agregado por zona geográfica, solo por categoría</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Hospitales (público + gestión) <span class="badge b-wip">un pendiente</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Listado público con estado de capacidad y filtro por especialidad; alta de hospital funcional</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-wip">desviación media (buena noticia)</span> La UI de staff SÍ permite editar un hospital existente — refuta la hipótesis de "solo creación"</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-off">falta</span> No existe el estado "Desvía"/diverting en el selector de capacidad (ya aprobado como ship-now)</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Modelo de capacidad plana por hospital (intencional, no es una brecha)</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Traslados (staff) <span class="badge b-ok">mayormente OK</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Máquina de estados colapsada (sin "Solicitado" intermedio) tal como está documentado como gap conocido/pendiente de decisión</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Copy y campos confirman R3: solo el receptor (o el equipo con grant) confirma la entrega, nunca el transportista</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-wip">desviación baja</span> Texto truncado "Traslada Despacho /." en la vista pública por mal corte del enmascaramiento</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-info">a verificar</span> No se pudo probar el bug de acceso reportado en la documentación (lista de roles hardcoded) por no tener credenciales de un rol con grant "transfers" pero limitado en lo demás</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Alertas (público + gestión) <span class="badge b-wip">documentación desactualizada</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Autoría enmascarada en público (R8), visible completa en gestión</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-wip">desviación media (buena noticia)</span> "Restaurar" una alerta archivada YA funciona — la documentación que decía que faltaba está desactualizada</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Sin integración de fact-checkers ni feed sísmico (confirmado ausente, tal como se esperaba)</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Voluntarios (staff) <span class="badge b-off">varios pendientes</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Sin "dispatch consciente de acceso" — confirmado que sigue siendo solo roster de lectura, tal como dice la reconciliación documental</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-wip">desviación media</span> El vetting (avales + formación + verificado) está disponible de forma uniforme para todos los tipos de voluntario, no solo cuidadores</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-off">bug</span> "Registrar aval" no responde al clic (a diferencia de "Formación", que sí abre su modal)</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-wip">desviación baja</span> No todas las tarjetas del roster navegan a su detalle</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> El roster en sí funciona como vista de solo consulta de disponibilidad/capacidad</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Menores — protección infantil <span class="badge b-ok">kill-switch OFF confirmado</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">bloqueado esperado</span> <code>/es/menores</code> da 404 real (no un simple redirect de login) tanto con Sistema como con un usuario normal</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Fallecidos <span class="badge b-ok">kill-switch OFF confirmado</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">bloqueado esperado</span> <code>/es/fallecidos</code> da 404 real, mismo comportamiento que Menores</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Staff · Triage/Ops (Panel, Moderación, Prioridades, Reconciliación, Verificaciones) <span class="badge b-off">PII sin redactar</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Panel con tarjetas de atención reales, adaptadas al rol/grant</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-off">confirmado</span> Moderación NO redacta PII (nombres completos visibles) — probado con Sistema Y con un staff de grant limitado, mismo resultado en ambos</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-wip">desviación media</span> Reconciliación sigue siendo página independiente, no fusionada en Moderación como indicaba el plan</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Prioridades es de solo lectura, sin acción real de asignar (pese a que el copy lo insinúa) — tal como se esperaba</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Verificaciones ya tiene el copy corregido ("no otorga acceso a módulos") y el flujo de documento es un stub explícito, tal como se esperaba</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Staff · Conocimiento (Documentos, Manual, Glosario, Equipo, Roadmap, Bitácora) <span class="badge b-wip">documentación desactualizada</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Documentos filtra por audiencia/módulo (confirmado con un rol limitado: solo ve 1 de varios documentos)</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-wip">desviación media (buena noticia)</span> Bitácora YA tiene filtros, paginación ("Cargar más") y columna de resultado — la documentación que la describía como "delgada" está desactualizada</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-wip">desviación media (buena noticia)</span> Glosario ya no tiene botón "Eliminar" (solo Editar/Archivar) — consistente con que ya no hace borrado duro</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Staff · Config/Admin (Ajustes, Acceso) <span class="badge b-ok">todo coincide</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Kill-switches de <code>module.children</code> y <code>module.deceased</code> visiblemente en OFF, con etiqueta "sensible — requiere confirmación en prod"</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> <code>/es/acceso</code> es claramente una consola dev-only (la UI lo declara explícitamente)</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Auth / Verificación de identidad / Cuenta <span class="badge b-ok">crítico legal — todo OK</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Ninguna mención a cédula/CNE/gobierno en todo el flujo de auth ni en /cuenta</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> El botón roto "Verificar mi identidad" ya no aparece</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Sin insignias de trust-score visibles al usuario</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Login 100% OTP, sin campo de contraseña en ningún lado</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Home, Cómo funciona, Privacidad, Términos <span class="badge b-ok">todo coincide</span></summary>
+    <div class="inner">
+      <div class="finding"><div class="row1"><span class="badge b-wip">desviación baja</span> "Waraira" aparece 3 veces en "Cómo funciona" (antes documentado como 6) — parece ya parcialmente corregido</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Nunca pide dinero, nunca politiza, complementa al 911/Protección Civil — confirmado en las 4 páginas</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Privacidad y Términos existen con contenido real y sustantivo</div></div>
+      <div class="finding"><div class="row1"><span class="badge b-ok">coincide</span> Las estadísticas en vivo del home confirman que el backend (Convex) está encendido</div></div>
+    </div>
+  </details>
+
+</div></section>
+
+<section><div class="wrap">
+  <h2>7 · Quién resuelve qué</h2>
+  <p class="sub">La separación entre decisiones (Edma) y cambios de código (Rafa, en <code>waraira.org</code>).</p>
+  <div class="card"><div class="tt">✅ Ya resuelto por Edma (decisiones, sin tocar código)</div>
+    <p>Reconciliación se queda separada de Moderación · vetting de voluntarios acotado a cuidadores de menores/mascotas (decisión anotada en <code>staff-resource-coordination.md</code>) · marcado como resuelto en la documentación de arquitectura: Bitácora (paginación/filtros/columna de éxito), Glosario (ya no hard-delete), Alertas (restore), Hospitales (edición ya funciona), y los ship-now A2/A3/A4/A6 de <code>edma-reconciliation.md</code> ("Otro" obligatorio, Gas y energía, Materiales de refugio, <code>?tipo=</code>).</p></div>
+  <div class="card"><div class="tt">⏳ Pendiente de decisión de Edma</div>
+    <p>Taxonomía de insumos (¿ampliar a las 11 categorías originales o dejar las 9 actuales?) · confirmar con quien administra el Convex de dev si <code>DEV_OTP_ECHO</code> se queda en <code>true</code> o se apaga · si las 3 menciones de "Waraira" en "Cómo funciona" ya son aceptables.</p></div>
+  <div class="card"><div class="tt">🛠 Para notificarle a Rafa (requiere código en waraira.org)</div>
+    <p>Alta: redactar PII en Moderación · arreglar el botón "Registrar aval" · corregir el bug de texto roto del Directorio · agregar balance por zona en Insumos · acotar el vetting de voluntarios solo a menores/mascotas (ya decidido, falta implementar). Media: estado "Desvía" en Hospitales · "dispatch consciente de acceso" en Voluntarios · navegación del roster · leyenda de mascotas en el mapa · texto truncado en Traslados · confirmar/corregir el posible bug de acceso hardcoded en <code>traslados/gestion</code>.</p></div>
+</div></section>
+
+<footer><div class="wrap">
+  Auditoría realizada el 1 de julio de 2026 sobre <code>dev.waraira.org</code>, comparando contra <code>docs/WARAIRA.md</code>, <code>docs/MODULO-*.md</code> y <code>waraira.org/docs/{product,architecture,decisions}</code>. Recorrido de solo lectura: no se enviaron reportes reales, no se confirmaron traslados, no se activó ningún kill-switch.
+</div></footer>
+
+</body></html>

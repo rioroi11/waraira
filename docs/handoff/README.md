@@ -7,6 +7,10 @@ Documentos de puesta al día para el colega de integraciones. **Privados**: vive
 - **`estado-tecnico-menores.html`**: deep-dive Menores/Brazaletes: inventario proveedor→lote→destino,
   código provisional, cadena de custodia, constancia, suplencia, modelo de datos.
 - **`estado-tecnico-mascotas.html`**: deep-dive Mascotas (foco: integrar el host de fotos).
+- **`auditoria-waraira-pendientes.html`**: auditoría de `dev.waraira.org` (público + panel de staff,
+  probado con 3 roles distintos) contra lo pautado en los documentos. Tablero de módulos, lista
+  priorizada de pendientes, correcciones tras probar con roles no-Sistema, y un hallazgo de entorno
+  (`DEV_OTP_ECHO` activo ahora mismo, contrario a lo documentado).
 
 Para verlos: ábrelos en el navegador (`open docs/handoff/estado-tecnico-general.html`) o léelos en el
 repo. Pendientes de integración que recogen: encender Convex, Web Push/VAPID, senders SMS/WhatsApp,
